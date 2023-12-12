@@ -130,15 +130,15 @@
     </ShellContent>
 
     <ShellContent
-    Title="{x:Static resx:AppResources.Customer}"
-    ContentTemplate="{DataTemplate views:TimeSheetDetailPage}"
-    FlyoutItemIsVisible="False"
-    Route="TimeSheetDetailPage">
+        Title="{x:Static resx:AppResources.Customer}"
+        ContentTemplate="{DataTemplate views:TimeSheetDetailPage}"
+        FlyoutItemIsVisible="False"
+        Route="TimeSheetDetailPage">
         <ShellContent.Icon>
             <FontImageSource
-            FontFamily="GoogleMaterialFont"
-            Glyph="{x:Static icon:IconFont.Timelapse}"
-            Size="50" />
+                FontFamily="GoogleMaterialFont"
+                Glyph="{x:Static icon:IconFont.Timelapse}"
+                Size="50" />
         </ShellContent.Icon>
     </ShellContent>
 

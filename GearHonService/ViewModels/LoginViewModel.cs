@@ -1,11 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Supabase;
-
-namespace GearHonService.ViewModels
+﻿namespace GearHonService.ViewModels
 {
 	public partial class LoginViewModel : BaseViewModel
 	{
