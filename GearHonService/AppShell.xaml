@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="GearHonService.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:icon="clr-namespace:GearHonService"
+    xmlns:local="clr-namespace:GearHonService"
+    xmlns:resx="clr-namespace:GearHonService.Resources.Strings"
+    xmlns:views="clr-namespace:GearHonService.Views"
+    xmlns:viewsNav="clr-namespace:GearHonService.Views.Navigation"
+    Title="{x:Static resx:AppResources.Titel}"
+    Shell.FlyoutBehavior="Flyout">
+
+    <Shell.FlyoutHeader>
+        <viewsNav:FlyoutHeader />
+    </Shell.FlyoutHeader>
+
+    <Shell.FlyoutFooter>
+        <viewsNav:FlyoutFooter />
+    </Shell.FlyoutFooter>
+
+    <ShellContent
+        Title="{x:Static resx:AppResources.Login}"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        FlyoutItemIsVisible="False"
+        Route="LoginPage"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.NavBarIsVisible="False">
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="GoogleMaterialFont"
+                Glyph="{x:Static icon:IconFont.Login}"
+                Size="50"
+                Color="White" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <ShellContent
+        Title="{x:Static resx:AppResources.Register}"
+        ContentTemplate="{DataTemplate views:RegisterPage}"
+        FlyoutItemIsVisible="False"
+        Route="RegisterPage"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.NavBarIsVisible="False">
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="GoogleMaterialFont"
+                Glyph="{x:Static icon:IconFont.App_registration}"
+                Size="50"
+                Color="White" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <ShellContent
+        Title="{x:Static resx:AppResources.Home}"
+        ContentTemplate="{DataTemplate views:HomePage}"
+        Route="HomePage"
+        Shell.NavBarIsVisible="True">
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="GoogleMaterialFont"
+                Glyph="{x:Static icon:IconFont.Home}"
+                Size="50" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <ShellContent
+        Title="{x:Static resx:AppResources.Customer}"
+        ContentTemplate="{DataTemplate views:CustomerPage}"
+        Route="CustomerPage"
+        Shell.NavBarIsVisible="True">
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="GoogleMaterialFont"
+                Glyph="{x:Static icon:IconFont.People}"
+                Size="50" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <ShellContent
+        Title="{x:Static resx:AppResources.Customer}"
+        ContentTemplate="{DataTemplate views:CustomerDetailPage}"
+        FlyoutItemIsVisible="False"
+        Route="CustomerDetailPage">
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="GoogleMaterialFont"
+                Glyph="{x:Static icon:IconFont.People}"
+                Size="50" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <ShellContent
+        Title="{x:Static resx:AppResources.Machine}"
+        ContentTemplate="{DataTemplate views:MachinePage}"
+        Route="MachinePage"
+        Shell.NavBarIsVisible="True">
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="GoogleMaterialFont"
+                Glyph="{x:Static icon:IconFont.List}"
+                Size="50" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <ShellContent
+        Title="{x:Static resx:AppResources.Machine}"
+        ContentTemplate="{DataTemplate views:MachineDetailPage}"
+        FlyoutItemIsVisible="False"
+        Route="MachineDetailPage">
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="GoogleMaterialFont"
+                Glyph="{x:Static icon:IconFont.List}"
+                Size="50" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <ShellContent
+        Title="{x:Static resx:AppResources.TimeSheet}"
+        ContentTemplate="{DataTemplate views:TimeSheetPage}"
+        Route="TimeSheetPage"
+        Shell.NavBarIsVisible="True">
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="GoogleMaterialFont"
+                Glyph="{x:Static icon:IconFont.Timelapse}"
+                Size="50" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <ShellContent
+    Title="{x:Static resx:AppResources.Customer}"
+    ContentTemplate="{DataTemplate views:TimeSheetDetailPage}"
+    FlyoutItemIsVisible="False"
+    Route="TimeSheetDetailPage">
+        <ShellContent.Icon>
+            <FontImageSource
+            FontFamily="GoogleMaterialFont"
+            Glyph="{x:Static icon:IconFont.Timelapse}"
+            Size="50" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <ShellContent
+        Title="{x:Static resx:AppResources.ServiceReport}"
+        ContentTemplate="{DataTemplate views:ServiceReportPage}"
+        Route="ServiceReportPage"
+        Shell.NavBarIsVisible="True">
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="GoogleMaterialFont"
+                Glyph="{x:Static icon:IconFont.Dashboard}"
+                Size="50" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <MenuItem Text="{x:Static resx:AppResources.SettingsAndPrivacy}" />
+    <MenuItem Text="{x:Static resx:AppResources.HelpCenter}" />
+
+</Shell>

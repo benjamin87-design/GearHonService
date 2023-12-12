@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="GearHonService.Views.MachineDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:icon="clr-namespace:GearHonService"
+    xmlns:resx="clr-namespace:GearHonService.Resources.Strings"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:GearHonService.ViewModels"
+    Title="{x:Static resx:AppResources.MachineDetailPage}"
+    x:DataType="vm:MachineDetailViewModel"
+    Appearing="ContentPage_Appearing">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="1">
+            <StackLayout HorizontalOptions="End" Orientation="Horizontal">
+                <Button
+                    Margin="0,0,5,0"
+                    Command="{Binding SaveCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Save}"
+                    VerticalOptions="Center" />
+
+                <Button
+                    Margin="0,0,5,0"
+                    Command="{Binding DeleteCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Delete}"
+                    VerticalOptions="Center" />
+
+                <Button
+                    Margin="0,0,20,0"
+                    Command="{Binding CancelCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Cancel}"
+                    VerticalOptions="Center" />
+            </StackLayout>
+        </Grid>
+
+        <Frame
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="20"
+            BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600},
+                                              Light={StaticResource Gray100}}"
+            CornerRadius="10"
+            HasShadow="True">
+            <Grid
+                Margin="20"
+                RowDefinitions="Auto, *"
+                VerticalOptions="StartAndExpand">
+
+                <Grid Grid.Row="1">
+                    <ScrollView Margin="20,5,20,20">
+                        <Grid ColumnDefinitions="1*,1*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                            <!--  top left in windows and top center on phone  -->
+                            <StackLayout
+                                Grid.Row="{OnIdiom Phone=0,
+                                                   Desktop=0}"
+                                Grid.Column="{OnIdiom Phone=0,
+                                                      Desktop=0}"
+                                Grid.ColumnSpan="{OnIdiom Phone=2,
+                                                          Desktop=1}"
+                                Margin="20"
+                                HorizontalOptions="{OnIdiom Phone=Center,
+                                                            Desktop=End}"
+                                Orientation="Vertical">
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.MachineNumber}"
+                                    Text="{Binding MachineNumber, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Picker
+                                    x:Name="CustomerPicker"
+                                    Title="Customer Name"
+                                    Margin="20,0,20,20"
+                                    HorizontalOptions="FillAndExpand"
+                                    ItemDisplayBinding="{Binding CustomerName}"
+                                    ItemsSource="{Binding Customers}"
+                                    SelectedItem="{Binding SelectedCustomer}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="200" />
+
+                                <Picker
+                                    Title="Brand Name"
+                                    x:Name="BrandPicker"
+                                    Margin="20,0,20,20"
+                                    HorizontalOptions="FillAndExpand"
+                                    ItemDisplayBinding="{Binding ContractorName}"
+                                    ItemsSource="{Binding Contractors}"
+                                    SelectedItem="{Binding SelectedContractor, Mode=TwoWay}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="200">
+                                    <Picker.Behaviors>
+                                        <toolkit:EventToCommandBehavior Command="{Binding ContractorSelectionChangedCommand}" EventName="SelectedIndexChanged" />
+                                    </Picker.Behaviors>
+                                </Picker>
+
+                                <Picker x:Name="ModelPicker"
+                                    Title="Machine Model"
+                                    Margin="20,0,20,20"
+                                    HorizontalOptions="FillAndExpand"
+                                    ItemDisplayBinding="{Binding Model}"
+                                    ItemsSource="{Binding MachineModels}"
+                                    SelectedItem="{Binding SelectedMachineModel}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="200" />
+
+                                <Picker
+                                    Title=" Machine Type" x:Name="TypePicker"
+                                    Margin="20,0,20,20"
+                                    HorizontalOptions="FillAndExpand"
+                                    ItemDisplayBinding="{Binding Type}"
+                                    ItemsSource="{Binding MachineTypes}"
+                                    SelectedItem="{Binding SelectedMachineType}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <!--  top right in windows and top center on phone  -->
+                            <StackLayout
+                                Grid.Row="{OnIdiom Phone=1,
+                                                   Desktop=0}"
+                                Grid.Column="{OnIdiom Phone=0,
+                                                      Desktop=1}"
+                                Grid.ColumnSpan="{OnIdiom Phone=2,
+                                                          Desktop=1}"
+                                Margin="20"
+                                HorizontalOptions="{OnIdiom Phone=Center,
+                                                            Desktop=Start}"
+                                Orientation="Vertical">
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.SpindleC1}"
+                                    Text="{Binding SpindleC1, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.SpindleC2}"
+                                    Text="{Binding SpindleC2, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.HoningHead}"
+                                    Text="{Binding HoningHead, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                            </StackLayout>
+                            <!--  left down in windows  -->
+                            <StackLayout
+                                Grid.Row="{OnIdiom Phone=2,
+                                                   Desktop=1}"
+                                Grid.Column="{OnIdiom Phone=0,
+                                                      Desktop=0}"
+                                Grid.ColumnSpan="{OnIdiom Phone=2,
+                                                          Desktop=1}"
+                                Margin="20"
+                                HorizontalOptions="{OnIdiom Phone=Center,
+                                                            Desktop=End}"
+                                Orientation="Vertical">
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.NCVersion}"
+                                    Text="{Binding NCVersion, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.HMIVersion}"
+                                    Text="{Binding HMIVersion, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.HRIVersion}"
+                                    Text="{Binding HRIVersion, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.AHSVersion}"
+                                    Text="{Binding AHSVersion, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.ACIControls}"
+                                    Text="{Binding ACIControls, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.EnergyMonitoring}"
+                                    Text="{Binding EnergyMonitoringACIControls, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.ACIControlsHeader}"
+                                    Text="{Binding NCVersion, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.IWProject}"
+                                    Text="{Binding IWProject, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.File1Master}"
+                                    Text="{Binding File1Master, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout
+                                Grid.Row="{OnIdiom Phone=3,
+                                                   Desktop=1}"
+                                Grid.Column="{OnIdiom Phone=0,
+                                                      Desktop=1}"
+                                Grid.ColumnSpan="{OnIdiom Phone=2,
+                                                          Desktop=1}"
+                                Margin="20"
+                                HorizontalOptions="{OnIdiom Phone=Center,
+                                                            Desktop=Start}"
+                                Orientation="Vertical">
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.IndraWorks}"
+                                    Text="{Binding IndraWorks, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.IndraLogic2G}"
+                                    Text="{Binding IndraLogic2G, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.IndraMotionMTX}"
+                                    Text="{Binding IndraMotionMTX, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.MTXBasisFirmware}"
+                                    Text="{Binding MTXBasisFirmware, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.IWMTX}"
+                                    Text="{Binding IWMTX, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.IWHMI}"
+                                    Text="{Binding IWHMI, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.WinStudio}"
+                                    Text="{Binding WinStudio, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.MTXFirmware}"
+                                    Text="{Binding MTXFirmware, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.CardType}"
+                                    Text="{Binding CardType, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.LPNo}"
+                                    Text="{Binding LPNo, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.MTXHardwareVersion}"
+                                    Text="{Binding MTXHardwareVersion, Mode=TwoWay}"
+                                    WidthRequest="200" />
+
+                                <Entry
+                                    Margin="20,0,20,20"
+                                    Placeholder="{x:Static resx:AppResources.SerialNumber}"
+                                    Text="{Binding SerialNumber, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+                        </Grid>
+                    </ScrollView>
+                </Grid>
+            </Grid>
+        </Frame>
+    </Grid>
+</ContentPage>

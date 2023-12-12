@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="GearHonService.Views.CustomerDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:icon="clr-namespace:GearHonService"
+    xmlns:resx="clr-namespace:GearHonService.Resources.Strings"
+    xmlns:vm="clr-namespace:GearHonService.ViewModels"
+    Title="{x:Static resx:AppResources.CustomerDetailPage}"
+    x:DataType="vm:CustomerDetailViewModel"
+    Appearing="ContentPage_Appearing">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <StackLayout HorizontalOptions="End" Orientation="Horizontal">
+                <Button
+                    Margin="20,0,5,0"
+                    Command="{Binding SaveCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Save}"
+                    VerticalOptions="Center" />
+
+                <Button
+                    Margin="0,0,5,0"
+                    Command="{Binding DeleteCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Delete}"
+                    VerticalOptions="Center" />
+
+                <Button
+                    Margin="0,0,20,0"
+                    Command="{Binding CancelCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Cancel}"
+                    VerticalOptions="Center" />
+            </StackLayout>
+        </Grid>
+
+        <Frame
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="20"
+            BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600},
+                                              Light={StaticResource Gray100}}"
+            CornerRadius="10"
+            HasShadow="True">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Grid.Column="0" Orientation="Vertical">
+                    <StackLayout Orientation="Vertical">
+                        <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.CustomerName}" />
+                        <Entry
+                            Margin="0,0,0,5"
+                            HorizontalOptions="Start"
+                            Text="{Binding CustomerName}"
+                            WidthRequest="200" />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Vertical">
+                        <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.StreetNumber}" />
+                        <Entry
+                            Margin="0,0,0,5"
+                            HorizontalOptions="Start"
+                            Text="{Binding StreetName}"
+                            WidthRequest="200" />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Vertical">
+                        <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.StreetNumber}" />
+                        <Entry
+                            Margin="0,0,0,5"
+                            HorizontalOptions="Start"
+                            Text="{Binding StreetNumber}"
+                            WidthRequest="200" />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Vertical">
+                        <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.ZIPCode}" />
+                        <Entry
+                            Margin="0,0,0,5"
+                            HorizontalOptions="Start"
+                            Text="{Binding ZIPCode}"
+                            WidthRequest="200" />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Vertical">
+                        <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.City}" />
+                        <Entry
+                            Margin="0,0,0,5"
+                            HorizontalOptions="Start"
+                            Text="{Binding City}"
+                            WidthRequest="200" />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Vertical">
+                        <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.Country}" />
+                        <Entry
+                            Margin="0,0,0,5"
+                            HorizontalOptions="Start"
+                            Text="{Binding Country}"
+                            WidthRequest="200" />
+                    </StackLayout>
+                </StackLayout>
+            </Grid>
+        </Frame>
+    </Grid>
+</ContentPage>

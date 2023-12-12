@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="GearHonService.Views.MachinePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:icon="clr-namespace:GearHonService"
+    xmlns:resx="clr-namespace:GearHonService.Resources.Strings"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:GearHonService.ViewModels" Appearing="ContentPage_Appearing"
+    Title="{x:Static resx:AppResources.Machine}"
+    x:DataType="vm:MachineViewModel">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="1">
+            <StackLayout HorizontalOptions="End" Orientation="Horizontal">
+                <Button
+                    Margin="20,0,5,0"
+                    Command="{Binding AddMachineCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Add}"
+                    VerticalOptions="Center" />
+
+                <Button
+                    Margin="0,0,20,0"
+                    Command="{Binding LoadXMLInfoCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.File_open}"
+                    VerticalOptions="Center" />
+            </StackLayout>
+        </Grid>
+
+        <Frame
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="20"
+            BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600},
+                                              Light={StaticResource Gray100}}"
+            CornerRadius="10"
+            HasShadow="True">
+
+            <Grid>
+                <ListView
+                    x:Name="MachineListView"
+                    Margin="20"
+                    IsPullToRefreshEnabled="True"
+                    IsRefreshing="{Binding LoadMachineFromDbCommand}"
+                    ItemsSource="{Binding Machines}"
+                    SelectedItem="{Binding SelectedMachine}"
+                    SelectionMode="Single">
+                    <ListView.Behaviors>
+                        <toolkit:EventToCommandBehavior
+                            Command="{Binding MachineSelectionChangedCommand}"
+                            EventArgsConverter="{StaticResource SelectedItemEventArgsConverter}"
+                            EventName="ItemSelected" />
+                    </ListView.Behaviors>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        FontAttributes="Bold"
+                                        Text="{Binding MachineNumber}" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        FontAttributes="Italic"
+                                        Text="{Binding CustomerName}"
+                                        VerticalOptions="End" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </Grid>
+
+        </Frame>
+    </Grid>
+</ContentPage>
