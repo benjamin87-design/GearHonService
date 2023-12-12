@@ -26,6 +26,8 @@
 		[ObservableProperty]
 		private string workType;
 		[ObservableProperty]
+		private string value;
+		[ObservableProperty]
 		private TimeSpan startTime;
 		[ObservableProperty]
 		private TimeSpan endTime;
@@ -217,8 +219,6 @@
 			SelectedMachine = null;
 			SelectedCustomer = null;
 			SelectedWorkType = null;
-
-
 		}
 	}
 }

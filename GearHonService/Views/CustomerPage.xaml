@@ -7,7 +7,7 @@
     xmlns:resx="clr-namespace:GearHonService.Resources.Strings"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:GearHonService.ViewModels;assembly=GearHonService"
-    Title="CustomerPage"
+    Title="{x:Static resx:AppResources.CustomerPage}"
     x:DataType="vm:CustomerViewModel"
     Appearing="ContentPage_Appearing">
     <Grid>
@@ -36,7 +36,7 @@
                     Command="{Binding ExportCommand}"
                     FontFamily="GoogleMaterialFont"
                     FontSize="24"
-                    Text="{x:Static icon:IconFont.Import_export}"
+                    Text="{x:Static icon:IconFont.Upload}"
                     VerticalOptions="Center" />
             </StackLayout>
         </Grid>

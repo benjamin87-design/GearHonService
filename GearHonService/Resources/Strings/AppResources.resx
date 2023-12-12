@@ -153,6 +153,9 @@
   <data name="CustomerName" xml:space="preserve">
     <value>Customer name</value>
   </data>
+  <data name="CustomerPage" xml:space="preserve">
+    <value>Customer</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>

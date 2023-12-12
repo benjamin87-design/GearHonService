@@ -64,26 +64,124 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <Picker
+                    x:Name="WorkTypePicker"
+                    Title="Work type"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="20,0,20,20"
+                    HorizontalOptions="FillAndExpand"
+                    ItemDisplayBinding="{Binding Value}"
+                    ItemsSource="{Binding WorkTypes}"
+                    SelectedItem="{Binding SelectedWorkType}"
+                    VerticalOptions="Center"
+                    WidthRequest="200" />
 
-                <Grid Margin="20">
-                    <Picker
-                        x:Name="CustomerPicker"
-                        Title="Customer Name"
-                        Margin="20,0,20,20"
-                        HorizontalOptions="FillAndExpand"
-                        ItemDisplayBinding="{Binding CustomerName}"
-                        ItemsSource="{Binding Customers}"
-                        SelectedItem="{Binding SelectedCustomer}"
-                        VerticalOptions="Center"
-                        WidthRequest="200" />
+                <Picker
+                    x:Name="CustomerPicker"
+                    Title="Customer Name"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="20,0,20,20"
+                    HorizontalOptions="End"
+                    ItemDisplayBinding="{Binding CustomerName}"
+                    ItemsSource="{Binding Customers}"
+                    SelectedItem="{Binding SelectedCustomer}"
+                    VerticalOptions="Center"
+                    WidthRequest="200" />
 
-                </Grid>
+                <Picker
+                    x:Name="MachinePicker"
+                    Title="Machine Number"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="20,0,20,20"
+                    HorizontalOptions="Start"
+                    ItemDisplayBinding="{Binding MachineNumber}"
+                    ItemsSource="{Binding Machines}"
+                    SelectedItem="{Binding SelectedMachine}"
+                    VerticalOptions="Center"
+                    WidthRequest="200" />
+
+                <Entry
+                    Grid.Row="2"
+                    Grid.ColumnSpan="2"
+                    Margin="20,0,20,0"
+                    Placeholder="Description"
+                    Text="{Binding Description, Mode=TwoWay}" />
+
+                <ListView
+                    x:Name="MachineListView"
+                    Grid.Row="3"
+                    Grid.ColumnSpan="2"
+                    Margin="20"
+                    IsPullToRefreshEnabled="True"
+                    ItemsSource="{Binding TimeSheets}"
+                    SelectedItem="{Binding SelectedTimeSheet}"
+                    SelectionMode="Single">
+                    <ListView.Behaviors>
+                        <toolkit:EventToCommandBehavior
+                            Command="{Binding TimeSheetSelectionChangedCommand}"
+                            EventArgsConverter="{StaticResource SelectedItemEventArgsConverter}"
+                            EventName="ItemSelected" />
+                    </ListView.Behaviors>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Margin="0,0,10,0"
+                                        FontAttributes="Bold"
+                                        Text="{Binding CustomerName}" />
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Margin="10,0,0,0"
+                                        FontAttributes="Bold"
+                                        Text="{Binding MachineNumber}" />
+                                    <StackLayout
+                                        Grid.Row="1"
+                                        Grid.ColumnSpan="3"
+                                        Orientation="Horizontal">
+                                        <Label
+                                            Margin="10"
+                                            FontAttributes="Italic"
+                                            Text="{Binding StartDate}" />
+                                        <Label
+                                            Margin="10"
+                                            FontAttributes="Italic"
+                                            Text="{Binding Description}" />
+                                        <Label
+                                            Margin="10"
+                                            FontAttributes="Italic"
+                                            Text="{Binding Hours}" />
+                                    </StackLayout>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
             </Grid>
         </Frame>
     </Grid>

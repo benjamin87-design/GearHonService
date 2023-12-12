@@ -169,6 +169,15 @@ namespace GearHonService.Resources.Strings {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Customer ähnelt.
+        /// </summary>
+        internal static string CustomerPage {
+            get {
+                return ResourceManager.GetString("CustomerPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Email ähnelt.
         /// </summary>
         internal static string Email {

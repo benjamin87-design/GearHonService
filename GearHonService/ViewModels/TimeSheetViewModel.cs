@@ -8,6 +8,8 @@
 		[ObservableProperty]
 		private int machineId;
 		[ObservableProperty]
+		private string machineNumber;
+		[ObservableProperty]
 		private int customerId;
 		[ObservableProperty]
 		private string customerName;
@@ -29,6 +31,8 @@
 		private TimeSpan startTime;
 		[ObservableProperty]
 		private TimeSpan endTime;
+		[ObservableProperty]
+		private string value;
 
 		[ObservableProperty]
 		private bool startVisible;
@@ -241,6 +245,10 @@
 			TimeSheets.Clear();
 			foreach (var timesheet in resultt.Models)
 			{
+				var machine = Machines.FirstOrDefault(m => m.Id == Convert.ToUInt32(timesheet.MachineId));
+				var customer = Customers.FirstOrDefault(c => c.ID == Convert.ToUInt32(timesheet.CustomerId));
+				timesheet.MachineNumber = machine?.MachineNumber;
+				timesheet.CustomerName = customer?.CustomerName;
 				TimeSheets.Add(timesheet);
 			}
 
