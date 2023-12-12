@@ -1,8 +1,4 @@
-﻿using CommunityToolkit.Maui.Core.Extensions;
-using GearHonService.Message;
-using System.Reflection.PortableExecutable;
-
-namespace GearHonService.ViewModels
+﻿namespace GearHonService.ViewModels
 {
 	public partial class MachineDetailViewModel : BaseViewModel
 	{

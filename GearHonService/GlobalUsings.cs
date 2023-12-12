@@ -4,3 +4,4 @@ global using CommunityToolkit.Mvvm.Input;
 global using CommunityToolkit.Mvvm.Messaging;
 global using GearHonService.Models;
 global using System.Collections.ObjectModel;
+global using GearHonService.Message;

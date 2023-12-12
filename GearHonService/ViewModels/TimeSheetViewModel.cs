@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GearHonService.ViewModels
+﻿namespace GearHonService.ViewModels
 {
 	public partial class TimeSheetViewModel : BaseViewModel
 	{
@@ -32,8 +25,6 @@ namespace GearHonService.ViewModels
 		private string workStatus;
 		[ObservableProperty]
 		private string workType;
-		[ObservableProperty]
-		private string value;
 		[ObservableProperty]
 		private TimeSpan startTime;
 		[ObservableProperty]
@@ -76,8 +67,17 @@ namespace GearHonService.ViewModels
 			set { selectedWorkType = value; }
 		}
 
+		//Selected
+		private TimeSheetModel selectedTimeSheet;
+		public TimeSheetModel SelectedTimeSheet
+		{
+			get { return selectedTimeSheet; }
+			set { selectedTimeSheet = value; }
+		}
+
 		//Supabase Client
 		private readonly Supabase.Client _supabaseClient;
+
 		public TimeSheetViewModel(Supabase.Client supabaseClient)
 		{
 			_supabaseClient = supabaseClient;
@@ -172,6 +172,18 @@ namespace GearHonService.ViewModels
 			await Shell.Current.GoToAsync(nameof(TimeSheetDetailPage));
 		}
 
+		[RelayCommand]
+		public async Task TimeSheetSelectionChanged()
+		{
+			if (selectedTimeSheet != null)
+			{
+				WeakReferenceManager.AddReference("SelectedTimeSheet", SelectedTimeSheet);
+
+				//Go to TimeSheetDetailPage
+				await Shell.Current.GoToAsync($"//{nameof(TimeSheetDetailPage)}");
+			}
+		}
+
 		public void ClearStrings()
 		{
 			StartDate = DateTime.Now;
@@ -184,6 +196,7 @@ namespace GearHonService.ViewModels
 			Hours = TimeSpan.Zero;
 			WorkStatus = string.Empty;
 		}
+
 		public async Task CheckLastEntry()
 		{
 			var result = await _supabaseClient.From<TimeSheetModel>().Get();
@@ -201,6 +214,7 @@ namespace GearHonService.ViewModels
 					break;
 			}
 		}
+
 		private async Task LoadData()
 		{
 			//load machines
@@ -233,6 +247,7 @@ namespace GearHonService.ViewModels
 			//get current user
 			UId = Preferences.Get("uid", string.Empty);
 		}
+
 		public async Task LoadAllData()
 		{
 			await LoadData();
