@@ -130,7 +130,7 @@
     </ShellContent>
 
     <ShellContent
-        Title="{x:Static resx:AppResources.Customer}"
+        Title="{x:Static resx:AppResources.TimeSheet}"
         ContentTemplate="{DataTemplate views:TimeSheetDetailPage}"
         FlyoutItemIsVisible="False"
         Route="TimeSheetDetailPage">

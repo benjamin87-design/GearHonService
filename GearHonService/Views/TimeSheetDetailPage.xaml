@@ -1,14 +1,135 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="GearHonService.Views.TimeSheetDetailPage"
-             xmlns:vm="clr-namespace:GearHonService.ViewModels"
-             x:DataType="vm:TimeSheetDetailViewModel"
-             Title="TimeSheetDetailPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+<ContentPage
+    x:Class="GearHonService.Views.TimeSheetDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:icon="clr-namespace:GearHonService"
+    xmlns:resx="clr-namespace:GearHonService.Resources.Strings"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:GearHonService.ViewModels"
+    Title="TimeSheetDetailPage"
+    x:DataType="vm:TimeSheetDetailViewModel">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="1">
+            <StackLayout HorizontalOptions="End" Orientation="Horizontal">
+                <Button
+                    Margin="0,0,5,0"
+                    Command="{Binding SaveCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Save}"
+                    VerticalOptions="Center" />
+
+                <Button
+                    Margin="0,0,5,0"
+                    Command="{Binding DeleteCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Delete}"
+                    VerticalOptions="Center" />
+
+                <Button
+                    Margin="0,0,20,0"
+                    Command="{Binding CancelCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Cancel}"
+                    VerticalOptions="Center" />
+            </StackLayout>
+        </Grid>
+
+        <Frame
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="20"
+            BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600},
+                                              Light={StaticResource Gray100}}"
+            CornerRadius="10"
+            HasShadow="True">
+
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Orientation="Vertical">
+                    <Label Text="StartTime" />
+                    <TimePicker
+                        Margin="0,20,20,0"
+                        Time="{Binding StartTime, Mode=TwoWay}"
+                        VerticalOptions="Center" />
+                </StackLayout>
+
+                <StackLayout Grid.Row="1" Orientation="Vertical">
+                    <Label Text="StartDate" />
+                    <DatePicker
+                        Margin="0,20,0,0"
+                        Date="{Binding StartDate, Mode=TwoWay}"
+                        VerticalOptions="Center" />
+                </StackLayout>
+
+                <StackLayout Grid.Column="1" Orientation="Vertical">
+                    <Label Text="EndTime" />
+                    <TimePicker
+                        Margin="0,20,0,0"
+                        Time="{Binding EndTime, Mode=TwoWay}"
+                        VerticalOptions="Center" />
+                </StackLayout>
+
+                <StackLayout
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Orientation="Vertical">
+                    <Label Text="EndDate" />
+                    <DatePicker
+                        Margin="0,20,0,0"
+                        Date="{Binding EndDate, Mode=TwoWay}"
+                        VerticalOptions="Center" />
+                </StackLayout>
+
+                <Picker
+                    x:Name="MachineNumber"
+                    Title="MachineNumber"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="0,20,0,0"
+                    ItemDisplayBinding="{Binding MachineNumber}" HorizontalOptions="Start"
+                    ItemsSource="{Binding Machines}"
+                    SelectedItem="{Binding SelectedMachine}"
+                    VerticalOptions="Center"
+                    WidthRequest="200" />
+                
+                <Picker
+                    x:Name="CustoemrNamePicker"
+                    Title="CustomerName"
+                    Grid.Row="2"
+                    Grid.Column="1" HorizontalOptions="Start"
+                    Margin="0,20,0,0"
+                    ItemDisplayBinding="{Binding CustomerName}"
+                    ItemsSource="{Binding Customers}"
+                    SelectedItem="{Binding SelectedCustomer}"
+                    VerticalOptions="Center"
+                    WidthRequest="200" />
+            </Grid>
+        </Frame>
+    </Grid>
 </ContentPage>

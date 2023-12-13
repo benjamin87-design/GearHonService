@@ -40,8 +40,9 @@ namespace GearHonService.Models
 		[Column("WorkType")]
 		public string WorkType { get; set; }
 
-
+		[Column("MachineNumber")]
 		public string MachineNumber { get;set; }
+		[Column("CustomerName")]
 		public string CustomerName { get; set; }
 	}
 }

@@ -118,7 +118,9 @@
 				var newEntry = new TimeSheetModel
 				{
 					MachineId = selectedMachine.Id.ToString(),
+					MachineNumber = selectedMachine.MachineNumber.ToString(),
 					CustomerId = selectedCustomer.ID.ToString(),
+					CustomerName = selectedCustomer.CustomerName.ToString(),
 					UId = UId,
 					Description = Description,
 					StartDate = DateTime.Now,
@@ -149,7 +151,9 @@
 					{
 						Id = lastEntry.Id,
 						MachineId = lastEntry.MachineId,
+						MachineNumber = lastEntry.MachineNumber,
 						CustomerId = lastEntry.CustomerId,
+						CustomerName = lastEntry.CustomerName,
 						UId = lastEntry.UId,
 						Description = lastEntry.Description,
 						StartDate = lastEntry.StartDate,
@@ -164,7 +168,7 @@
 				{
 					await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
 				}
-
+				RefreshList();
 				CheckLastEntry();
 			}
 		}
@@ -172,8 +176,15 @@
 		[RelayCommand]
 		public async Task AddPastWork()
 		{
-			//Go to TimeSheetDetailPage
-			await Shell.Current.GoToAsync(nameof(TimeSheetDetailPage));
+			try
+			{
+				//Go to TimeSheetDetailPage
+				await Shell.Current.GoToAsync($"//{nameof(TimeSheetDetailPage)}");
+			}
+			catch (Exception ex)
+			{
+				await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+			}
 		}
 
 		[RelayCommand]
@@ -239,7 +250,7 @@
 				Customers.Add(customer);
 			}
 
-			//load customers
+			//load timesheets
 			var resultt = await _supabaseClient.From<TimeSheetModel>().Get();
 
 			TimeSheets.Clear();
@@ -259,6 +270,23 @@
 		public async Task LoadAllData()
 		{
 			await LoadData();
+		}
+
+		[RelayCommand]
+		public async Task RefreshList()
+		{
+			//load timesheets
+			var resultt = await _supabaseClient.From<TimeSheetModel>().Get();
+
+			TimeSheets.Clear();
+			foreach (var timesheet in resultt.Models)
+			{
+				var machine = Machines.FirstOrDefault(m => m.Id == Convert.ToUInt32(timesheet.MachineId));
+				var customer = Customers.FirstOrDefault(c => c.ID == Convert.ToUInt32(timesheet.CustomerId));
+				timesheet.MachineNumber = machine?.MachineNumber;
+				timesheet.CustomerName = customer?.CustomerName;
+				TimeSheets.Add(timesheet);
+			}
 		}
 	}
 }

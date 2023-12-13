@@ -8,6 +8,8 @@
 		[ObservableProperty]
 		private int machineId;
 		[ObservableProperty]
+		private string machineNumber;
+		[ObservableProperty]
 		private int customerId;
 		[ObservableProperty]
 		private string customerName;
@@ -81,6 +83,10 @@
 			TimeSheets = new ObservableCollection<TimeSheetModel>();
 			WorkTypes = new ObservableCollection<WorkTypeModel>();
 
+			//set start and end date to today
+			StartDate = DateTime.Now;
+			EndDate = DateTime.Now;
+
 			GetAllData();
 
 			//Add worktypes to list
@@ -123,11 +129,10 @@
 				{
 					await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
 				}
-				
-				await _timeSheetViewModel.LoadAllData();
-				await _timeSheetViewModel.CheckLastEntry();
 
 				ClearStrings();
+				_timeSheetViewModel.RefreshList();
+				_timeSheetViewModel.CheckLastEntry();
 
 				await Shell.Current.GoToAsync($"//{nameof(TimeSheetPage)}");
 			}
@@ -150,7 +155,7 @@
 
 					ClearStrings();
 
-					await _timeSheetViewModel.LoadAllData();
+					await _timeSheetViewModel.RefreshList();
 					await _timeSheetViewModel.CheckLastEntry();
 
 					await Shell.Current.GoToAsync($"//{nameof(TimeSheetPage)}");
@@ -164,6 +169,13 @@
 			{
 				await Application.Current.MainPage.DisplayAlert("Error", "No Timesheet selected", "Ok");
 			}
+		}
+
+		[RelayCommand]
+		public async Task Cancel()
+		{
+			ClearStrings();
+			await Shell.Current.GoToAsync($"//{nameof(TimeSheetPage)}");
 		}
 
 		public async Task GetAllData()
