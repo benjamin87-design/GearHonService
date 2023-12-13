@@ -106,7 +106,7 @@
 			else
 			{
 				StartDate = StartDate.Date + StartTime;
-				EndDate = StartDate.Date + EndTime;
+				EndDate = EndDate.Date + EndTime;
 				Hours = EndDate - StartDate;
 
 				try
@@ -114,7 +114,9 @@
 					var newEntry = new TimeSheetModel
 					{
 						MachineId = selectedMachine.Id.ToString(),
+						MachineNumber = selectedMachine.MachineNumber.ToString(),
 						CustomerId = selectedCustomer.ID.ToString(),
+						CustomerName = selectedCustomer.CustomerName.ToString(),
 						UId = UId,
 						Description = Description,
 						StartDate = StartDate,
@@ -176,6 +178,53 @@
 		{
 			ClearStrings();
 			await Shell.Current.GoToAsync($"//{nameof(TimeSheetPage)}");
+		}
+
+		public async Task OnNavigatedTo()
+		{
+			GetSelectedTimeSheet();
+		}
+
+		public async Task GetSelectedTimeSheet()
+		{
+			SelectedTimeSheet = WeakReferenceManager.GetReference("SelectedTimeSheet") as TimeSheetModel;
+
+			if(SelectedTimeSheet == null)
+			{
+				ClearStrings();
+			}
+			else
+			{
+				CustomerName = SelectedTimeSheet.CustomerName;
+				MachineNumber = SelectedTimeSheet.MachineNumber;
+				WorkType = SelectedTimeSheet.WorkType;
+
+				Id = SelectedTimeSheet.Id;
+				MachineId = Convert.ToInt32(SelectedTimeSheet.MachineId);
+				CustomerId = Convert.ToInt32(SelectedTimeSheet.CustomerId);
+				CustomerName = SelectedTimeSheet.CustomerName;
+				UId = SelectedTimeSheet.UId;
+				Description = SelectedTimeSheet.Description;
+				StartDate = SelectedTimeSheet.StartDate;
+				EndDate = SelectedTimeSheet.EndDate;
+				Hours = SelectedTimeSheet.Hours;
+				WorkStatus = SelectedTimeSheet.WorkStatus;
+				WorkType = SelectedTimeSheet.WorkType;
+				StartTime = SelectedTimeSheet.StartDate.TimeOfDay;
+				EndTime = SelectedTimeSheet.EndDate.TimeOfDay;
+
+				await GetSelection();
+			}
+		}
+
+		public async Task GetSelection()
+		{
+			//pass the selectedtimesheet.machinenumber to selectedmachine
+			SelectedMachine = Machines.FirstOrDefault(x => x.MachineNumber == SelectedTimeSheet.MachineNumber);
+			//pass the selectedtimesheet.customername to selectedcustomer
+			SelectedCustomer = Customers.FirstOrDefault(x => x.CustomerName == SelectedTimeSheet.CustomerName);
+			//pass the selectedtimesheet.worktype to selectedworktype
+			SelectedWorkType = WorkTypes.FirstOrDefault(x => x.Value == SelectedTimeSheet.WorkType);
 		}
 
 		public async Task GetAllData()

@@ -8,7 +8,8 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:GearHonService.ViewModels"
     Title="TimeSheetPage"
-    x:DataType="vm:TimeSheetViewModel">
+    x:DataType="vm:TimeSheetViewModel"
+    Appearing="ContentPage_Appearing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -41,7 +42,8 @@
                     VerticalOptions="Center" />
 
                 <Button
-                    Margin="0,0,20,0" Command="{Binding AddPastWorkCommand}"
+                    Margin="0,0,20,0"
+                    Command="{Binding AddPastWorkCommand}"
                     FontFamily="GoogleMaterialFont"
                     FontSize="24"
                     Text="{x:Static icon:IconFont.Add}"
@@ -128,7 +130,7 @@
                     Text="{Binding Description, Mode=TwoWay}" />
 
                 <ListView
-                    x:Name="MachineListView"
+                    x:Name="TimeSheetListView"
                     Grid.Row="4"
                     Grid.ColumnSpan="2"
                     Margin="20"

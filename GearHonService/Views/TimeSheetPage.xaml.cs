@@ -9,4 +9,9 @@ public partial class TimeSheetPage : ContentPage
 		InitializeComponent();
 		BindingContext = viewModel;
 	}
+
+	private void ContentPage_Appearing(object sender, EventArgs e)
+	{
+		TimeSheetListView.SelectedItem = null;
+	}
 }
