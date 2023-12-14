@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Storage;
+using System.Diagnostics;
 
 namespace GearHonService.ViewModels
 {
@@ -210,36 +211,8 @@ namespace GearHonService.ViewModels
 			//get hours queried by start and end date, worktype, workstatus and UID
 			await GetDatesAndDay();
 			await GetWorkingHours();
-			await GetTravelHours();
-			await SumWorkingTravelHoursAddToString();
-		}
-
-		private async Task GetWorkingHours()
-		{
-			//check if the Timespan for start and end is not more then 14 days
-			if (ServiceStartDate > ServiceEndDate)
-			{
-				await Shell.Current.DisplayAlert("Error", "The start date can not be after the end date", "Ok");
-			}
-			else if (ServiceEndDate.Subtract(ServiceStartDate).TotalDays > 14)
-			{
-				await Shell.Current.DisplayAlert("Error", "The time span can not be more then 14 days", "Ok");
-			}
-			else
-			{
-				var result = TimeSheets
-					.Where(x => x.UId == UID)
-					.Where(x => x.StartDate >= ServiceStartDate)
-					.Where(x => x.EndDate <= ServiceEndDate)
-					.Where(x => x.CustomerName == CustomerName)
-					.Where(x => x.WorkType == "Work")
-					.Where(x => x.WorkStatus == "Finished");
-
-				foreach (var workingtime in result)
-				{
-					WorkingHours.Add(workingtime);
-				}
-			}
+			//await GetTravelHours();
+			//await SumWorkingTravelHoursAddToString();
 		}
 
 		private async Task GetDatesAndDay()
@@ -317,111 +290,97 @@ namespace GearHonService.ViewModels
 				}
 			}
 		}
-
-		private async Task GetTravelHours()
+		
+		private async Task GetWorkingHours()
 		{
-			//check if the Timespan for start and end is not more then 14 days
-			if (ServiceStartDate > ServiceEndDate)
+			try
 			{
-				await Shell.Current.DisplayAlert("Error", "The start date can not be after the end date", "Ok");
-			}
-			else if (ServiceEndDate.Subtract(ServiceStartDate).TotalDays > 14)
-			{
-				await Shell.Current.DisplayAlert("Error", "The time span can not be more then 14 days", "Ok");
-			}
-			else
-			{
-				var result = TimeSheets
-					.Where(x => x.UId == UID)
-					.Where(x => x.StartDate >= ServiceStartDate)
-					.Where(x => x.EndDate <= ServiceEndDate)
-					.Where(x => x.CustomerName == CustomerName)
-					.Where(x => x.WorkType == "Travel")
-					.Where(x => x.WorkStatus == "Finished");
+				var dailyTotalWorkingTime = TimeSheets
+					.Where(t => t.UId == UID)
+					.Where(t => t.WorkType == "Work")
+					.Where(t => t.WorkStatus == "Stopped")
+					.Where(t => t.StartDate >= ServiceStartDate)
+					.Where(t => t.EndDate <= ServiceEndDate)
+					.GroupBy(t => t.StartDate.Date)
+					.Select(g => new
+					{
+						Date = g.Key,
+						TotalWorkingTime = g.Aggregate(TimeSpan.Zero, (subtotal, timesheet) => subtotal + timesheet.Hours)
+					});
 
-				foreach (var traveltime in result)
+				foreach (var item in dailyTotalWorkingTime)
 				{
-					TravelHours.Add(traveltime);
+					WorkingHours.Add(new TimeSheetModel
+					{
+						StartDate = item.Date,
+						Hours = item.TotalWorkingTime
+					});
 				}
-			}
-		}
-		private async Task SumWorkingTravelHoursAddToString()
-		{
-			for (int day = 1; day <= 14; day++)
-			{
-				var workingHoursOfDay = WorkingHours.Where(x => x.StartDate.Day == day);
-				var travelHoursOfDay = TravelHours.Where(x => x.StartDate.Day == day);
 
-				//sum the timespan hours
-				var totalWorkTimeOfDayTicks = workingHoursOfDay.Sum(x => x.Hours.Ticks);
-				var totalTravelTimeOfDayTicks = travelHoursOfDay.Sum(x => x.Hours.Ticks);
-
-				//convert the total tickes back to time
-				var totalWorkTimeOfDay = new TimeSpan(totalWorkTimeOfDayTicks);
-				var totalTravelTimeOfDay = new TimeSpan(totalTravelTimeOfDayTicks);
-
-				// Assign the calculated sums to the respective properties
-				switch (day)
+				//load the hours to the strings where the startdate are the same date
+				for (int day = 1; day <= 14; day++)
 				{
-					case 1:
-						Day1WorkTime = totalWorkTimeOfDay.ToString();
-						Day1TravelTime = totalTravelTimeOfDay.ToString();
-						break;
-					case 2:
-						Day2WorkTime = totalWorkTimeOfDay.ToString();
-						Day2TravelTime = totalTravelTimeOfDay.ToString();
-						break;
+					var date = ServiceStartDate.AddDays(day - 1);
+					switch (day)
+					{
+						case 1:
+							if(WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day1WorkTime = "";
+							}
+							else
+							{
+								Day1WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							}
+							break;
+						case 2:
+							Day2WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							break;
 						case 3:
-						Day3WorkTime = totalWorkTimeOfDay.ToString();
-						Day3TravelTime = totalTravelTimeOfDay.ToString();
-						break;
+							Day3WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							break;
 						case 4:
-						Day4WorkTime = totalWorkTimeOfDay.ToString();
-						Day4TravelTime = totalTravelTimeOfDay.ToString();
-						break;
+							Day4WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							break;
 						case 5:
-						Day5WorkTime = totalWorkTimeOfDay.ToString();
-						Day5TravelTime = totalTravelTimeOfDay.ToString();
-						break;
+							Day5WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							break;
 						case 6:
-						Day6WorkTime = totalWorkTimeOfDay.ToString();
-						Day6TravelTime = totalTravelTimeOfDay.ToString();
-						break;
+							Day6WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							break;
 						case 7:
-						Day7WorkTime = totalWorkTimeOfDay.ToString();
-						Day7TravelTime = totalTravelTimeOfDay.ToString();
-						break;
+							Day7WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							break;
 						case 8:
-						Day8WorkTime = totalWorkTimeOfDay.ToString();
-						Day8TravelTime = totalTravelTimeOfDay.ToString();
-						break;
+							Day8WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							break;
 						case 9:
-						Day9WorkTime = totalWorkTimeOfDay.ToString();
-						Day9TravelTime = totalTravelTimeOfDay.ToString();
-						break;
+							Day9WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							break;
 						case 10:
-						Day10WorkTime = totalWorkTimeOfDay.ToString();
-						Day10TravelTime = totalTravelTimeOfDay.ToString();
-						break;
+							Day10WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							break;
 						case 11:
-						Day11WorkTime = totalWorkTimeOfDay.ToString();
-						Day11TravelTime = totalTravelTimeOfDay.ToString();
-						break;
+							Day11WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							break;
 						case 12:
-						Day12WorkTime = totalWorkTimeOfDay.ToString();
-						Day12TravelTime = totalTravelTimeOfDay.ToString();
-						break;
+							Day12WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							break;
 						case 13:
-						Day13WorkTime = totalWorkTimeOfDay.ToString();
-						Day13TravelTime = totalTravelTimeOfDay.ToString();
-						break;
-						case 14:
-						Day14WorkTime = totalWorkTimeOfDay.ToString();
-						Day14TravelTime = totalTravelTimeOfDay.ToString();
-						break;
+							Day13WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							break;
+					    case 14:
+							Day14WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							break;
+					}
 				}
 			}
+			catch(Exception ex)
+			{
+				await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
+			}
 		}
+
 
 		async Task PickFolder(CancellationToken cancellationToken)
 		{
@@ -749,6 +708,10 @@ namespace GearHonService.ViewModels
 				worksheet.Range("C14:P14").Style.Font.FontSize = 9;
 				#endregion
 
+				#region Set fontweight for Service report
+				worksheet.Range("A1:R1").Style.Font.Bold = true;
+				#endregion
+
 				//define print area
 				worksheet.PageSetup.PrintAreas.Add("A1:R58");
 
@@ -832,7 +795,35 @@ namespace GearHonService.ViewModels
 				worksheet.Cell("O14").Value = Day13date;
 				worksheet.Cell("P14").Value = Day14date;
 				worksheet.Cell("A15").Value = "Work";
+				worksheet.Cell("C15").Value = Day1WorkTime;
+				worksheet.Cell("D15").Value = Day2WorkTime;
+				worksheet.Cell("E15").Value = Day3WorkTime;
+				worksheet.Cell("F15").Value = Day4WorkTime;
+				worksheet.Cell("G15").Value = Day5WorkTime;
+				worksheet.Cell("H15").Value = Day6WorkTime;
+				worksheet.Cell("I15").Value = Day7WorkTime;
+				worksheet.Cell("J15").Value = Day8WorkTime;
+				worksheet.Cell("K15").Value = Day9WorkTime;
+				worksheet.Cell("L15").Value = Day10WorkTime;
+				worksheet.Cell("M15").Value = Day11WorkTime;
+				worksheet.Cell("N15").Value = Day12WorkTime;
+				worksheet.Cell("O15").Value = Day13WorkTime;
+				worksheet.Cell("P15").Value = Day14WorkTime;
 				worksheet.Cell("A16").Value = "Travel";
+				worksheet.Cell("C16").Value = Day1TravelTime;
+				worksheet.Cell("D16").Value = Day2TravelTime;
+				worksheet.Cell("E16").Value = Day3TravelTime;
+				worksheet.Cell("F16").Value = Day4TravelTime;
+				worksheet.Cell("G16").Value = Day5TravelTime;
+				worksheet.Cell("H16").Value = Day6TravelTime;
+				worksheet.Cell("I16").Value = Day7TravelTime;
+				worksheet.Cell("J16").Value = Day8TravelTime;
+				worksheet.Cell("K16").Value = Day9TravelTime;
+				worksheet.Cell("L16").Value = Day10TravelTime;
+				worksheet.Cell("M16").Value = Day11TravelTime;
+				worksheet.Cell("N16").Value = Day12TravelTime;
+				worksheet.Cell("O16").Value = Day13TravelTime;
+				worksheet.Cell("P16").Value = Day14TravelTime;
 				worksheet.Cell("A17").Value = "Total/Day";
 				worksheet.Cell("L18").Value = "Total hours without travel back";
 				worksheet.Cell("A19").Value = "Travel back";
