@@ -3,11 +3,40 @@
     x:Class="GearHonService.Views.ServiceReportPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="ServiceReportPage">
-    <VerticalStackLayout>
-        <Label
-            HorizontalOptions="Center"
-            Text="Welcome to .NET MAUI!"
+    xmlns:icon="clr-namespace:GearHonService"
+    xmlns:resx="clr-namespace:GearHonService.Resources.Strings"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:GearHonService.ViewModels"
+    Title="ServiceReportPage"
+    x:DataType="vm:ServiceReportViewModel">
+    <StackLayout Orientation="Vertical">
+        <DatePicker
+            x:Name="StartDatePicker"
+            Margin="0,20,0,0"
+            Date="{Binding ServiceStartDate, Mode=TwoWay}"
             VerticalOptions="Center" />
-    </VerticalStackLayout>
+
+        <DatePicker
+            x:Name="EndDatePicker"
+            Margin="0,20,0,0"
+            Date="{Binding ServiceEndDate, Mode=TwoWay}"
+            VerticalOptions="Center" />
+
+        <Picker
+            x:Name="CustomerPicker"
+            Title="Customer Name"
+            Margin="20,0,20,20"
+            HorizontalOptions="FillAndExpand"
+            ItemDisplayBinding="{Binding CustomerName}"
+            ItemsSource="{Binding Customers}"
+            SelectedItem="{Binding SelectedCustomer}"
+            VerticalOptions="Center"
+            WidthRequest="200">
+            <Picker.Behaviors>
+                <toolkit:EventToCommandBehavior Command="{Binding CustomerSelectionChangedCommand}" EventName="SelectedIndexChanged" />
+            </Picker.Behaviors>
+        </Picker>
+
+        <Button Command="{Binding CreatServiceReportCommand}" Text="create" />
+    </StackLayout>
 </ContentPage>
