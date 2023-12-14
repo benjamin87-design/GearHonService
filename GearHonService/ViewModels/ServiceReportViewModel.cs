@@ -27,7 +27,6 @@ namespace GearHonService.ViewModels
 		[ObservableProperty]
 		private string customerLocation;
 
-		#region Strings for days and time
 		[ObservableProperty] private string day1date;
 		[ObservableProperty] private string day2date;
 		[ObservableProperty] private string day3date;
@@ -100,7 +99,6 @@ namespace GearHonService.ViewModels
 		[ObservableProperty] private string day14WorkTime;
 		[ObservableProperty] private string day14TravelTime;
 		[ObservableProperty] private string day14TotalTime;
-		#endregion
 
 		//Lists
 		[ObservableProperty]
@@ -291,6 +289,258 @@ namespace GearHonService.ViewModels
 			}
 		}
 		
+		private async Task GetTravelHours()
+		{
+			try
+			{
+				var dailyTotalTravelTime = TimeSheets
+					.Where(t => t.UId == UID)
+					.Where(t => t.WorkType == "Travel")
+					.Where(t => t.WorkStatus == "Stopped")
+					.Where(t => t.StartDate >= ServiceStartDate)
+					.Where(t => t.EndDate <= ServiceEndDate)
+					.GroupBy(t => t.StartDate.Date)
+					.Select(g => new
+					{
+						Date = g.Key,
+						TotalTravelTime = g.Aggregate(TimeSpan.Zero, (subtotal, timesheet) => subtotal + timesheet.Hours)
+					});
+
+				foreach (var item in dailyTotalTravelTime)
+				{
+					TravelHours.Add(new TimeSheetModel
+					{
+						StartDate = item.Date,
+						Hours = item.TotalTravelTime
+					});
+				}
+
+				//load the hours to the strings where the startdate are the same date
+				for (int day = 1; day <= 14; day++)
+				{
+					var date = ServiceStartDate.AddDays(day - 1);
+					switch (day)
+					{
+						case 1:
+							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day1TravelTime = "";
+							}
+							else
+							{
+								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day1TravelTime = t.ToString("0.#");
+							}
+							break;
+						case 2:
+							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day2TravelTime = "";
+							}
+							else
+							{
+								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day2TravelTime = t.ToString("0.#");
+							}
+							break;
+						case 3:
+							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day3TravelTime = "";
+							}
+							else
+							{
+								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day3TravelTime = t.ToString("0.#");
+							}
+							break;
+						case 4:
+							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day4TravelTime = "";
+							}
+							else
+							{
+								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day4TravelTime = t.ToString("0.#");
+							}
+							break;
+						case 5:
+							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day5TravelTime = "";
+							}
+							else
+							{
+								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day5TravelTime = t.ToString("0.#");
+							}
+							break;
+						case 6:
+							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day6TravelTime = "";
+							}
+							else
+							{
+								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day6TravelTime = t.ToString("0.#");
+							}
+							break;
+						case 7:
+							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day7TravelTime = "";
+							}
+							else
+							{
+								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day7TravelTime = t.ToString("0.#");
+							}
+							break;
+						case 8:
+							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day8TravelTime = "";
+							}
+							else
+							{
+								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day8TravelTime = t.ToString("0.#");
+							}
+							break;
+						case 9:
+							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day9TravelTime = "";
+							}
+							else
+							{
+								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day9TravelTime = t.ToString("0.#");
+							}
+							break;
+						case 10:
+							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day10TravelTime = "";
+							}
+							else
+							{
+								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day10TravelTime = t.ToString("0.#");
+							}
+							break;
+						case 11:
+							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day11TravelTime = "";
+							}
+							else
+							{
+								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day11TravelTime = t.ToString("0.#");
+							}
+							break;
+						case 12:
+							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day12TravelTime = "";
+							}
+							else
+							{
+								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day12TravelTime = t.ToString("0.#");
+							}
+							break;
+						case 13:
+							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day13TravelTime = "";
+							}
+							else
+							{
+								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day13TravelTime = t.ToString("0.#");
+							}
+							break;
+						case 14:
+							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day14TravelTime = "";
+							}
+							else
+							{
+								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day14TravelTime = t.ToString("0.#");
+							}
+							break;
+					}
+
+				}
+			}
+			catch (Exception ex)
+			{
+				await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
+			}
+		}
+
 		private async Task GetWorkingHours()
 		{
 			try
@@ -330,47 +580,208 @@ namespace GearHonService.ViewModels
 							}
 							else
 							{
-								Day1WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m)/60;
+								Day1WorkTime = t.ToString("0.#");
 							}
 							break;
 						case 2:
-							Day2WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day2WorkTime = "";
+							}
+							else
+							{
+								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day2WorkTime = t.ToString("0.#");
+							}
 							break;
 						case 3:
-							Day3WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day3WorkTime = "";
+							}
+							else
+							{
+								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day3WorkTime = t.ToString("0.#");
+							}
 							break;
 						case 4:
-							Day4WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day4WorkTime = "";
+							}
+							else
+							{
+								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day4WorkTime = t.ToString("0.#");
+							}
 							break;
 						case 5:
-							Day5WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day5WorkTime = "";
+							}
+							else
+							{
+								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day5WorkTime = t.ToString("0.#");
+							}
 							break;
 						case 6:
-							Day6WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day6WorkTime = "";
+							}
+							else
+							{
+								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day6WorkTime = t.ToString("0.#");
+							}
 							break;
 						case 7:
-							Day7WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day7WorkTime = "";
+							}
+							else
+							{
+								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day7WorkTime = t.ToString("0.#");
+							}
 							break;
 						case 8:
-							Day8WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day8WorkTime = "";
+							}
+							else
+							{
+								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day8WorkTime = t.ToString("0.#");
+							}
 							break;
 						case 9:
-							Day9WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day9WorkTime = "";
+							}
+							else
+							{
+								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day9WorkTime = t.ToString("0.#");
+							}
 							break;
 						case 10:
-							Day10WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day10WorkTime = "";
+							}
+							else
+							{
+								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day10WorkTime = t.ToString("0.#");
+							}
 							break;
 						case 11:
-							Day11WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day11WorkTime = "";
+							}
+							else
+							{
+								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day11WorkTime = t.ToString("0.#");
+							}
 							break;
 						case 12:
-							Day12WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day12WorkTime = "";
+							}
+							else
+							{
+								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day12WorkTime = t.ToString("0.#");
+							}
 							break;
 						case 13:
-							Day13WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day13WorkTime = "";
+							}
+							else
+							{
+								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day13WorkTime = t.ToString("0.#");
+							}
 							break;
 					    case 14:
-							Day14WorkTime = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day14WorkTime = "";
+							}
+							else
+							{
+								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day14WorkTime = t.ToString("0.#");
+							}
 							break;
 					}
 				}
