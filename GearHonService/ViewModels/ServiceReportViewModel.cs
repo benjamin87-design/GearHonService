@@ -28,6 +28,19 @@ namespace GearHonService.ViewModels
 		[ObservableProperty]
 		private string customerLocation;
 
+		[ObservableProperty]
+		private string sRepair;
+		[ObservableProperty]
+		private string sRetroFit;
+		[ObservableProperty]
+		private string sIBN;
+		[ObservableProperty]
+		private string sInspection;
+		[ObservableProperty]
+		private string sExibition;
+		[ObservableProperty]
+		private string sTraining;
+
 		[ObservableProperty] private string day1date;
 		[ObservableProperty] private string day2date;
 		[ObservableProperty] private string day3date;
@@ -162,6 +175,10 @@ namespace GearHonService.ViewModels
 		private ObservableCollection<TimeSheetModel> travelBackHours;
 		[ObservableProperty]
 		private ObservableCollection<TimeSheetModel> machineNumberAndDescription;
+		[ObservableProperty]
+		private ObservableCollection<DistributorModel> distributors;
+		[ObservableProperty]
+		private ObservableCollection<ServiceTypeModel> serviceTypes;
 
 		//Selected
 		private CustomerModel selectedCustomer;
@@ -169,6 +186,20 @@ namespace GearHonService.ViewModels
 		{
 			get { return selectedCustomer; }
 			set { selectedCustomer = value; }
+		}
+
+		private DistributorModel selectedDistributor;
+		public DistributorModel SelectedDistributor
+		{
+			get { return selectedDistributor; }
+			set { selectedDistributor = value; }
+		}
+
+		private ServiceTypeModel selectedServiceType;
+		public ServiceTypeModel SelectedServiceType
+		{
+			get { return selectedServiceType; }
+			set { selectedServiceType = value; }
 		}
 
 		//Supabase Client
@@ -189,6 +220,23 @@ namespace GearHonService.ViewModels
 			TravelHours = new ObservableCollection<TimeSheetModel>();
 			TravelBackHours = new ObservableCollection<TimeSheetModel>();
 			MachineNumberAndDescription = new ObservableCollection<TimeSheetModel>();
+			Distributors = new ObservableCollection<DistributorModel>();
+			ServiceTypes = new ObservableCollection<ServiceTypeModel>();
+
+			//Add values to the lists
+			Distributors.Add(new DistributorModel { Key = 1, Value = "Admin" });
+			Distributors.Add(new DistributorModel { Key = 2, Value = "Service" });
+			Distributors.Add(new DistributorModel { Key = 3, Value = "Sales" });
+			Distributors.Add(new DistributorModel { Key = 4, Value = "Production" });
+			Distributors.Add(new DistributorModel { Key = 5, Value = "QMS" });
+			Distributors.Add(new DistributorModel { Key = 6, Value = "EDV" });
+
+			ServiceTypes.Add(new ServiceTypeModel { Key = 1, Value = "Repiar" });
+			ServiceTypes.Add(new ServiceTypeModel { Key = 2, Value = "RetroFit" });
+			ServiceTypes.Add(new ServiceTypeModel { Key = 3, Value = "IBN" });
+			ServiceTypes.Add(new ServiceTypeModel { Key = 4, Value = "Inspection" });
+			ServiceTypes.Add(new ServiceTypeModel { Key = 5, Value = "Exibition" });
+			ServiceTypes.Add(new ServiceTypeModel { Key = 6, Value = "Training" });
 
 			GetAllCustomers();
 			GetAllTimeSheets();
@@ -208,6 +256,37 @@ namespace GearHonService.ViewModels
 		{
 			CustomerName = selectedCustomer.CustomerName.ToString();
 			CustomerLocation = selectedCustomer.City.ToString();
+		}
+		[RelayCommand]
+		private async Task ServiceTypeSelectionChanged()
+		{
+			switch (SelectedServiceType.Value)
+			{
+				case "Repair":
+					SRepair = "X";
+					break;
+				case "RetroFit":
+					SRetroFit = "X";
+					break;
+				case "IBN":
+					SIBN = "X";
+					break;
+				case "Inspection":
+					SInspection = "X";
+					break;
+				case "Exibition":
+					SExibition = "X";
+					break;
+				case "Training":
+					STraining = "X";
+					break;
+			}
+		}
+
+		[RelayCommand]
+		private async Task DistributorSelectionChanged()
+		{
+
 		}
 
 		//get values from Supabase database
@@ -252,14 +331,12 @@ namespace GearHonService.ViewModels
 			UserLocation = Users[0].Location.ToString();
 		}
 
-		//add values depend on selection to strings
 		private async Task PopulatingStrings()
 		{
 			//clear lists
 			WorkingHours.Clear();
 			TravelHours.Clear();
 
-			//get hours queried by start and end date, worktype, workstatus and UID
 			await GetDatesAndDay();
 			await GetWorkingHours();
 			await GetTravelHours();
@@ -1923,7 +2000,7 @@ namespace GearHonService.ViewModels
 				servicetypemerge8.Merge();
 				var servicetypemerge9 = worksheet.Range("K9:L9");
 				servicetypemerge9.Merge();
-				var servicetypemerge10 = worksheet.Range("M9:P9");
+				var servicetypemerge10 = worksheet.Range("N9:P9");
 				servicetypemerge10.Merge();
 				var servicetypemerge11 = worksheet.Range("A10:B10");
 				servicetypemerge11.Merge();
@@ -2139,6 +2216,7 @@ namespace GearHonService.ViewModels
 				worksheet.Range("A1:R1").Style.Font.Bold = true;
 				#endregion
 
+				#region Print options
 				//define print area
 				worksheet.PageSetup.PrintAreas.Add("A1:R58");
 
@@ -2151,6 +2229,41 @@ namespace GearHonService.ViewModels
 				worksheet.PageSetup.Margins.Right = 0.5;
 				worksheet.PageSetup.Margins.Top = 0.5;
 				worksheet.PageSetup.Margins.Bottom = 0.5;
+				#endregion
+
+				#region Set borders for Service report
+				//set borders for title
+				worksheet.Range("A1:R1").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("A3:R6").Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+				worksheet.Range("A3:R6").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("A8:R11").Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+				worksheet.Range("A8:R11").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("A13:R19").Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+				worksheet.Cell("A13").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("C13:Q13").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Cell("R13").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("A14:B19").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("L18:Q18").Style.Border.InsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Cell("R18").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("L20:Q20").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Cell("R20").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("A13:R19").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("R13:R20").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("L18:Q18").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("A22:R24").Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+				worksheet.Range("A22:R22").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("A22:R24").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("A26:R40").Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+				worksheet.Cell("A26").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("A26:R40").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("A42:R47").Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+				worksheet.Cell("A42").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("A42:R47").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("A49:R50").Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+				worksheet.Range("A49:R50").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				worksheet.Range("A52:R58").Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+				worksheet.Range("A52:R58").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
+				#endregion
 
 				//standart text for Service report
 				worksheet.Cell("A1").Value = "PRÄWEMA";
@@ -2177,12 +2290,18 @@ namespace GearHonService.ViewModels
 
 				worksheet.Cell("A8").Value = "Customer order nr.";
 				worksheet.Cell("A9").Value = "Repair";
+				worksheet.Cell("C9").Value = SRepair;
 				worksheet.Cell("A10").Value = "Exibition";
+				worksheet.Cell("C10").Value = SExibition;
 				worksheet.Cell("A11").Value = "Software change";
 				worksheet.Cell("D9").Value = "RetroFit";
+				worksheet.Cell("F9").Value = SRetroFit;
 				worksheet.Cell("G9").Value = "IBN";
+				worksheet.Cell("J9").Value = SIBN;
 				worksheet.Cell("K9").Value = "Inspection";
+				worksheet.Cell("M9").Value = SInspection;
 				worksheet.Cell("N9").Value = "Training";
+				worksheet.Cell("Q9").Value = STraining;
 				worksheet.Cell("D10").Value = "Delevery cpl";
 				worksheet.Cell("G10").Value = "Yes";
 				worksheet.Cell("I10").Value = "No";
