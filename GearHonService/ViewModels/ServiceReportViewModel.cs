@@ -8,39 +8,23 @@ namespace GearHonService.ViewModels
 {
 	public partial class ServiceReportViewModel : BaseViewModel
 	{
-		//Strings
-		[ObservableProperty]
-		private string folderPath;
-		[ObservableProperty]
-		private string customerName;
-		[ObservableProperty]
-		private string machineNumber;
-		[ObservableProperty]
-		private string uID;
-		[ObservableProperty]
-		private DateTime serviceStartDate;
-		[ObservableProperty]
-		private DateTime serviceEndDate;
-		[ObservableProperty]
-		private string userName;
-		[ObservableProperty]
-		private string userLocation;
-		[ObservableProperty]
-		private string customerLocation;
-
-		[ObservableProperty]
-		private string sRepair;
-		[ObservableProperty]
-		private string sRetroFit;
-		[ObservableProperty]
-		private string sIBN;
-		[ObservableProperty]
-		private string sInspection;
-		[ObservableProperty]
-		private string sExibition;
-		[ObservableProperty]
-		private string sTraining;
-
+		#region Strings
+		[ObservableProperty] private string value;
+		[ObservableProperty] private string folderPath;
+		[ObservableProperty] private string customerName;
+		[ObservableProperty] private string machineNumber;
+		[ObservableProperty] private string uID;
+		[ObservableProperty] private DateTime serviceStartDate;
+		[ObservableProperty] private DateTime serviceEndDate;
+		[ObservableProperty] private string userName;
+		[ObservableProperty] private string userLocation;
+		[ObservableProperty] private string customerLocation;
+		[ObservableProperty] private string sRepair;
+		[ObservableProperty] private string sRetroFit;
+		[ObservableProperty] private string sIBN;
+		[ObservableProperty] private string sInspection;
+		[ObservableProperty] private string sExibition;
+		[ObservableProperty] private string sTraining;
 		[ObservableProperty] private string day1date;
 		[ObservableProperty] private string day2date;
 		[ObservableProperty] private string day3date;
@@ -153,12 +137,12 @@ namespace GearHonService.ViewModels
 		[ObservableProperty] private string day12Description;
 		[ObservableProperty] private string day13Description;
 		[ObservableProperty] private string day14Description;
-
 		[ObservableProperty] private string workTotal;
 		[ObservableProperty] private string travelTotal;
 		[ObservableProperty] private string totalWithoutTravelBackTime;
 		[ObservableProperty] private string travelBackTotal;
 		[ObservableProperty] private string totalAllTime;
+		#endregion
 
 		//Lists
 		[ObservableProperty]
@@ -244,11 +228,27 @@ namespace GearHonService.ViewModels
 		}
 
 		[RelayCommand]
-		async Task CreatServiceReport()
+		async Task CreateServiceReport()
 		{
-			await PickFolder(CancellationToken.None);
-			await PopulatingStrings();
-			CreateExcelFile();
+			//check if startdate is bigger then end date
+			if (ServiceStartDate > ServiceEndDate)
+			{
+				await Shell.Current.DisplayAlert("Error", "The start date can not be after the end date", "Ok");
+			}
+			else
+			{
+				//check if Startdate and enddate are not more then 14 days apart
+				if (ServiceStartDate.AddDays(13) < ServiceEndDate)
+				{
+					await Shell.Current.DisplayAlert("Error", "The start date and end date can not be more then 14 days apart", "Ok");
+				}
+				else
+				{
+					await PickFolder(CancellationToken.None);
+					await PopulatingStrings();
+					CreateExcelFile();
+				}
+			}
 		}
 
 		[RelayCommand]
@@ -257,6 +257,7 @@ namespace GearHonService.ViewModels
 			CustomerName = selectedCustomer.CustomerName.ToString();
 			CustomerLocation = selectedCustomer.City.ToString();
 		}
+
 		[RelayCommand]
 		private async Task ServiceTypeSelectionChanged()
 		{
@@ -434,8 +435,6 @@ namespace GearHonService.ViewModels
 					.Where(t => t.CustomerName == CustomerName)
 					.Where(t => t.WorkType == "Travel")
 					.Where(t => t.WorkStatus == "Stopped")
-					.Where(t => t.StartDate >= ServiceStartDate)
-					.Where(t => t.EndDate <= ServiceEndDate)
 					.GroupBy(t => t.StartDate.Date)
 					.Select(g => new
 					{
@@ -459,13 +458,14 @@ namespace GearHonService.ViewModels
 					switch (day)
 					{
 						case 1:
-							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day1TravelTime = "";
+								Debug.WriteLine(date);
 							}
 							else
 							{
-								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -474,13 +474,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 2:
-							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day2TravelTime = "";
 							}
 							else
 							{
-								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -489,13 +489,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 3:
-							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day3TravelTime = "";
 							}
 							else
 							{
-								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -504,13 +504,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 4:
-							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day4TravelTime = "";
 							}
 							else
 							{
-								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -519,13 +519,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 5:
-							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day5TravelTime = "";
 							}
 							else
 							{
-								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -534,13 +534,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 6:
-							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day6TravelTime = "";
 							}
 							else
 							{
-								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -549,13 +549,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 7:
-							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day7TravelTime = "";
 							}
 							else
 							{
-								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -564,13 +564,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 8:
-							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day8TravelTime = "";
 							}
 							else
 							{
-								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -579,13 +579,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 9:
-							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day9TravelTime = "";
 							}
 							else
 							{
-								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -594,13 +594,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 10:
-							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day10TravelTime = "";
 							}
 							else
 							{
-								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -609,13 +609,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 11:
-							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day11TravelTime = "";
 							}
 							else
 							{
-								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -624,13 +624,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 12:
-							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day12TravelTime = "";
 							}
 							else
 							{
-								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -639,13 +639,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 13:
-							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day13TravelTime = "";
 							}
 							else
 							{
-								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -654,13 +654,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 14:
-							if (TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day14TravelTime = "";
 							}
 							else
 							{
-								var timespanday = TravelHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -687,8 +687,6 @@ namespace GearHonService.ViewModels
 					.Where(t => t.CustomerName == CustomerName)
 					.Where(t => t.WorkType == "Travel back")
 					.Where(t => t.WorkStatus == "Stopped")
-					.Where(t => t.StartDate >= ServiceStartDate)
-					.Where(t => t.EndDate <= ServiceEndDate)
 					.GroupBy(t => t.StartDate.Date)
 					.Select(g => new
 					{
@@ -712,13 +710,13 @@ namespace GearHonService.ViewModels
 					switch (day)
 					{
 						case 1:
-							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day1TravelBackTime = "";
 							}
 							else
 							{
-								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -727,13 +725,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 2:
-							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day2TravelBackTime = "";
 							}
 							else
 							{
-								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -742,13 +740,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 3:
-							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day3TravelBackTime = "";
 							}
 							else
 							{
-								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -757,13 +755,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 4:
-							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day4TravelBackTime = "";
 							}
 							else
 							{
-								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -772,13 +770,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 5:
-							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day5TravelBackTime = "";
 							}
 							else
 							{
-								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -787,13 +785,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 6:
-							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day6TravelBackTime = "";
 							}
 							else
 							{
-								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -802,13 +800,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 7:
-							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day7TravelBackTime = "";
 							}
 							else
 							{
-								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -817,13 +815,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 8:
-							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day8TravelBackTime = "";
 							}
 							else
 							{
-								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -832,13 +830,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 9:
-							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day9TravelBackTime = "";
 							}
 							else
 							{
-								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -847,13 +845,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 10:
-							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day10TravelBackTime = "";
 							}
 							else
 							{
-								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -862,13 +860,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 11:
-							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day11TravelBackTime = "";
 							}
 							else
 							{
-								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -877,13 +875,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 12:
-							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day12TravelBackTime = "";
 							}
 							else
 							{
-								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -892,13 +890,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 13:
-							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day13TravelBackTime = "";
 							}
 							else
 							{
-								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -907,13 +905,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 14:
-							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day14TravelBackTime = "";
 							}
 							else
 							{
-								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = TravelBackHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -940,8 +938,6 @@ namespace GearHonService.ViewModels
 					.Where(t => t.CustomerName == CustomerName)
 					.Where(t => t.WorkType == "Work")
 					.Where(t => t.WorkStatus == "Stopped")
-					.Where(t => t.StartDate >= ServiceStartDate)
-					.Where(t => t.EndDate <= ServiceEndDate)
 					.GroupBy(t => t.StartDate.Date)
 					.Select(g => new
 					{
@@ -965,13 +961,13 @@ namespace GearHonService.ViewModels
 					switch (day)
 					{
 						case 1:
-							if(WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if(WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day1WorkTime = "";
 							}
 							else
 							{
-								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -980,13 +976,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 2:
-							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day2WorkTime = "";
 							}
 							else
 							{
-								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -995,13 +991,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 3:
-							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day3WorkTime = "";
 							}
 							else
 							{
-								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -1010,13 +1006,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 4:
-							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day4WorkTime = "";
 							}
 							else
 							{
-								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -1025,13 +1021,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 5:
-							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day5WorkTime = "";
 							}
 							else
 							{
-								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -1040,13 +1036,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 6:
-							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day6WorkTime = "";
 							}
 							else
 							{
-								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -1055,13 +1051,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 7:
-							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day7WorkTime = "";
 							}
 							else
 							{
-								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -1070,13 +1066,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 8:
-							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day8WorkTime = "";
 							}
 							else
 							{
-								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -1085,13 +1081,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 9:
-							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day9WorkTime = "";
 							}
 							else
 							{
-								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -1100,13 +1096,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 10:
-							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day10WorkTime = "";
 							}
 							else
 							{
-								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -1115,13 +1111,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 11:
-							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day11WorkTime = "";
 							}
 							else
 							{
-								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -1130,13 +1126,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 12:
-							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day12WorkTime = "";
 							}
 							else
 							{
-								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -1145,13 +1141,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 						case 13:
-							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day13WorkTime = "";
 							}
 							else
 							{
-								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -1160,13 +1156,13 @@ namespace GearHonService.ViewModels
 							}
 							break;
 					    case 14:
-							if (WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							if (WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
 							{
 								Day14WorkTime = "";
 							}
 							else
 							{
-								var timespanday = WorkingHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								var timespanday = WorkingHours.Where(x => x.StartDate.Date == date.Date).Select(x => x.Hours).FirstOrDefault().ToString();
 								double h = Convert.ToDateTime(timespanday).Hour;
 								double m = Convert.ToDateTime(timespanday).Minute;
 
@@ -2185,11 +2181,11 @@ namespace GearHonService.ViewModels
 				signaturemerge14.Merge();
 				var signaturemerge15 = worksheet.Range("A58:B58");
 				signaturemerge15.Merge();
-				var signaturemerge16 = worksheet.Range("H53:M53");
+				var signaturemerge16 = worksheet.Range("I53:M53");
 				signaturemerge16.Merge();
 				var signaturemerge17 = worksheet.Range("N53:O53");
 				signaturemerge17.Merge();
-				var signaturemerge18 = worksheet.Range("P53:R54");
+				var signaturemerge18 = worksheet.Range("P53:R53");
 				signaturemerge18.Merge();
 				var signaturemerge19 = worksheet.Range("G54:R54");
 				signaturemerge19.Merge();
@@ -2205,6 +2201,8 @@ namespace GearHonService.ViewModels
 				signaturemerge24.Merge();
 				var signaturemerge25 = worksheet.Range("N58:R58");
 				signaturemerge25.Merge();
+				var signaturemerge26 = worksheet.Range("G53:H53");
+				signaturemerge26.Merge();
 				#endregion
 
 				#region Set Fontsize for Service report
@@ -2265,17 +2263,16 @@ namespace GearHonService.ViewModels
 				worksheet.Range("A52:R58").Style.Border.OutsideBorder = XLBorderStyleValues.Thick;
 				#endregion
 
+				#region Set Text for the Service report
 				//standart text for Service report
 				worksheet.Cell("A1").Value = "PRÄWEMA";
 				worksheet.Cell("J1").Value = "Service - Time - Report";
-
 				worksheet.Cell("A3").Value = "Machine Nr.";
 				worksheet.Cell("D3").Value = MachineNumber;
 				worksheet.Cell("A4").Value = "Customer";
 				worksheet.Cell("D4").Value = CustomerName;
 				worksheet.Cell("A5").Value = "Contact";
 				worksheet.Cell("A6").Value = "Machine type";
-
 				worksheet.Cell("J3").Value = "Service Engineer";
 				worksheet.Cell("M3").Value = UserName;
 				worksheet.Cell("J4").Value = "Address";
@@ -2287,7 +2284,6 @@ namespace GearHonService.ViewModels
 				worksheet.Cell("P5").Value = Convert.ToString(ServiceEndDate.Day) + "." + Convert.ToString(ServiceEndDate.Month) + ".";
 				worksheet.Cell("R5").Value = ServiceStartDate.Year;
 				worksheet.Cell("O6").Value = "Delivery Date";
-
 				worksheet.Cell("A8").Value = "Customer order nr.";
 				worksheet.Cell("A9").Value = "Repair";
 				worksheet.Cell("C9").Value = SRepair;
@@ -2308,7 +2304,6 @@ namespace GearHonService.ViewModels
 				worksheet.Cell("K10").Value = "Damaged";
 				worksheet.Cell("N10").Value = "Yes";
 				worksheet.Cell("P10").Value = "No";	
-
 				worksheet.Cell("A13").Value = "Day";
 				worksheet.Cell("C13").Value = Day1name;
 				worksheet.Cell("D13").Value = Day2name;
@@ -2393,9 +2388,7 @@ namespace GearHonService.ViewModels
 				worksheet.Cell("R19").Value = TravelBackTotal;
 				worksheet.Cell("L20").Value = "Total hours with travel back";
 				worksheet.Cell("R20").Value = TotalAllTime;
-
 				worksheet.Cell("A22").Value = "Order";
-
 				worksheet.Cell("A26").Value = "Work description";
 				worksheet.Cell("A27").Value = Day1MachineNumber;
 				worksheet.Cell("A28").Value = Day2MachineNumber;
@@ -2440,10 +2433,8 @@ namespace GearHonService.ViewModels
 				worksheet.Cell("G39").Value = Day13Description;
 				worksheet.Cell("G40").Value = Day14Description;
 				worksheet.Cell("A42").Value = "Spare parts / Comments";
-
 				worksheet.Cell("A49").Value = "Backup handover to";
 				worksheet.Cell("A50").Value = "Backup date";
-
 				worksheet.Cell("A52").Value = "Distriputor";
 				worksheet.Cell("A53").Value = "Admin";
 				worksheet.Cell("A54").Value = "Service";
@@ -2451,18 +2442,28 @@ namespace GearHonService.ViewModels
 				worksheet.Cell("A56").Value = "Production";
 				worksheet.Cell("A57").Value = "QMS";
 				worksheet.Cell("A58").Value = "EDV";
-
 				worksheet.Cell("G53").Value = "Place:"; 
-				worksheet.Cell("H53").Value = CustomerLocation;
+				worksheet.Cell("I53").Value = CustomerLocation;
 				worksheet.Cell("N53").Value = "Signature:";
-
 				worksheet.Cell("G55").Value = "Signature customer";
 				worksheet.Cell("N55").Value = "Signature service engineer";
 				worksheet.Cell("N58").Value = UserName;
+				#endregion
 
 				try
 				{
 					workbook.SaveAs(FolderPath);
+
+					//Ask user if want to open
+					var result = await Shell.Current.DisplayAlert("Excel file created", "Do you want to open the file?", "Yes", "No");
+					//if result is yes then open it
+					if (result)
+					{
+						await Launcher.OpenAsync(new OpenFileRequest
+						{
+							File = new ReadOnlyFile(FolderPath)
+						});
+					}
 				}
 				catch (Exception ex)
 				{

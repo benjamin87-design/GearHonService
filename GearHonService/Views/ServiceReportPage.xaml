@@ -9,6 +9,7 @@
     xmlns:vm="clr-namespace:GearHonService.ViewModels"
     Title="ServiceReportPage"
     x:DataType="vm:ServiceReportViewModel">
+    
     <StackLayout Orientation="Vertical">
         <DatePicker
             x:Name="StartDatePicker"
@@ -21,6 +22,36 @@
             Margin="0,20,0,0"
             Date="{Binding ServiceEndDate, Mode=TwoWay}"
             VerticalOptions="Center" />
+
+        <Picker
+            x:Name="ServiceTypePicker"
+            Title="ServiceType"
+            Margin="20,0,20,20"
+            HorizontalOptions="FillAndExpand"
+            ItemDisplayBinding="{Binding Value}"
+            ItemsSource="{Binding ServiceTypes}"
+            SelectedItem="{Binding SelectedServiceType}"
+            VerticalOptions="Center"
+            WidthRequest="200">
+            <Picker.Behaviors>
+                <toolkit:EventToCommandBehavior Command="{Binding ServiceTypeSelectionChangedCommand}" EventName="SelectedIndexChanged" />
+            </Picker.Behaviors>
+        </Picker>
+
+        <Picker
+            x:Name="DistributorPicker"
+            Title="Customer Name"
+            Margin="20,0,20,20"
+            HorizontalOptions="FillAndExpand"
+            ItemDisplayBinding="{Binding Value}"
+            ItemsSource="{Binding Distributors}"
+            SelectedItem="{Binding SelectedDistributor}"
+            VerticalOptions="Center"
+            WidthRequest="200">
+            <Picker.Behaviors>
+                <toolkit:EventToCommandBehavior Command="{Binding DistributorSelectionChangedCommand}" EventName="SelectedIndexChanged" />
+            </Picker.Behaviors>
+        </Picker>
 
         <Picker
             x:Name="CustomerPicker"
@@ -37,6 +68,6 @@
             </Picker.Behaviors>
         </Picker>
 
-        <Button Command="{Binding CreatServiceReportCommand}" Text="create" />
+        <Button Command="{Binding CreateServiceReportCommand}" Text="create" />
     </StackLayout>
 </ContentPage>
