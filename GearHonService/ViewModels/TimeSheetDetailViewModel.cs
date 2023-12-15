@@ -91,7 +91,8 @@
 
 			//Add worktypes to list
 			WorkTypes.Add(new WorkTypeModel { Key = 1, Value = "Work" });
-			WorkTypes.Add(new WorkTypeModel { Key = 5, Value = "Travel" });
+			WorkTypes.Add(new WorkTypeModel { Key = 5, Value = "Travel" }) ;
+			WorkTypes.Add (new WorkTypeModel { Key = 6, Value = "Travel back" });
 		}
 
 		//ToDo: Add update method if the id is not 0. Just similar to machine and customer update method

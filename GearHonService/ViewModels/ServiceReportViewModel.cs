@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Storage;
+using DocumentFormat.OpenXml.ExtendedProperties;
 using System.Diagnostics;
 
 namespace GearHonService.ViewModels
@@ -41,7 +42,6 @@ namespace GearHonService.ViewModels
 		[ObservableProperty] private string day12date;
 		[ObservableProperty] private string day13date;
 		[ObservableProperty] private string day14date;
-
 		[ObservableProperty] private string day1name;
 		[ObservableProperty] private string day2name;
 		[ObservableProperty] private string day3name;
@@ -56,7 +56,6 @@ namespace GearHonService.ViewModels
 		[ObservableProperty] private string day12name;
 		[ObservableProperty] private string day13name;
 		[ObservableProperty] private string day14name;
-
 		[ObservableProperty] private string day1WorkTime;
 		[ObservableProperty] private string day1TravelTime;
 		[ObservableProperty] private string day1TotalTime;
@@ -99,6 +98,54 @@ namespace GearHonService.ViewModels
 		[ObservableProperty] private string day14WorkTime;
 		[ObservableProperty] private string day14TravelTime;
 		[ObservableProperty] private string day14TotalTime;
+		[ObservableProperty] private string day1TravelBackTime;
+		[ObservableProperty] private string day2TravelBackTime;
+		[ObservableProperty] private string day3TravelBackTime;
+		[ObservableProperty] private string day4TravelBackTime;
+		[ObservableProperty] private string day5TravelBackTime;
+		[ObservableProperty] private string day6TravelBackTime;
+		[ObservableProperty] private string day7TravelBackTime;
+		[ObservableProperty] private string day8TravelBackTime;
+		[ObservableProperty] private string day9TravelBackTime;
+		[ObservableProperty] private string day10TravelBackTime;
+		[ObservableProperty] private string day11TravelBackTime;
+		[ObservableProperty] private string day12TravelBackTime;
+		[ObservableProperty] private string day13TravelBackTime;
+		[ObservableProperty] private string day14TravelBackTime;
+		[ObservableProperty] private string day1MachineNumber;
+		[ObservableProperty] private string day2MachineNumber;
+		[ObservableProperty] private string day3MachineNumber;
+		[ObservableProperty] private string day4MachineNumber;
+		[ObservableProperty] private string day5MachineNumber;
+		[ObservableProperty] private string day6MachineNumber;
+		[ObservableProperty] private string day7MachineNumber;
+		[ObservableProperty] private string day8MachineNumber;
+		[ObservableProperty] private string day9MachineNumber;
+		[ObservableProperty] private string day10MachineNumber;
+		[ObservableProperty] private string day11MachineNumber;
+		[ObservableProperty] private string day12MachineNumber;
+		[ObservableProperty] private string day13MachineNumber;
+		[ObservableProperty] private string day14MachineNumber;
+		[ObservableProperty] private string day1Description;
+		[ObservableProperty] private string day2Description;
+		[ObservableProperty] private string day3Description;
+		[ObservableProperty] private string day4Description;
+		[ObservableProperty] private string day5Description;
+		[ObservableProperty] private string day6Description;
+		[ObservableProperty] private string day7Description;
+		[ObservableProperty] private string day8Description;
+		[ObservableProperty] private string day9Description;
+		[ObservableProperty] private string day10Description;
+		[ObservableProperty] private string day11Description;
+		[ObservableProperty] private string day12Description;
+		[ObservableProperty] private string day13Description;
+		[ObservableProperty] private string day14Description;
+
+		[ObservableProperty] private string workTotal;
+		[ObservableProperty] private string travelTotal;
+		[ObservableProperty] private string totalWithoutTravelBackTime;
+		[ObservableProperty] private string travelBackTotal;
+		[ObservableProperty] private string totalAllTime;
 
 		//Lists
 		[ObservableProperty]
@@ -111,6 +158,10 @@ namespace GearHonService.ViewModels
 		private ObservableCollection<TimeSheetModel> workingHours;
 		[ObservableProperty]
 		private ObservableCollection<TimeSheetModel> travelHours;
+		[ObservableProperty]
+		private ObservableCollection<TimeSheetModel> travelBackHours;
+		[ObservableProperty]
+		private ObservableCollection<TimeSheetModel> machineNumberAndDescription;
 
 		//Selected
 		private CustomerModel selectedCustomer;
@@ -136,6 +187,8 @@ namespace GearHonService.ViewModels
 			TimeSheets = new ObservableCollection<TimeSheetModel>();
 			WorkingHours = new ObservableCollection<TimeSheetModel>();
 			TravelHours = new ObservableCollection<TimeSheetModel>();
+			TravelBackHours = new ObservableCollection<TimeSheetModel>();
+			MachineNumberAndDescription = new ObservableCollection<TimeSheetModel>();
 
 			GetAllCustomers();
 			GetAllTimeSheets();
@@ -209,8 +262,14 @@ namespace GearHonService.ViewModels
 			//get hours queried by start and end date, worktype, workstatus and UID
 			await GetDatesAndDay();
 			await GetWorkingHours();
-			//await GetTravelHours();
-			//await SumWorkingTravelHoursAddToString();
+			await GetTravelHours();
+			await GetTravelBackHours();
+			await SumWorkingTravelHours();
+			await SumTravelBackAndGetFinalTotal();
+			await GetMachineNumberAndDescriptionPerDay();
+
+			//finaly clean all 0 or 0.0 out of the report
+			SetZeroStrings();
 		}
 
 		private async Task GetDatesAndDay()
@@ -295,6 +354,7 @@ namespace GearHonService.ViewModels
 			{
 				var dailyTotalTravelTime = TimeSheets
 					.Where(t => t.UId == UID)
+					.Where(t => t.CustomerName == CustomerName)
 					.Where(t => t.WorkType == "Travel")
 					.Where(t => t.WorkStatus == "Stopped")
 					.Where(t => t.StartDate >= ServiceStartDate)
@@ -541,12 +601,266 @@ namespace GearHonService.ViewModels
 			}
 		}
 
+		private async Task GetTravelBackHours()
+		{
+			try
+			{
+				var dailyTotalTravelBackTime = TimeSheets
+					.Where(t => t.UId == UID)
+					.Where(t => t.CustomerName == CustomerName)
+					.Where(t => t.WorkType == "Travel back")
+					.Where(t => t.WorkStatus == "Stopped")
+					.Where(t => t.StartDate >= ServiceStartDate)
+					.Where(t => t.EndDate <= ServiceEndDate)
+					.GroupBy(t => t.StartDate.Date)
+					.Select(g => new
+					{
+						Date = g.Key,
+						TotalTravelBackTime = g.Aggregate(TimeSpan.Zero, (subtotal, timesheet) => subtotal + timesheet.Hours)
+					});
+
+				foreach (var item in dailyTotalTravelBackTime)
+				{
+					TravelBackHours.Add(new TimeSheetModel
+					{
+						StartDate = item.Date,
+						Hours = item.TotalTravelBackTime
+					});
+				}
+
+				//load the hours to the strings where the startdate are the same date
+				for (int day = 1; day <= 14; day++)
+				{
+					var date = ServiceStartDate.AddDays(day - 1);
+					switch (day)
+					{
+						case 1:
+							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day1TravelBackTime = "";
+							}
+							else
+							{
+								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day1TravelBackTime = t.ToString("0.#");
+							}
+							break;
+						case 2:
+							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day2TravelBackTime = "";
+							}
+							else
+							{
+								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day2TravelBackTime = t.ToString("0.#");
+							}
+							break;
+						case 3:
+							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day3TravelBackTime = "";
+							}
+							else
+							{
+								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day3TravelBackTime = t.ToString("0.#");
+							}
+							break;
+						case 4:
+							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day4TravelBackTime = "";
+							}
+							else
+							{
+								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day4TravelBackTime = t.ToString("0.#");
+							}
+							break;
+						case 5:
+							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day5TravelBackTime = "";
+							}
+							else
+							{
+								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day5TravelBackTime = t.ToString("0.#");
+							}
+							break;
+						case 6:
+							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day6TravelBackTime = "";
+							}
+							else
+							{
+								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day6TravelBackTime = t.ToString("0.#");
+							}
+							break;
+						case 7:
+							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day7TravelBackTime = "";
+							}
+							else
+							{
+								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day7TravelBackTime = t.ToString("0.#");
+							}
+							break;
+						case 8:
+							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day8TravelBackTime = "";
+							}
+							else
+							{
+								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day8TravelBackTime = t.ToString("0.#");
+							}
+							break;
+						case 9:
+							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day9TravelBackTime = "";
+							}
+							else
+							{
+								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day9TravelBackTime = t.ToString("0.#");
+							}
+							break;
+						case 10:
+							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day10TravelBackTime = "";
+							}
+							else
+							{
+								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day10TravelBackTime = t.ToString("0.#");
+							}
+							break;
+						case 11:
+							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day11TravelBackTime = "";
+							}
+							else
+							{
+								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day11TravelBackTime = t.ToString("0.#");
+							}
+							break;
+						case 12:
+							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day12TravelBackTime = "";
+							}
+							else
+							{
+								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day12TravelBackTime = t.ToString("0.#");
+							}
+							break;
+						case 13:
+							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day13TravelBackTime = "";
+							}
+							else
+							{
+								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day13TravelBackTime = t.ToString("0.#");
+							}
+							break;
+						case 14:
+							if (TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString().Equals("00:00:00"))
+							{
+								Day14TravelBackTime = "";
+							}
+							else
+							{
+								var timespanday = TravelBackHours.Where(x => x.StartDate == date).Select(x => x.Hours).FirstOrDefault().ToString();
+								double h = Convert.ToDateTime(timespanday).Hour;
+								double m = Convert.ToDateTime(timespanday).Minute;
+
+								double t = ((h * 60) + m) / 60;
+								Day14TravelBackTime = t.ToString("0.#");
+							}
+							break;
+					}
+
+				}
+			}
+			catch (Exception ex)
+			{
+				await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
+			}
+		}
+
 		private async Task GetWorkingHours()
 		{
 			try
 			{
 				var dailyTotalWorkingTime = TimeSheets
 					.Where(t => t.UId == UID)
+					.Where(t => t.CustomerName == CustomerName)
 					.Where(t => t.WorkType == "Work")
 					.Where(t => t.WorkStatus == "Stopped")
 					.Where(t => t.StartDate >= ServiceStartDate)
@@ -792,6 +1106,700 @@ namespace GearHonService.ViewModels
 			}
 		}
 
+		private async Task SumWorkingTravelHours()
+		{
+			try
+			{
+				//check if any string is "" and set them to 0.0
+				if (Day1WorkTime == "")
+				{
+					Day1WorkTime = "0.0";
+				}
+				if (Day2WorkTime == "")
+				{
+					Day2WorkTime = "0.0";
+				}
+				if (Day3WorkTime == "")
+				{
+					Day3WorkTime = "0.0";
+				}
+				if (Day4WorkTime == "")
+				{
+					Day4WorkTime = "0.0";
+				}
+				if (Day5WorkTime == "")
+				{
+					Day5WorkTime = "0.0";
+				}
+				if (Day6WorkTime == "")
+				{
+					Day6WorkTime = "0.0";
+				}
+				if (Day7WorkTime == "")
+				{
+					Day7WorkTime = "0.0";
+				}
+				if (Day8WorkTime == "")
+				{
+					Day8WorkTime = "0.0";
+				}
+				if (Day9WorkTime == "")
+				{
+					Day9WorkTime = "0.0";
+				}
+				if (Day10WorkTime == "")
+				{
+					Day10WorkTime = "0.0";
+				}
+				if (Day11WorkTime == "")
+				{
+					Day11WorkTime = "0.0";
+				}
+				if (Day12WorkTime == "")
+				{
+					Day12WorkTime = "0.0";
+				}
+				if (Day13WorkTime == "")
+				{
+					Day13WorkTime = "0.0";
+				}
+				if (Day14WorkTime == "")
+				{
+					Day14WorkTime = "0.0";
+				}
+				if (Day1TravelTime == "")
+				{
+					Day1TravelTime = "0.0";
+				}
+				if (Day2TravelTime == "")
+				{
+					Day2TravelTime = "0.0";
+				}
+				if (Day3TravelTime == "")
+				{
+					Day3TravelTime = "0.0";
+				}
+				if (Day4TravelTime == "")
+				{
+					Day4TravelTime = "0.0";
+				}
+				if (Day5TravelTime == "")
+				{
+					Day5TravelTime = "0.0";
+				}
+				if (Day6TravelTime == "")
+				{
+					Day6TravelTime = "0.0";
+				}
+				if (Day7TravelTime == "")
+				{
+					Day7TravelTime = "0.0";
+				}
+				if (Day8TravelTime == "")
+				{
+					Day8TravelTime = "0.0";
+				}
+				if (Day9TravelTime == "")
+				{
+					Day9TravelTime = "0.0";
+				}
+				if (Day10TravelTime == "")
+				{
+					Day10TravelTime = "0.0";
+				}
+				if (Day11TravelTime == "")
+				{
+					Day11TravelTime = "0.0";
+				}
+				if (Day12TravelTime == "")
+				{
+					Day12TravelTime = "0.0";
+				}
+				if (Day13TravelTime == "")
+				{
+					Day13TravelTime = "0.0";
+				}
+				if (Day14TravelTime == "")
+				{
+					Day14TravelTime = "0.0";
+				}
+
+				//sum all strings from workingtime
+				double workTotal = Convert.ToDouble(Day1WorkTime) + Convert.ToDouble(Day2WorkTime) + Convert.ToDouble(Day3WorkTime) + Convert.ToDouble(Day4WorkTime) + Convert.ToDouble(Day5WorkTime) + Convert.ToDouble(Day6WorkTime) + Convert.ToDouble(Day7WorkTime) + Convert.ToDouble(Day8WorkTime) + Convert.ToDouble(Day9WorkTime) + Convert.ToDouble(Day10WorkTime) + Convert.ToDouble(Day11WorkTime) + Convert.ToDouble(Day12WorkTime) + Convert.ToDouble(Day13WorkTime) + Convert.ToDouble(Day14WorkTime);
+
+				double travelTotal = Convert.ToDouble(Day1TravelTime) + Convert.ToDouble(Day2TravelTime) + Convert.ToDouble(Day3TravelTime) + Convert.ToDouble(Day4TravelTime) + Convert.ToDouble(Day5TravelTime) + Convert.ToDouble(Day6TravelTime) + Convert.ToDouble(Day7TravelTime) + Convert.ToDouble(Day8TravelTime) + Convert.ToDouble(Day9TravelTime) + Convert.ToDouble(Day10TravelTime) + Convert.ToDouble(Day11TravelTime) + Convert.ToDouble(Day12TravelTime) + Convert.ToDouble(Day13TravelTime) + Convert.ToDouble(Day14TravelTime);
+
+				WorkTotal = workTotal.ToString("0.#");
+				TravelTotal = travelTotal.ToString("0.#");
+				TotalWithoutTravelBackTime = (workTotal + travelTotal).ToString("0.#");
+			}
+			catch(Exception ex)
+			{
+				await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
+			}
+		}
+
+		private async Task SumTravelBackAndGetFinalTotal()
+		{
+			try
+			{
+				//check if any string is "" if so change to 0.0
+				if (Day1TravelBackTime == "")
+				{
+					Day1TravelBackTime = "0.0";
+				}
+				if (Day2TravelBackTime == "")
+				{
+					Day2TravelBackTime = "0.0";
+				}
+				if (Day3TravelBackTime == "")
+				{
+					Day3TravelBackTime = "0.0";
+				}
+				if (Day4TravelBackTime == "")
+				{
+					Day4TravelBackTime = "0.0";
+				}
+				if (Day5TravelBackTime == "")
+				{
+					Day5TravelBackTime = "0.0";
+				}
+				if (Day6TravelBackTime == "")
+				{
+					Day6TravelBackTime = "0.0";
+				}
+				if (Day7TravelBackTime == "")
+				{
+					Day7TravelBackTime = "0.0";
+				}
+				if (Day8TravelBackTime == "")
+				{
+					Day8TravelBackTime = "0.0";
+				}
+				if (Day9TravelBackTime == "")
+				{
+					Day9TravelBackTime = "0.0";
+				}
+				if (Day10TravelBackTime == "")
+				{
+					Day10TravelBackTime = "0.0";
+				}
+				if (Day11TravelBackTime == "")
+				{
+					Day11TravelBackTime = "0.0";
+				}
+				if (Day12TravelBackTime == "")
+				{
+					Day12TravelBackTime = "0.0";
+				}
+				if (Day13TravelBackTime == "")
+				{
+					Day13TravelBackTime = "0.0";
+				}
+				if (Day14TravelBackTime == "")
+				{
+					Day14TravelBackTime = "0.0";
+				}
+				//Sum all travel back hours
+				var travelBackTotal = Convert.ToDouble(Day1TravelBackTime) + Convert.ToDouble(Day2TravelBackTime) + Convert.ToDouble(Day3TravelBackTime) + Convert.ToDouble(Day4TravelBackTime) + Convert.ToDouble(Day5TravelBackTime) + Convert.ToDouble(Day6TravelBackTime) + Convert.ToDouble(Day7TravelBackTime) + Convert.ToDouble(Day8TravelBackTime) + Convert.ToDouble(Day9TravelBackTime) + Convert.ToDouble(Day10TravelBackTime) + Convert.ToDouble(Day11TravelBackTime) + Convert.ToDouble(Day12TravelBackTime) + Convert.ToDouble(Day13TravelBackTime) + Convert.ToDouble(Day14TravelBackTime);
+				TravelBackTotal = travelBackTotal.ToString("0.#");
+
+				double a = Convert.ToDouble(TotalWithoutTravelBackTime);
+				double b = Convert.ToDouble(TravelBackTotal);
+				double t = a + b;
+				TotalAllTime = (t).ToString("0.#");
+			}
+			catch (Exception ex)
+			{
+				await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
+			}
+		}
+
+		private async Task GetMachineNumberAndDescriptionPerDay()
+		{
+			try
+			{
+				//get the description and the corresponding machine number with the longest timespan from each day 
+				var machineNumberAndDescription = TimeSheets
+					.Where(t => t.UId == UID)
+					.Where(t => t.CustomerName == CustomerName)
+					.Where(t => t.WorkType == "Work")
+					.Where(t => t.WorkStatus == "Stopped")
+					.Where(t => t.StartDate >= ServiceStartDate)
+					.Where(t => t.EndDate <= ServiceEndDate)
+					.GroupBy(t => t.StartDate.Date)
+					.Select(g => new
+					{
+						Date = g.Key,
+						TotalWorkingTime = g.Aggregate(TimeSpan.Zero, (subtotal, timesheet) => subtotal + timesheet.Hours),
+						MachineNumber = g.OrderByDescending(x => x.Hours).Select(x => x.MachineNumber).FirstOrDefault(),
+						Description = g.OrderByDescending(x => x.Hours).Select(x => x.Description).FirstOrDefault()
+					});
+
+				foreach (var item in machineNumberAndDescription)
+				{
+					MachineNumberAndDescription.Add(new TimeSheetModel
+					{
+						StartDate = item.Date,
+						Hours = item.TotalWorkingTime,
+						MachineNumber = item.MachineNumber,
+						Description = item.Description
+					});
+				}
+
+				//load the machine number and description to the strings where the startdate are the same date
+				for (int day = 1; day <= 14; day++)
+				{
+					var date = ServiceStartDate.AddDays(day - 1);
+					switch (day)
+					{
+						case 1:
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault() == null)
+							{
+								Day1MachineNumber = "";
+							}
+							else
+							{
+								Day1MachineNumber = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault();
+							}
+
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault() == null)
+							{
+								Day1Description = "";
+							}
+							else
+							{
+								Day1Description = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault();
+							}
+							break;
+						case 2:
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault() == null)
+							{
+								Day2MachineNumber = "";
+							}
+							else
+							{
+								Day2MachineNumber = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault();
+							}
+
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault() == null)
+							{
+								Day2Description = "";
+							}
+							else
+							{
+								Day2Description = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault();
+							}
+							break;
+						case 3:
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault() == null)
+							{
+								Day3MachineNumber = "";
+							}
+							else
+							{
+								Day3MachineNumber = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault();
+							}
+
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault() == null)
+							{
+								Day3Description = "";
+							}
+							else
+							{
+								Day3Description = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault();
+							}
+							break;
+						case 4:
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault() == null)
+							{
+								Day4MachineNumber = "";
+							}
+							else
+							{
+								Day4MachineNumber = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault();
+							}
+
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault() == null)
+							{
+								Day4Description = "";
+							}
+							else
+							{
+								Day4Description = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault();
+							}
+							break;
+						case 5:
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault() == null)
+							{
+								Day5MachineNumber = "";
+							}
+							else
+							{
+								Day5MachineNumber = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault();
+							}
+
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault() == null)
+							{
+								Day5Description = "";
+							}
+							else
+							{
+								Day5Description = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault();
+							}
+							break;
+						case 6:
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault() == null)
+							{
+								Day6MachineNumber = "";
+							}
+							else
+							{
+								Day6MachineNumber = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault();
+							}
+
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault() == null)
+							{
+								Day6Description = "";
+							}
+							else
+							{
+								Day6Description = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault();
+							}
+							break;
+						case 7:
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault() == null)
+							{
+								Day7MachineNumber = "";
+							}
+							else
+							{
+								Day7MachineNumber = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault();
+							}
+
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault() == null)
+							{
+								Day7Description = "";
+							}
+							else
+							{
+								Day7Description = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault();
+							}
+							break;
+						case 8:
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault() == null)
+							{
+								Day8MachineNumber = "";
+							}
+							else
+							{
+								Day8MachineNumber = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault();
+							}
+
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault() == null)
+							{
+								Day8Description = "";
+							}
+							else
+							{
+								Day8Description = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault();
+							}
+							break;
+						case 9:
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault() == null)
+							{
+								Day9MachineNumber = "";
+							}
+							else
+							{
+								Day9MachineNumber = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault();
+							}
+
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault() == null)
+							{
+								Day9Description = "";
+							}
+							else
+							{
+								Day9Description = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault();
+							}
+							break;
+						case 10:
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault() == null)
+							{
+								Day10MachineNumber = "";
+							}
+							else
+							{
+								Day10MachineNumber = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault();
+							}
+
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault() == null)
+							{
+								Day10Description = "";
+							}
+							else
+							{
+								Day10Description = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault();
+							}
+							break;
+						case 11:
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault() == null)
+							{
+								Day11MachineNumber = "";
+							}
+							else
+							{
+								Day11MachineNumber = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault();
+							}
+
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault() == null)
+							{
+								Day11Description = "";
+							}
+							else
+							{
+								Day11Description = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault();
+							}
+							break;
+						case 12:
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault() == null)
+							{
+								Day12MachineNumber = "";
+							}
+							else
+							{
+								Day12MachineNumber = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault();
+							}
+
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault() == null)
+							{
+								Day12Description = "";
+							}
+							else
+							{
+								Day12Description = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault();
+							}
+							break;
+						case 13:
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault() == null)
+							{
+								Day13MachineNumber = "";
+							}
+							else
+							{
+								Day13MachineNumber = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault();
+							}
+
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault() == null)
+							{
+								Day13Description = "";
+							}
+							else
+							{
+								Day13Description = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault();
+							}
+							break;
+						case 14:
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault() == null)
+							{
+								Day14MachineNumber = "";
+							}
+							else
+							{
+								Day14MachineNumber = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.MachineNumber).FirstOrDefault();
+							}
+
+							if (MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault() == null)
+							{
+								Day14Description = "";
+							}
+							else
+							{
+								Day14Description = MachineNumberAndDescription.Where(x => x.StartDate == date).Select(x => x.Description).FirstOrDefault();
+							}
+							break;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
+			}
+		}
+
+		private void SetZeroStrings()
+		{
+			//if any string is 0 or 0.0 set it to ""
+			if (Day1WorkTime == "0" || Day1WorkTime == "0.0")
+			{
+				Day1WorkTime = "";
+			}
+			if (Day2WorkTime == "0" || Day2WorkTime == "0.0")
+			{
+				Day2WorkTime = "";
+			}
+			if (Day3WorkTime == "0" || Day3WorkTime == "0.0")
+			{
+				Day3WorkTime = "";
+			}
+			if (Day4WorkTime == "0" || Day4WorkTime == "0.0")
+			{
+				Day4WorkTime = "";
+			}
+			if (Day5WorkTime == "0" || Day5WorkTime == "0.0")
+			{
+				Day5WorkTime = "";
+			}
+			if (Day6WorkTime == "0" || Day6WorkTime == "0.0")
+			{
+				Day6WorkTime = "";
+			}
+			if (Day7WorkTime == "0" || Day7WorkTime == "0.0")
+			{
+				Day7WorkTime = "";
+			}
+			if (Day8WorkTime == "0" || Day8WorkTime == "0.0")
+			{
+				Day8WorkTime = "";
+			}
+			if (Day9WorkTime == "0" || Day9WorkTime == "0.0")
+			{
+				Day9WorkTime = "";
+			}
+			if (Day10WorkTime == "0" || Day10WorkTime == "0.0")
+			{
+				Day10WorkTime = "";
+			}
+			if (Day11WorkTime == "0" || Day11WorkTime == "0.0")
+			{
+				Day11WorkTime = "";
+			}
+			if (Day12WorkTime == "0" || Day12WorkTime == "0.0")
+			{
+				Day12WorkTime = "";
+			}
+			if (Day13WorkTime == "0" || Day13WorkTime == "0.0")
+			{
+				Day13WorkTime = "";
+			}
+			if (Day14WorkTime == "0" || Day14WorkTime == "0.0")
+			{
+				Day14WorkTime = "";
+			}
+			if (Day1TravelTime == "0" || Day1TravelTime == "0.0")
+			{
+				Day1TravelTime = "";
+			}
+			if (Day2TravelTime == "0" || Day2TravelTime == "0.0")
+			{
+				Day2TravelTime = "";
+			}
+			if (Day3TravelTime == "0" || Day3TravelTime == "0.0")
+			{
+				Day3TravelTime = "";
+			}
+			if (Day4TravelTime == "0" || Day4TravelTime == "0.0")
+			{
+				Day4TravelTime = "";
+			}
+			if (Day5TravelTime == "0" || Day5TravelTime == "0.0")
+			{
+				Day5TravelTime = "";
+			}
+			if (Day6TravelTime == "0" || Day6TravelTime == "0.0")
+			{
+				Day6TravelTime = "";
+			}
+			if (Day7TravelTime == "0" || Day7TravelTime == "0.0")
+			{
+				Day7TravelTime = "";
+			}
+			if (Day8TravelTime == "0" || Day8TravelTime == "0.0")
+			{
+				Day8TravelTime = "";
+			}
+			if (Day9TravelTime == "0" || Day9TravelTime == "0.0")
+			{
+				Day9TravelTime = "";
+			}
+			if (Day10TravelTime == "0" || Day10TravelTime == "0.0")
+			{
+				Day10TravelTime = "";
+			}
+			if (Day11TravelTime == "0" || Day11TravelTime == "0.0")
+			{
+				Day11TravelTime = "";
+			}
+			if (Day12TravelTime == "0" || Day12TravelTime == "0.0")
+			{
+				Day12TravelTime = "";
+			}
+			if (Day13TravelTime == "0" || Day13TravelTime == "0.0")
+			{
+				Day13TravelTime = "";
+			}
+			if (Day14TravelTime == "0" || Day14TravelTime == "0.0")
+			{
+				Day14TravelTime = "";
+			}
+			if (Day1TravelBackTime == "0" || Day1TravelBackTime == "0.0")
+			{
+				Day1TravelBackTime = "";
+			}
+			if (Day2TravelBackTime == "0" || Day2TravelBackTime == "0.0")
+			{
+				Day2TravelBackTime = "";
+			}
+			if (Day3TravelBackTime == "0" || Day3TravelBackTime == "0.0")
+			{
+				Day3TravelBackTime = "";
+			}
+			if (Day4TravelBackTime == "0" || Day4TravelBackTime == "0.0")
+			{
+				Day4TravelBackTime = "";
+			}
+			if (Day5TravelBackTime == "0" || Day5TravelBackTime == "0.0")
+			{
+				Day5TravelBackTime = "";
+			}
+			if (Day6TravelBackTime == "0" || Day6TravelBackTime == "0.0")
+			{
+				Day6TravelBackTime = "";
+			}
+			if (Day7TravelBackTime == "0" || Day7TravelBackTime == "0.0")
+			{
+				Day7TravelBackTime = "";
+			}
+			if (Day8TravelBackTime == "0" || Day8TravelBackTime == "0.0")
+			{
+				Day8TravelBackTime = "";
+			}
+			if (Day9TravelBackTime == "0" || Day9TravelBackTime == "0.0")
+			{
+				Day9TravelBackTime = "";
+			}
+			if (Day10TravelBackTime == "0" || Day10TravelBackTime == "0.0")
+			{
+				Day10TravelBackTime = "";
+			}
+			if (Day11TravelBackTime == "0" || Day11TravelBackTime == "0.0")
+			{
+				Day11TravelBackTime = "";
+			}
+			if (Day12TravelBackTime == "0" || Day12TravelBackTime == "0.0")
+			{
+				Day12TravelBackTime = "";
+			}
+			if (Day13TravelBackTime == "0" || Day13TravelBackTime == "0.0")
+			{
+				Day13TravelBackTime = "";
+			}
+			if (Day14TravelBackTime == "0" || Day14TravelBackTime == "0.0")
+			{
+				Day14TravelBackTime = "";
+			}
+		}
 
 		async Task PickFolder(CancellationToken cancellationToken)
 		{
@@ -847,7 +1855,7 @@ namespace GearHonService.ViewModels
 				spacermerge4.Merge();
 				var spacermerge5 = worksheet.Range("A25:R25");
 				spacermerge5.Merge();
-				var spacermerge6 = worksheet.Range("A40:R40");
+				var spacermerge6 = worksheet.Range("A41:R41");
 				spacermerge6.Merge();
 				var spacermerge7 = worksheet.Range("A48:R48");
 				spacermerge7.Merge();
@@ -985,6 +1993,8 @@ namespace GearHonService.ViewModels
 				workmerge13.Merge();
 				var workmerge14 = worksheet.Range("A39:C39");
 				workmerge14.Merge();
+				var workmerge42 = worksheet.Range("A40:C40");
+				workmerge42.Merge();
 
 				var workmerge15 = worksheet.Range("D27:F27");
 				workmerge15.Merge();
@@ -1012,6 +2022,8 @@ namespace GearHonService.ViewModels
 				workmerge26.Merge();
 				var workmerge27 = worksheet.Range("D39:F39");
 				workmerge27.Merge();
+				var workmerge43 = worksheet.Range("D40:F40");
+				workmerge43.Merge();
 				var workmerge28 = worksheet.Range("G27:R27");
 				workmerge28.Merge();
 				var workmerge29 = worksheet.Range("G28:R28");
@@ -1036,6 +2048,10 @@ namespace GearHonService.ViewModels
 				workmerge38.Merge();
 				var workmerge39 = worksheet.Range("G38:R38");
 				workmerge39.Merge();
+				var workmerge40 = worksheet.Range("G39:R39");
+				workmerge40.Merge();
+				var workmerge41 = worksheet.Range("G40:R40");
+				workmerge41.Merge();
 
 				//merge cells for spareparts section
 				var sparepartsmerge = worksheet.Range("A41:R41");
@@ -1220,6 +2236,7 @@ namespace GearHonService.ViewModels
 				worksheet.Cell("N15").Value = Day12WorkTime;
 				worksheet.Cell("O15").Value = Day13WorkTime;
 				worksheet.Cell("P15").Value = Day14WorkTime;
+				worksheet.Cell("R15").Value = WorkTotal;
 				worksheet.Cell("A16").Value = "Travel";
 				worksheet.Cell("C16").Value = Day1TravelTime;
 				worksheet.Cell("D16").Value = Day2TravelTime;
@@ -1235,15 +2252,75 @@ namespace GearHonService.ViewModels
 				worksheet.Cell("N16").Value = Day12TravelTime;
 				worksheet.Cell("O16").Value = Day13TravelTime;
 				worksheet.Cell("P16").Value = Day14TravelTime;
+				worksheet.Cell("R16").Value = TravelTotal;
 				worksheet.Cell("A17").Value = "Total/Day";
 				worksheet.Cell("L18").Value = "Total hours without travel back";
+				worksheet.Cell("R18").Value = TotalWithoutTravelBackTime;
 				worksheet.Cell("A19").Value = "Travel back";
+				worksheet.Cell("C19").Value = Day1TravelBackTime;
+				worksheet.Cell("D19").Value = Day2TravelBackTime;
+				worksheet.Cell("E19").Value = Day3TravelBackTime;
+				worksheet.Cell("F19").Value = Day4TravelBackTime;
+				worksheet.Cell("G19").Value = Day5TravelBackTime;
+				worksheet.Cell("H19").Value = Day6TravelBackTime;
+				worksheet.Cell("I19").Value = Day7TravelBackTime;
+				worksheet.Cell("J19").Value = Day8TravelBackTime;
+				worksheet.Cell("K19").Value = Day9TravelBackTime;
+				worksheet.Cell("L19").Value = Day10TravelBackTime;
+				worksheet.Cell("M19").Value = Day11TravelBackTime;
+				worksheet.Cell("N19").Value = Day12TravelBackTime;
+				worksheet.Cell("O19").Value = Day13TravelBackTime;
+				worksheet.Cell("P19").Value = Day14TravelBackTime;
+				worksheet.Cell("R19").Value = TravelBackTotal;
 				worksheet.Cell("L20").Value = "Total hours with travel back";
+				worksheet.Cell("R20").Value = TotalAllTime;
 
 				worksheet.Cell("A22").Value = "Order";
 
 				worksheet.Cell("A26").Value = "Work description";
-				worksheet.Cell("A41").Value = "Spare parts / Comments";
+				worksheet.Cell("A27").Value = Day1MachineNumber;
+				worksheet.Cell("A28").Value = Day2MachineNumber;
+				worksheet.Cell("A29").Value = Day3MachineNumber;
+				worksheet.Cell("A30").Value = Day4MachineNumber;
+				worksheet.Cell("A31").Value = Day5MachineNumber;
+				worksheet.Cell("A32").Value = Day6MachineNumber;
+				worksheet.Cell("A33").Value = Day7MachineNumber;
+				worksheet.Cell("A34").Value = Day8MachineNumber;
+				worksheet.Cell("A35").Value = Day9MachineNumber;
+				worksheet.Cell("A36").Value = Day10MachineNumber;
+				worksheet.Cell("A37").Value = Day11MachineNumber;
+				worksheet.Cell("A38").Value = Day12MachineNumber;
+				worksheet.Cell("A39").Value = Day13MachineNumber;
+				worksheet.Cell("A40").Value = Day14MachineNumber;
+				worksheet.Cell("D27").Value = Day1date;
+				worksheet.Cell("D28").Value = Day2date;
+				worksheet.Cell("D29").Value = Day3date;
+				worksheet.Cell("D30").Value = Day4date;
+				worksheet.Cell("D31").Value = Day5date;
+				worksheet.Cell("D32").Value = Day6date;
+				worksheet.Cell("D33").Value = Day7date;
+				worksheet.Cell("D34").Value = Day8date;
+				worksheet.Cell("D35").Value = Day9date;
+				worksheet.Cell("D36").Value = Day10date;
+				worksheet.Cell("D37").Value = Day11date;
+				worksheet.Cell("D38").Value = Day12date;
+				worksheet.Cell("D39").Value = Day13date;
+				worksheet.Cell("D40").Value = Day14date;
+				worksheet.Cell("G27").Value = Day1Description;
+				worksheet.Cell("G28").Value = Day2Description;
+				worksheet.Cell("G29").Value = Day3Description;
+				worksheet.Cell("G30").Value = Day4Description;
+				worksheet.Cell("G31").Value = Day5Description;
+				worksheet.Cell("G32").Value = Day6Description;
+				worksheet.Cell("G33").Value = Day7Description;
+				worksheet.Cell("G34").Value = Day8Description;
+				worksheet.Cell("G35").Value = Day9Description;
+				worksheet.Cell("G36").Value = Day10Description;
+				worksheet.Cell("G37").Value = Day11Description;
+				worksheet.Cell("G38").Value = Day12Description;
+				worksheet.Cell("G39").Value = Day13Description;
+				worksheet.Cell("G40").Value = Day14Description;
+				worksheet.Cell("A42").Value = "Spare parts / Comments";
 
 				worksheet.Cell("A49").Value = "Backup handover to";
 				worksheet.Cell("A50").Value = "Backup date";
