@@ -920,7 +920,6 @@ namespace GearHonService.ViewModels
 							}
 							break;
 					}
-
 				}
 			}
 			catch (Exception ex)

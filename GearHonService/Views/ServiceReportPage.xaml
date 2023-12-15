@@ -9,65 +9,97 @@
     xmlns:vm="clr-namespace:GearHonService.ViewModels"
     Title="ServiceReportPage"
     x:DataType="vm:ServiceReportViewModel">
-    
-    <StackLayout Orientation="Vertical">
-        <DatePicker
-            x:Name="StartDatePicker"
-            Margin="0,20,0,0"
-            Date="{Binding ServiceStartDate, Mode=TwoWay}"
-            VerticalOptions="Center" />
 
-        <DatePicker
-            x:Name="EndDatePicker"
-            Margin="0,20,0,0"
-            Date="{Binding ServiceEndDate, Mode=TwoWay}"
-            VerticalOptions="Center" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-        <Picker
-            x:Name="ServiceTypePicker"
-            Title="ServiceType"
-            Margin="20,0,20,20"
-            HorizontalOptions="FillAndExpand"
-            ItemDisplayBinding="{Binding Value}"
-            ItemsSource="{Binding ServiceTypes}"
-            SelectedItem="{Binding SelectedServiceType}"
-            VerticalOptions="Center"
-            WidthRequest="200">
-            <Picker.Behaviors>
-                <toolkit:EventToCommandBehavior Command="{Binding ServiceTypeSelectionChangedCommand}" EventName="SelectedIndexChanged" />
-            </Picker.Behaviors>
-        </Picker>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-        <Picker
-            x:Name="DistributorPicker"
-            Title="Customer Name"
-            Margin="20,0,20,20"
-            HorizontalOptions="FillAndExpand"
-            ItemDisplayBinding="{Binding Value}"
-            ItemsSource="{Binding Distributors}"
-            SelectedItem="{Binding SelectedDistributor}"
-            VerticalOptions="Center"
-            WidthRequest="200">
-            <Picker.Behaviors>
-                <toolkit:EventToCommandBehavior Command="{Binding DistributorSelectionChangedCommand}" EventName="SelectedIndexChanged" />
-            </Picker.Behaviors>
-        </Picker>
+        <Frame
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="20"
+            BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600},
+                                              Light={StaticResource Gray100}}"
+            CornerRadius="10"
+            HasShadow="True">
 
-        <Picker
-            x:Name="CustomerPicker"
-            Title="Customer Name"
-            Margin="20,0,20,20"
-            HorizontalOptions="FillAndExpand"
-            ItemDisplayBinding="{Binding CustomerName}"
-            ItemsSource="{Binding Customers}"
-            SelectedItem="{Binding SelectedCustomer}"
-            VerticalOptions="Center"
-            WidthRequest="200">
-            <Picker.Behaviors>
-                <toolkit:EventToCommandBehavior Command="{Binding CustomerSelectionChangedCommand}" EventName="SelectedIndexChanged" />
-            </Picker.Behaviors>
-        </Picker>
+            <Grid>
+                <StackLayout Orientation="Vertical">
+                    <StackLayout HorizontalOptions="Center" Orientation="Vertical">
+                        <Label Margin="0,20,0,10" Text="StartDate" />
+                        <DatePicker
+                            x:Name="StartDatePicker"
+                            Date="{Binding ServiceStartDate, Mode=TwoWay}"
+                            VerticalOptions="Center" WidthRequest="200"/>
+                    </StackLayout>
 
-        <Button Command="{Binding CreateServiceReportCommand}" Text="create" />
-    </StackLayout>
+                    <StackLayout HorizontalOptions="Center" Orientation="Vertical">
+                        <Label Margin="0,20,0,10" Text="EndDate" />
+                        <DatePicker
+                            x:Name="EndDatePicker"
+                            Date="{Binding ServiceEndDate, Mode=TwoWay}"
+                            VerticalOptions="Center" WidthRequest="200"/>
+                    </StackLayout>
+                    
+                    <Picker
+                        x:Name="ServiceTypePicker"
+                        Title="ServiceType"
+                        Margin="20,20,20,20"
+                        HorizontalOptions="FillAndExpand"
+                        ItemDisplayBinding="{Binding Value}"
+                        ItemsSource="{Binding ServiceTypes}"
+                        SelectedItem="{Binding SelectedServiceType}"
+                        VerticalOptions="Center"
+                        WidthRequest="200">
+                        <Picker.Behaviors>
+                            <toolkit:EventToCommandBehavior Command="{Binding ServiceTypeSelectionChangedCommand}" EventName="SelectedIndexChanged" />
+                        </Picker.Behaviors>
+                    </Picker>
+
+                    <Picker
+                        x:Name="DistributorPicker"
+                        Title="Customer Name"
+                        Margin="20,0,20,20"
+                        HorizontalOptions="FillAndExpand"
+                        ItemDisplayBinding="{Binding Value}"
+                        ItemsSource="{Binding Distributors}"
+                        SelectedItem="{Binding SelectedDistributor}"
+                        VerticalOptions="Center"
+                        WidthRequest="200">
+                        <Picker.Behaviors>
+                            <toolkit:EventToCommandBehavior Command="{Binding DistributorSelectionChangedCommand}" EventName="SelectedIndexChanged" />
+                        </Picker.Behaviors>
+                    </Picker>
+
+                    <Picker
+                        x:Name="CustomerPicker"
+                        Title="Customer Name"
+                        Margin="20,0,20,20"
+                        HorizontalOptions="FillAndExpand"
+                        ItemDisplayBinding="{Binding CustomerName}"
+                        ItemsSource="{Binding Customers}"
+                        SelectedItem="{Binding SelectedCustomer}"
+                        VerticalOptions="Center"
+                        WidthRequest="200">
+                        <Picker.Behaviors>
+                            <toolkit:EventToCommandBehavior Command="{Binding CustomerSelectionChangedCommand}" EventName="SelectedIndexChanged" />
+                        </Picker.Behaviors>
+                    </Picker>
+
+                    <Button
+                        Command="{Binding CreateServiceReportCommand}"
+                        Text="Create Service Report"
+                        WidthRequest="200" />
+                </StackLayout>
+            </Grid>
+        </Frame>
+    </Grid>
 </ContentPage>
