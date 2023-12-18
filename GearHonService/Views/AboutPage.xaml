@@ -7,12 +7,116 @@
     xmlns:resx="clr-namespace:GearHonService.Resources.Strings"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:GearHonService.ViewModels"
-    Title="AboutPage"
+    Title="About"
     x:DataType="vm:AboutViewModel">
-    <VerticalStackLayout>
-        <Label
-            HorizontalOptions="Center"
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--  frame for user info  -->
+        <Frame
+            Grid.Row="0"
+            Margin="20,20,20,5"
+            BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600},
+                                              Light={StaticResource Gray100}}"
+            CornerRadius="10"
+            HasShadow="True">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    FontSize="Subtitle"
+                    HorizontalOptions="Start"
+                    Text="{Binding UserEmail, Mode=TwoWay}"
+                    VerticalTextAlignment="Center" />
+                <Button
+                    Grid.Column="1"
+                    HorizontalOptions="End"
+                    Text="Setup user"
+                    VerticalOptions="Center" />
+            </Grid>
+        </Frame>
+
+        <!--  App informations  -->
+        <Frame
+            Grid.Row="1"
+            Margin="20,5,20,5"
+            BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600},
+                                              Light={StaticResource Gray100}}"
+            CornerRadius="10"
+            HasShadow="True">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Subtitle"
+                    Text="APP informations"
+                    VerticalTextAlignment="Center" />
+                <Button
+                    Grid.Column="1"
+                    HorizontalOptions="End"
+                    Text="Copy"
+                    VerticalOptions="Center" />
+
+                <StackLayout Grid.Row="1" Orientation="Vertical">
+                    <StackLayout Margin="10,5,0,0" Orientation="Vertical">
+                        <Label Text="APP Version" />
+                        <Label Text="{Binding AppVersion, Mode=TwoWay}" TextColor="Grey" />
+                    </StackLayout>
+                    <StackLayout Margin="10,5,0,0" Orientation="Vertical">
+                        <Label Text="Total customers" />
+                        <Label Text="10" TextColor="Grey" />
+                    </StackLayout>
+                    <StackLayout Margin="10,5,0,0" Orientation="Vertical">
+                        <Label Text="Total machines" />
+                        <Label Text="192" TextColor="Grey" />
+                    </StackLayout>
+                    <StackLayout Margin="10,5,0,0" Orientation="Vertical">
+                        <Label Text="Total hours recorded" />
+                        <Label Text="2324" TextColor="Grey" />
+                    </StackLayout>
+                </StackLayout>
+            </Grid>
+        </Frame>
+
+        <Frame
+            Grid.Row="2"
+            Margin="20,5,20,20"
+            BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600},
+                                              Light={StaticResource Gray100}}"
+            CornerRadius="10"
+            HasShadow="True">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+
+                <Label FontSize="Medium" Text="Customer Service" />
+                <StackLayout
+                    Grid.Row="1"
+                    Margin="10,5,0,0"
+                    Orientation="Vertical">
+                    <Label Text="{Binding PhoneNumber,Mode=TwoWay}" TextColor="Grey" />
+                    <Label Text="{Binding Email, Mode=TwoWay}" TextColor="Grey" />
+                </StackLayout>
+            </Grid>
+        </Frame>
+    </Grid>
 </ContentPage>
