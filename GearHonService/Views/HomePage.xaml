@@ -9,10 +9,50 @@
     xmlns:vm="clr-namespace:GearHonService.ViewModels"
     Title="{x:Static resx:AppResources.Home}"
     x:DataType="vm:HomeViewModel">
-    <VerticalStackLayout>
-        <Label
-            HorizontalOptions="Center"
-            Text="Welcome"
-            VerticalOptions="Center" />
-    </VerticalStackLayout>
+
+    <Grid Margin="20">
+        <Frame
+            Padding="0"
+            BackgroundColor="Transparent"
+            BorderColor="Transparent"
+            CornerRadius="20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Image
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Margin="0"
+                    Aspect="AspectFill"
+                    Source="https://www.dvs-technology.com/fileadmin/_processed_/6/7/csm_DVS-Praewema-Uebersicht_B1920px_x_H1280px_e8cba7341d.jpg" />
+
+                <StackLayout
+                    Grid.Row="1"
+                    Margin="100,0,0,0"
+                    BackgroundColor="WhiteSmoke"
+                    HorizontalOptions="Start"
+                    Orientation="Vertical"
+                    VerticalOptions="End">
+
+                    <Label
+                        Margin="10,10,0,0"
+                        BackgroundColor="WhiteSmoke"
+                        FontSize="12"
+                        Text="SCHON HEUTE FÜR DIE ZUKUNFT GEDACHT"
+                        TextColor="Grey" />
+                    <Label
+                        Margin="10"
+                        BackgroundColor="WhiteSmoke"
+                        FontAttributes="Bold"
+                        FontSize="28"
+                        Text="Präwema Antriebstechnik"
+                        TextColor="Black" />
+                </StackLayout>
+
+            </Grid>
+        </Frame>
+    </Grid>
 </ContentPage>

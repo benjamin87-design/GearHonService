@@ -2,15 +2,69 @@
 <ContentView
     x:Class="GearHonService.Views.Navigation.FlyoutFooter"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:icon="clr-namespace:GearHonService"
+    xmlns:local="clr-namespace:GearHonService"
+    xmlns:resx="clr-namespace:GearHonService.Resources.Strings">
 
     <StackLayout Orientation="Vertical">
-        <Button
-            Margin="40"
-            HorizontalOptions="Start"
-            Text="About" />
+        <Frame
+            Margin="10,0,0,10"
+            Padding="10"
+            BackgroundColor="Transparent"
+            BorderColor="Transparent"
+            CornerRadius="0">
+            <StackLayout Orientation="Horizontal">
+
+                <Image Margin="2,0,0,0" BackgroundColor="Transparent">
+                    <Image.Source>
+                        <FontImageSource
+                            FontFamily="GoogleMaterialFont"
+                            Glyph="{x:Static icon:IconFont.Settings}"
+                            Size="18" />
+                    </Image.Source>
+                </Image>
+                <Label
+                    Margin="12,0,0,0"
+                    Text="{x:Static resx:AppResources.SettingsAndPrivacy}"
+                    VerticalTextAlignment="Center" />
+            </StackLayout>
+
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1" />
+            </Frame.GestureRecognizers>
+        </Frame>
+
+        <Frame
+            Margin="10,0,0,10"
+            Padding="10"
+            BackgroundColor="Transparent"
+            BorderColor="Transparent"
+            CornerRadius="0">
+            <StackLayout Orientation="Horizontal">
+
+                <Image Margin="2,0,0,0" BackgroundColor="Transparent">
+                    <Image.Source>
+                        <FontImageSource
+                            FontFamily="GoogleMaterialFont"
+                            Glyph="{x:Static icon:IconFont.Info}"
+                            Size="18" />
+                    </Image.Source>
+                </Image>
+                <Label
+                    Margin="12,0,0,0"
+                    Text="About"
+                    VerticalTextAlignment="Center" />
+            </StackLayout>
+
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+            </Frame.GestureRecognizers>
+        </Frame>
+
         <Label
             Padding="10"
+            FontSize="9"
             HorizontalTextAlignment="Center"
             Text="Copyright | Benjamin Fehr" />
     </StackLayout>

@@ -155,7 +155,31 @@
         </ShellContent.Icon>
     </ShellContent>
 
-    <MenuItem Text="{x:Static resx:AppResources.SettingsAndPrivacy}" />
-    <MenuItem Text="{x:Static resx:AppResources.HelpCenter}" />
+    <ShellContent
+        Title="{x:Static resx:AppResources.Machine}"
+        ContentTemplate="{DataTemplate views:AboutPage}"
+        FlyoutItemIsVisible="False"
+        Route="AboutPage">
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="GoogleMaterialFont"
+                Glyph="{x:Static icon:IconFont.Info}"
+                Size="50" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <ShellContent
+        Title="{x:Static resx:AppResources.SettingsAndPrivacy}"
+        ContentTemplate="{DataTemplate views:SettingPage}"
+        FlyoutItemIsVisible="False"
+        Route="SettingPage">
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="GoogleMaterialFont"
+                Glyph="{x:Static icon:IconFont.Settings}"
+                Size="50" />
+        </ShellContent.Icon>
+    </ShellContent>
+
 
 </Shell>

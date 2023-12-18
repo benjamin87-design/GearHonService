@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Maui;
-using GearHonService.ViewModels;
 using Microsoft.Extensions.Logging;
 using Supabase;
 
@@ -45,6 +44,7 @@ namespace GearHonService
 			builder.Services.AddSingleton<TimeSheetPage>();
 			builder.Services.AddSingleton<TimeSheetDetailPage>();
 			builder.Services.AddSingleton<ServiceReportPage>();
+			builder.Services.AddSingleton<AboutPage>();
 
 			//Singelton for ViewModels
 			builder.Services.AddSingleton<LoginViewModel>();
@@ -57,6 +57,7 @@ namespace GearHonService
 			builder.Services.AddSingleton<TimeSheetViewModel>();
 			builder.Services.AddSingleton<TimeSheetDetailViewModel>();
 			builder.Services.AddSingleton<ServiceReportViewModel>();
+			builder.Services.AddSingleton<AboutViewModel>();
 
 #if DEBUG
 			builder.Logging.AddDebug();

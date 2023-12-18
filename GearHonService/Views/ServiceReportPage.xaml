@@ -38,7 +38,8 @@
                         <DatePicker
                             x:Name="StartDatePicker"
                             Date="{Binding ServiceStartDate, Mode=TwoWay}"
-                            VerticalOptions="Center" WidthRequest="200"/>
+                            VerticalOptions="Center"
+                            WidthRequest="200" />
                     </StackLayout>
 
                     <StackLayout HorizontalOptions="Center" Orientation="Vertical">
@@ -46,9 +47,10 @@
                         <DatePicker
                             x:Name="EndDatePicker"
                             Date="{Binding ServiceEndDate, Mode=TwoWay}"
-                            VerticalOptions="Center" WidthRequest="200"/>
+                            VerticalOptions="Center"
+                            WidthRequest="200" />
                     </StackLayout>
-                    
+
                     <Picker
                         x:Name="ServiceTypePicker"
                         Title="ServiceType"

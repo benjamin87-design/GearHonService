@@ -1,4 +1,6 @@
-﻿namespace GearHonService.ViewModels
+﻿using GearHonService.Views.Navigation;
+
+namespace GearHonService.ViewModels
 {
 	public partial class LoginViewModel : BaseViewModel
 	{
@@ -6,6 +8,8 @@
 		public string email;
 		[ObservableProperty]
 		public string password;
+		[ObservableProperty]
+		public string blure;
 
 		//Supabase Client
 		private readonly Supabase.Client _supabaseClient;
@@ -15,17 +19,25 @@
 			_supabaseClient = supabaseClient;
 		}
 
+		private async Task BlurePage()
+		{
+
+		}
+
 		[RelayCommand]
 		public async Task Login()
 		{
 			try
 			{
 				var response = await _supabaseClient.Auth.SignIn(Email, Password);
+				var picturename = response.User.Id.ToString() + ".png";
 
-				//Save token and uid to preferences for later use
+				Preferences.Set("profilepicture", picturename);
 				Preferences.Set("token", response.AccessToken);
 				Preferences.Set("uid", response.User.Id.ToString());
 				Preferences.Set("email", response.User.Email);
+
+				Shell.Current.FlyoutHeader = new FlyoutHeader();
 
 				//go to homepage
 				await Shell.Current.GoToAsync($"//{nameof(HomePage)}");

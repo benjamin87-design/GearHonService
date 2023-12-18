@@ -8,7 +8,8 @@
     xmlns:resx="clr-namespace:GearHonService.Resources.Strings"
     xmlns:vm="clr-namespace:GearHonService.ViewModels"
     Title="LoginPage"
-    x:DataType="vm:LoginViewModel">
+    x:DataType="vm:LoginViewModel"
+    Opacity="{Binding Blure, Mode=TwoWay}">
 
     <StackLayout Orientation="Vertical" VerticalOptions="Center">
         <Frame
