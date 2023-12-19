@@ -61,6 +61,7 @@
 					var insertResult = await _supabaseClient
 					.From<CustomerModel>()
 					.Insert(insertCustomer);
+
 					await Application.Current.MainPage.DisplayAlert("Success", "Customer successfully added", "Ok");
 
 					ClearStrings();
@@ -98,6 +99,7 @@
 						.Set(x => x.City, City)
 						.Set(x => x.Country, Country)
 						.Update();
+
 					await Application.Current.MainPage.DisplayAlert("Success", "Customer successfully updated", "Ok");
 
 					ClearStrings();

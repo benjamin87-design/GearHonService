@@ -15,12 +15,20 @@ namespace GearHonService.Models
 		public int ID { get; set; }
 		[Column("UserName")]
 		public string UserName { get; set; }
-		[Column("Location")]
-		public string Location { get; set; }
-		[Column("Email")]
-		public string Email { get; set; }
+		[Column("StreetName")]
+		public string StreetName { get; set; }
+		[Column("StreetNumber")]
+		public string StreetNumber { get; set; }
+		[Column("ZIPCode")]
+		public string ZIPCode { get; set; }
+		[Column("City")]
+		public string City { get; set; }
+		[Column("Country")]
+		public string Country { get; set; }
 		[Column("Phone")]
 		public string Phone { get; set; }
+		[Column("Email")]
+		public string Email { get; set; }
 		[Column("UserId")]
 		public string UserId { get; set; }
 	}

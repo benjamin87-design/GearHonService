@@ -329,7 +329,7 @@ namespace GearHonService.ViewModels
 			}
 			//get the username from list to username string
 			UserName = Users[0].UserName.ToString();
-			UserLocation = Users[0].Location.ToString();
+			UserLocation = Users[0].City.ToString();
 		}
 
 		private async Task PopulatingStrings()
