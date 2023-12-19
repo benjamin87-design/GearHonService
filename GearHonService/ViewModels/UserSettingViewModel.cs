@@ -64,6 +64,7 @@ namespace GearHonService.ViewModels
 		private void DisplayUser()
 		{
 			var userUID = Preferences.Get("uid", "");
+			var userEmail = Preferences.Get("email", "");
 			var user = Users.Where(x => x.UserId == userUID).FirstOrDefault();
 
 			if (user != null)
@@ -80,6 +81,7 @@ namespace GearHonService.ViewModels
 			}
 			else
 			{
+				Email = userEmail;
 				UserId = userUID;
 			}
 		}
@@ -174,7 +176,7 @@ namespace GearHonService.ViewModels
 		}
 
 		[RelayCommand]
-		public async Task UploadPictureCommand()
+		public async Task UploadPicture()
 		{
 			await CreatePictureFileName();
 			await GetPictureFilePath();
@@ -207,7 +209,6 @@ namespace GearHonService.ViewModels
 				{
 					var stream = await result.OpenReadAsync();
 					var path = result.FullPath;
-					// Use the path as needed
 				}
 			}
 			catch (Exception ex)

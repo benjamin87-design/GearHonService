@@ -502,6 +502,15 @@ namespace GearHonService.Resources.Strings {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Name ähnelt.
+        /// </summary>
+        internal static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die NC version ähnelt.
         /// </summary>
         internal static string NCVersion {
@@ -525,6 +534,24 @@ namespace GearHonService.Resources.Strings {
         internal static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Personal informations ähnelt.
+        /// </summary>
+        internal static string PersonalInformation {
+            get {
+                return ResourceManager.GetString("PersonalInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Phone ähnelt.
+        /// </summary>
+        internal static string Phone {
+            get {
+                return ResourceManager.GetString("Phone", resourceCulture);
             }
         }
         
@@ -732,6 +759,15 @@ namespace GearHonService.Resources.Strings {
         internal static string TotalMachines {
             get {
                 return ResourceManager.GetString("TotalMachines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die UID ähnelt.
+        /// </summary>
+        internal static string UID {
+            get {
+                return ResourceManager.GetString("UID", resourceCulture);
             }
         }
         

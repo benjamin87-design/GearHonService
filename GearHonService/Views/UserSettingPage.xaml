@@ -10,10 +10,175 @@
     Title="UserSettingPage"
     x:DataType="vm:UserSettingViewModel">
 
-    <VerticalStackLayout>
-        <Label
-            HorizontalOptions="Center"
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" />
-    </VerticalStackLayout>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="1">
+            <StackLayout HorizontalOptions="End" Orientation="Horizontal">
+                <Button
+                    Margin="20,0,5,0"
+                    Command="{Binding UpdateUserCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Update}"
+                    VerticalOptions="Center" />
+
+                <Button
+                    Margin="0,0,5,0"
+                    Command="{Binding UploadPictureCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Add_a_photo}"
+                    VerticalOptions="Center" />
+
+                <Button
+                    Margin="0,0,20,0"
+                    Command="{Binding ChangeUserCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Logout}"
+                    VerticalOptions="Center" />
+            </StackLayout>
+        </Grid>
+        <ScrollView Grid.Row="1" Grid.ColumnSpan="2">
+            <StackLayout Margin="20" Orientation="Vertical">
+                <Frame
+                    Margin="0,0,0,5"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600},
+                                                      Light={StaticResource Gray100}}"
+                    CornerRadius="10"
+                    HasShadow="True">
+
+                    <StackLayout Orientation="Vertical">
+                        <StackLayout Orientation="Horizontal">
+                            <Label
+                                Text="{x:Static resx:AppResources.Email}"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="80" />
+                            <Label
+                                Margin="20,0,0,0"
+                                Text="{Binding Email, Mode=TwoWay}"
+                                TextColor="Grey"
+                                VerticalTextAlignment="Center" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label
+                                Margin="0,10,0,0"
+                                Text="{x:Static resx:AppResources.UID}"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="80" />
+                            <Label
+                                Margin="20,10,0,0"
+                                Text="{Binding UserId, Mode=TwoWay}"
+                                TextColor="Grey"
+                                VerticalTextAlignment="Center" />
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+
+                <Frame
+                    Margin="0,5,0,5"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600},
+                                                      Light={StaticResource Gray100}}"
+                    CornerRadius="10"
+                    HasShadow="True">
+                    <StackLayout Orientation="Vertical">
+                        <StackLayout Orientation="Horizontal">
+                            <Label
+                                Margin="0,0,0,20"
+                                FontSize="Subtitle"
+                                Text="{x:Static resx:AppResources.PersonalInformation}" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label
+                                Text="{x:Static resx:AppResources.Name}"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="100" />
+                            <Entry
+                                Margin="10"
+                                Text="{Binding UserName, Mode=TwoWay}"
+                                WidthRequest="200" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label
+                                Text="{x:Static resx:AppResources.StreetName}"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="100" />
+                            <Entry
+                                Margin="10"
+                                Text="{Binding StreetName, Mode=TwoWay}"
+                                WidthRequest="200" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label
+                                Text="{x:Static resx:AppResources.StreetNumber}"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="100" />
+                            <Entry
+                                Margin="10"
+                                Text="{Binding StreetNumber, Mode=TwoWay}"
+                                WidthRequest="200" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label
+                                Text="{x:Static resx:AppResources.ZIPCode}"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="100" />
+                            <Entry
+                                Margin="10"
+                                Text="{Binding ZIPCode, Mode=TwoWay}"
+                                WidthRequest="200" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label
+                                Text="{x:Static resx:AppResources.City}"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="100" />
+                            <Entry
+                                Margin="10"
+                                Text="{Binding City, Mode=TwoWay}"
+                                WidthRequest="200" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label
+                                Text="{x:Static resx:AppResources.Country}"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="100" />
+                            <Entry
+                                Margin="10"
+                                Text="{Binding Country, Mode=TwoWay}"
+                                WidthRequest="200" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label
+                                Text="{x:Static resx:AppResources.Phone}"
+                                VerticalTextAlignment="Center"
+                                WidthRequest="100" />
+                            <Entry
+                                Margin="10"
+                                Text="{Binding PhoneNumber, Mode=TwoWay}"
+                                WidthRequest="200" />
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

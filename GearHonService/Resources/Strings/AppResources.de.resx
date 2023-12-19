@@ -264,6 +264,9 @@
   <data name="MTXHardwareVersion" xml:space="preserve">
     <value>MTX Hardware Version</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="NCVersion" xml:space="preserve">
     <value>NC Version</value>
   </data>
@@ -272,6 +275,12 @@
   </data>
   <data name="Password" xml:space="preserve">
     <value>Passwort</value>
+  </data>
+  <data name="PersonalInformation" xml:space="preserve">
+    <value>Persönliche Informationen</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Telefon</value>
   </data>
   <data name="PRWPictureLink" xml:space="preserve">
     <value>https://www.dvs-technology.com/fileadmin/_processed_/6/7/csm_DVS-Praewema-Uebersicht_B1920px_x_H1280px_e8cba7341d.jpg</value>
@@ -341,6 +350,9 @@
   </data>
   <data name="TotalMachines" xml:space="preserve">
     <value>Total Maschinen</value>
+  </data>
+  <data name="UID" xml:space="preserve">
+    <value>UID</value>
   </data>
   <data name="WinStudio" xml:space="preserve">
     <value>WinStudio</value>

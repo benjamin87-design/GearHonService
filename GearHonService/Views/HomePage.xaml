@@ -18,7 +18,7 @@
             CornerRadius="20">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
@@ -26,7 +26,8 @@
                     Grid.Row="0"
                     Grid.RowSpan="2"
                     Margin="0"
-                    Aspect="AspectFill"
+                    Aspect="{OnIdiom Desktop=AspectFill,
+                                     Phone=Center}"
                     Source="{x:Static resx:AppResources.PRWPictureLink}" />
 
                 <StackLayout

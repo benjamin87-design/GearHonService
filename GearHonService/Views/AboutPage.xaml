@@ -31,7 +31,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Label
-                    FontSize="Subtitle"
+                    FontSize="Medium"
                     HorizontalOptions="Start"
                     Text="{Binding UserEmail, Mode=TwoWay}"
                     VerticalTextAlignment="Center" />
