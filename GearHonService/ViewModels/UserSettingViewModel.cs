@@ -50,7 +50,7 @@ namespace GearHonService.ViewModels
 			GetUser();
 		}
 
-		private async Task GetUser()
+		public async Task GetUser()
 		{
 			var result = await _supabaseClient.From<UserModel>().Get();
 			Users.Clear();
@@ -170,20 +170,44 @@ namespace GearHonService.ViewModels
 				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
 			}
 
-			Preferences.Clear();
+			await ResetPreferences();
+			ClearStrings();
 			Users.Clear();
+
 			await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
 		}
 
+		private async Task ResetPreferences()
+		{
+			Preferences.Remove("uid");
+			Preferences.Remove("email");
+			Preferences.Remove("profilepicture");
+			Preferences.Remove("token");
+		}
+
+		private void ClearStrings()
+		{
+			//clear all strings
+			UserName = "";
+			StreetName = "";
+			StreetNumber = "";
+			ZIPCode = "";
+			City = "";
+			Country = "";
+			PhoneNumber = "";
+			Email = "";
+			UserId = "";
+		}
+
 		[RelayCommand]
-		public async Task UploadPicture()
+		private async Task UploadPicture()
 		{
 			await CreatePictureFileName();
 			await GetPictureFilePath();
 			await UploadPictureToSupabase();
 		}
 
-		public async Task CreatePictureFileName()
+		private async Task CreatePictureFileName()
 		{
 			try
 			{
@@ -195,7 +219,7 @@ namespace GearHonService.ViewModels
 			}
 		}
 
-		public async Task GetPictureFilePath()
+		private async Task GetPictureFilePath()
 		{
 			try
 			{
@@ -217,7 +241,7 @@ namespace GearHonService.ViewModels
 			}
 		}
 
-		public async Task UploadPictureToSupabase()
+		private async Task UploadPictureToSupabase()
 		{
 			try
 			{

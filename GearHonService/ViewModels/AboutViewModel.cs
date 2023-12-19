@@ -26,11 +26,7 @@ namespace GearHonService.ViewModels
 
 		public AboutViewModel()
 		{
-			UserEmail = Preferences.Get("email", "");
-			AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-			PhoneNumber = "Phone" + " " + "86-150-2214-3391";
-			Email = "Email" + " " + "benjamin.fehr@praewema.de";
-
+			GetStrings();
 			//TODO: Get total machines, customers, and hours from database
 			//TODO: Add Setup user 
 			//TODO: Add copy for Version, so user can easily copy version info
@@ -40,6 +36,24 @@ namespace GearHonService.ViewModels
 		private async Task GoToUserSetting()
 		{
 			await Shell.Current.GoToAsync($"//{nameof(UserSettingPage)}");
+		}
+
+		public void GetStrings()
+		{
+			ClearStrings();
+
+			UserEmail = Preferences.Get("email", "");
+			AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+			PhoneNumber = "Phone" + " " + "86-150-2214-3391";
+			Email = "Email" + " " + "benjamin.fehr@praewema.de";
+		}
+
+		private void ClearStrings()
+		{
+			UserEmail = "";
+			AppVersion = "";
+			PhoneNumber = "";
+			Email = "";
 		}
 	}
 }

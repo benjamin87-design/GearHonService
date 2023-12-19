@@ -8,7 +8,8 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:GearHonService.ViewModels"
     Title="UserSettingPage"
-    x:DataType="vm:UserSettingViewModel">
+    x:DataType="vm:UserSettingViewModel"
+    Appearing="ContentPage_Appearing">
 
 
     <Grid>
@@ -104,7 +105,7 @@
                             <Label
                                 Text="{x:Static resx:AppResources.Name}"
                                 VerticalTextAlignment="Center"
-                                WidthRequest="100" />
+                                WidthRequest="120" />
                             <Entry
                                 Margin="10"
                                 Text="{Binding UserName, Mode=TwoWay}"
@@ -115,7 +116,7 @@
                             <Label
                                 Text="{x:Static resx:AppResources.StreetName}"
                                 VerticalTextAlignment="Center"
-                                WidthRequest="100" />
+                                WidthRequest="120" />
                             <Entry
                                 Margin="10"
                                 Text="{Binding StreetName, Mode=TwoWay}"
@@ -126,7 +127,7 @@
                             <Label
                                 Text="{x:Static resx:AppResources.StreetNumber}"
                                 VerticalTextAlignment="Center"
-                                WidthRequest="100" />
+                                WidthRequest="120" />
                             <Entry
                                 Margin="10"
                                 Text="{Binding StreetNumber, Mode=TwoWay}"
@@ -137,7 +138,7 @@
                             <Label
                                 Text="{x:Static resx:AppResources.ZIPCode}"
                                 VerticalTextAlignment="Center"
-                                WidthRequest="100" />
+                                WidthRequest="120" />
                             <Entry
                                 Margin="10"
                                 Text="{Binding ZIPCode, Mode=TwoWay}"
@@ -148,7 +149,7 @@
                             <Label
                                 Text="{x:Static resx:AppResources.City}"
                                 VerticalTextAlignment="Center"
-                                WidthRequest="100" />
+                                WidthRequest="120" />
                             <Entry
                                 Margin="10"
                                 Text="{Binding City, Mode=TwoWay}"
@@ -159,7 +160,7 @@
                             <Label
                                 Text="{x:Static resx:AppResources.Country}"
                                 VerticalTextAlignment="Center"
-                                WidthRequest="100" />
+                                WidthRequest="120" />
                             <Entry
                                 Margin="10"
                                 Text="{Binding Country, Mode=TwoWay}"
@@ -170,7 +171,7 @@
                             <Label
                                 Text="{x:Static resx:AppResources.Phone}"
                                 VerticalTextAlignment="Center"
-                                WidthRequest="100" />
+                                WidthRequest="120" />
                             <Entry
                                 Margin="10"
                                 Text="{Binding PhoneNumber, Mode=TwoWay}"

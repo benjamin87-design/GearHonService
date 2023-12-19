@@ -19,7 +19,7 @@
         <viewsNav:FlyoutFooter />
     </Shell.FlyoutFooter>
 
-    <!--<ShellContent
+    <ShellContent
         Title="{x:Static resx:AppResources.Login}"
         ContentTemplate="{DataTemplate views:LoginPage}"
         FlyoutItemIsVisible="False"
@@ -49,7 +49,7 @@
                 Size="50"
                 Color="White" />
         </ShellContent.Icon>
-    </ShellContent>-->
+    </ShellContent>
 
     <ShellContent
         Title="{x:Static resx:AppResources.Home}"

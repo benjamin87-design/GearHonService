@@ -11,6 +11,13 @@ namespace GearHonService.ViewModels
 		[ObservableProperty]
 		public string blure;
 
+		[ObservableProperty]
+		public string pictureName;
+		[ObservableProperty]
+		public string accessToken;
+		[ObservableProperty]
+		public string uID;
+
 		//Supabase Client
 		private readonly Supabase.Client _supabaseClient;
 
@@ -22,21 +29,26 @@ namespace GearHonService.ViewModels
 		}
 
 		[RelayCommand]
-		public async Task Login()
+		private async Task Login()
 		{
 			try
 			{
 				var response = await _supabaseClient.Auth.SignIn(Email, Password);
 				var picturename = response.User.Id.ToString() + ".png";
 
-				Preferences.Set("profilepicture", picturename);
-				Preferences.Set("token", response.AccessToken);
-				Preferences.Set("uid", response.User.Id.ToString());
-				Preferences.Set("email", response.User.Email);
+				PictureName = picturename;
+				AccessToken = response.AccessToken;
+				UID = response.User.Id.ToString();
+				Email = response.User.Email;
+
+				await SetPreferences();
 
 				Shell.Current.FlyoutHeader = new FlyoutHeader();
 
 				await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+
+				Email = "";
+				Password = "";
 			}
 			catch (Exception ex)
 			{
@@ -44,8 +56,16 @@ namespace GearHonService.ViewModels
 			}
 		}
 
+		private async Task SetPreferences()
+		{
+			Preferences.Set("profilepicture", PictureName);
+			Preferences.Set("token", AccessToken);
+			Preferences.Set("uid", UID);
+			Preferences.Set("email", Email);
+		}
+
 		[RelayCommand]
-		public async Task ForgotPassword()
+		private async Task ForgotPassword()
 		{
 			bool result = await Shell.Current.DisplayAlert("Forgot Password", "Are you sure you want to reset your password?", "Yes", "No");
 			if(result)
