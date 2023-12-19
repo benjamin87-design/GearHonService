@@ -250,7 +250,7 @@
     <value>Maschinennummer</value>
   </data>
   <data name="MachineType" xml:space="preserve">
-    <value>Maschinen type</value>
+    <value>Maschinentyp</value>
   </data>
   <data name="Model" xml:space="preserve">
     <value>Model</value>
@@ -337,7 +337,7 @@
     <value>Total Kunden</value>
   </data>
   <data name="TotalHoursRecorded" xml:space="preserve">
-    <value>Total Stunden augezeichnet</value>
+    <value>Total Stunden aufgezeichnet</value>
   </data>
   <data name="TotalMachines" xml:space="preserve">
     <value>Total Maschinen</value>
