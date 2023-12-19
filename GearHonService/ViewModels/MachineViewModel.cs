@@ -82,14 +82,14 @@ namespace GearHonService.ViewModels
 			set { selectedMachine = value; }
 		}
 
-		//Supabase Client
 		private readonly Supabase.Client _supabaseClient;
 
 		public MachineViewModel(Supabase.Client supabaseClient)
 		{
 			_supabaseClient = supabaseClient;
-			//this.fileSaver = fileSaver;
 
+			//TODO: Add the export list to excel
+			
 			Machines = new ObservableCollection<MachineModel>();
 
 			LoadMachineFromDb();

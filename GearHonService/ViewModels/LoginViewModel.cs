@@ -17,11 +17,8 @@ namespace GearHonService.ViewModels
 		public LoginViewModel(Supabase.Client supabaseClient)
 		{
 			_supabaseClient = supabaseClient;
-		}
 
-		private async Task BlurePage()
-		{
-
+			//TODO: Check for internet connection and messege error to user if no connection
 		}
 
 		[RelayCommand]
@@ -39,7 +36,6 @@ namespace GearHonService.ViewModels
 
 				Shell.Current.FlyoutHeader = new FlyoutHeader();
 
-				//go to homepage
 				await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
 			}
 			catch (Exception ex)
@@ -52,6 +48,7 @@ namespace GearHonService.ViewModels
 		public async Task ForgotPassword()
 		{
 			await Task.Delay(1000);
+			//TODO: Implement Forgot Password	Messege if sure to reset password then send email with reset link
 		}
 
 		[RelayCommand]

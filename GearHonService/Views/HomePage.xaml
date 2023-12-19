@@ -50,6 +50,10 @@
                         FontSize="28"
                         Text="Präwema Antriebstechnik"
                         TextColor="Black" />
+                    
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToCompanyHomePageCommand}"/>
+                    </StackLayout.GestureRecognizers>
                 </StackLayout>
 
             </Grid>

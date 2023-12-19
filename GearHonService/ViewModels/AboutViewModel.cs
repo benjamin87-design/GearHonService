@@ -30,6 +30,10 @@ namespace GearHonService.ViewModels
 			AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 			PhoneNumber = "Phone" + " " + "86-150-2214-3391";
 			Email = "Email" + " " + "benjamin.fehr@praewema.de";
+
+			//TODO: Get total machines, customers, and hours from database
+			//TODO: Add Setup user 
+			//TODO: Add copy for Version, so user can easily copy version info
 		}
 	}
 }

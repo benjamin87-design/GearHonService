@@ -109,7 +109,6 @@
 
 		public MachineModel SelectedMachine { get; set; }
 
-		//Supabase Client
 		private readonly Supabase.Client _supabaseClient;
 
 		private MachineViewModel _machineViewModel;
@@ -297,7 +296,6 @@
 		{
 			ClearStrings();
 
-			//Go to MachinedetailPage
 			await Shell.Current.GoToAsync($"//{nameof(MachinePage)}");
 		}
 
