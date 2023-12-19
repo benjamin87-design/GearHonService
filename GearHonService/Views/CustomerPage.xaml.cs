@@ -12,6 +12,13 @@ public partial class CustomerPage : ContentPage
 
 	private void ContentPage_Appearing(object sender, EventArgs e)
 	{
+		OnAppearing();
+	}
+
+	protected override void OnAppearing()
+	{
+		base.OnAppearing();
+
 		CustomerListView.SelectedItem = null;
 	}
 }

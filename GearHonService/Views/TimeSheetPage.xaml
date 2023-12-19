@@ -140,10 +140,7 @@
                     SelectedItem="{Binding SelectedTimeSheet}"
                     SelectionMode="Single">
                     <ListView.Behaviors>
-                        <toolkit:EventToCommandBehavior
-                            Command="{Binding TimeSheetSelectionChangedCommand}"
-                            EventArgsConverter="{StaticResource SelectedItemEventArgsConverter}"
-                            EventName="ItemSelected" />
+                        <toolkit:EventToCommandBehavior Command="{Binding TimeSheetSelectionChangedCommand}" EventName="ItemSelected" />
                     </ListView.Behaviors>
 
                     <ListView.ItemTemplate>

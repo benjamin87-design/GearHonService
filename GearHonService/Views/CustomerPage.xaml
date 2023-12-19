@@ -6,10 +6,10 @@
     xmlns:icon="clr-namespace:GearHonService"
     xmlns:resx="clr-namespace:GearHonService.Resources.Strings"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:vm="clr-namespace:GearHonService.ViewModels;assembly=GearHonService"
-    Title="{x:Static resx:AppResources.CustomerPage}"
+    xmlns:vm="clr-namespace:GearHonService.ViewModels"
     x:DataType="vm:CustomerViewModel"
     Appearing="ContentPage_Appearing">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -62,10 +62,7 @@
                     SelectedItem="{Binding SelectedCustomer}"
                     SelectionMode="Single">
                     <ListView.Behaviors>
-                        <toolkit:EventToCommandBehavior
-                            Command="{Binding CustomerSelectionChangedCommand}"
-                            EventArgsConverter="{StaticResource SelectedItemEventArgsConverter}"
-                            EventName="ItemSelected" />
+                        <toolkit:EventToCommandBehavior Command="{Binding CustomerSelectionChangedCommand}" EventName="ItemSelected" />
                     </ListView.Behaviors>
 
                     <ListView.ItemTemplate>

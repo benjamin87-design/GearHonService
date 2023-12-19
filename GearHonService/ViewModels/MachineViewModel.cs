@@ -96,7 +96,7 @@ namespace GearHonService.ViewModels
 		}
 
 		[RelayCommand]
-		public async Task LoadXMLInfo()
+		private async Task LoadXMLInfo()
 		{
 			string action = await Application.Current.MainPage.DisplayActionSheet("Choose the XML version", "Cancel", null, "Sysinfo 1.0.9", "Sysinfo 1.0.5", "Sysinfo 1.0.2");
 
@@ -270,7 +270,7 @@ namespace GearHonService.ViewModels
 		}
 
 		[RelayCommand]
-		public async Task AddMachine()
+		private async Task AddMachine()
 		{ 
 			await Shell.Current.GoToAsync($"//{nameof(MachineDetailPage)}");
 		}

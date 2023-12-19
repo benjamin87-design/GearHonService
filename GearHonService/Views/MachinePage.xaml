@@ -62,10 +62,7 @@
                     SelectedItem="{Binding SelectedMachine}"
                     SelectionMode="Single">
                     <ListView.Behaviors>
-                        <toolkit:EventToCommandBehavior
-                            Command="{Binding MachineSelectionChangedCommand}"
-                            EventArgsConverter="{StaticResource SelectedItemEventArgsConverter}"
-                            EventName="ItemSelected" />
+                        <toolkit:EventToCommandBehavior Command="{Binding MachineSelectionChangedCommand}" EventName="ItemSelected" />
                     </ListView.Behaviors>
 
                     <ListView.ItemTemplate>

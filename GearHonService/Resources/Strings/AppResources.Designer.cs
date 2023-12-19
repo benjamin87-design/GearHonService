@@ -205,11 +205,11 @@ namespace GearHonService.Resources.Strings {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Customer ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Customers ähnelt.
         /// </summary>
-        internal static string CustomerPage {
+        internal static string CustomerPageTitle {
             get {
-                return ResourceManager.GetString("CustomerPage", resourceCulture);
+                return ResourceManager.GetString("CustomerPageTitle", resourceCulture);
             }
         }
         

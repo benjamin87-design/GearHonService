@@ -13,6 +13,13 @@ public partial class MachinePage : ContentPage
 
 	private void ContentPage_Appearing(object sender, EventArgs e)
 	{
-		MachineListView.SelectedItem = null;
+		OnAppearing();
     }
+
+	protected override void OnAppearing()
+	{
+		base.OnAppearing();
+
+		MachineListView.SelectedItem = null;
+	}
 }
