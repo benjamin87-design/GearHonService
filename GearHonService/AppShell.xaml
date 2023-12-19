@@ -19,7 +19,7 @@
         <viewsNav:FlyoutFooter />
     </Shell.FlyoutFooter>
 
-    <!--<ShellContent
+    <ShellContent
         Title="{x:Static resx:AppResources.Login}"
         ContentTemplate="{DataTemplate views:LoginPage}"
         FlyoutItemIsVisible="False"
@@ -49,7 +49,7 @@
                 Size="50"
                 Color="White" />
         </ShellContent.Icon>
-    </ShellContent>-->
+    </ShellContent>
 
     <ShellContent
         Title="{x:Static resx:AppResources.Home}"
@@ -169,15 +169,15 @@
     </ShellContent>
 
     <ShellContent
-     Title="UserSetting"
-     ContentTemplate="{DataTemplate views:UserSettingPage}"
-     FlyoutItemIsVisible="False"
-     Route="UserSettingPage">
+        Title="UserSetting"
+        ContentTemplate="{DataTemplate views:UserSettingPage}"
+        FlyoutItemIsVisible="False"
+        Route="UserSettingPage">
         <ShellContent.Icon>
             <FontImageSource
-             FontFamily="GoogleMaterialFont"
-             Glyph="{x:Static icon:IconFont.Settings}"
-             Size="50" />
+                FontFamily="GoogleMaterialFont"
+                Glyph="{x:Static icon:IconFont.Settings}"
+                Size="50" />
         </ShellContent.Icon>
     </ShellContent>
 
