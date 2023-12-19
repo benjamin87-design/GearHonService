@@ -27,7 +27,7 @@
                     Grid.RowSpan="2"
                     Margin="0"
                     Aspect="AspectFill"
-                    Source="https://www.dvs-technology.com/fileadmin/_processed_/6/7/csm_DVS-Praewema-Uebersicht_B1920px_x_H1280px_e8cba7341d.jpg" />
+                    Source="{x:Static resx:AppResources.PRWPictureLink}" />
 
                 <StackLayout
                     Grid.Row="1"
@@ -41,18 +41,18 @@
                         Margin="10,10,0,0"
                         BackgroundColor="WhiteSmoke"
                         FontSize="12"
-                        Text="SCHON HEUTE FÜR DIE ZUKUNFT GEDACHT"
+                        Text="{x:Static resx:AppResources.PRWSubTitle}"
                         TextColor="Grey" />
                     <Label
                         Margin="10"
                         BackgroundColor="WhiteSmoke"
                         FontAttributes="Bold"
                         FontSize="28"
-                        Text="Präwema Antriebstechnik"
+                        Text="{x:Static resx:AppResources.PRWTitle}"
                         TextColor="Black" />
-                    
+
                     <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding GoToCompanyHomePageCommand}"/>
+                        <TapGestureRecognizer Command="{Binding GoToCompanyHomePageCommand}" />
                     </StackLayout.GestureRecognizers>
                 </StackLayout>
 

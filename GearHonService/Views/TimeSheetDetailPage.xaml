@@ -75,7 +75,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackLayout Orientation="Vertical">
-                    <Label Text="StartTime" />
+                    <Label Text="{x:Static resx:AppResources.StartTime}" />
                     <TimePicker
                         x:Name="StartTimePicker"
                         Margin="0,20,20,0"
@@ -84,7 +84,7 @@
                 </StackLayout>
 
                 <StackLayout Grid.Row="1" Orientation="Vertical">
-                    <Label Text="StartDate" />
+                    <Label Text="{x:Static resx:AppResources.StartDate}" />
                     <DatePicker
                         x:Name="StartDatePicker"
                         Margin="0,20,0,0"
@@ -93,7 +93,7 @@
                 </StackLayout>
 
                 <StackLayout Grid.Column="1" Orientation="Vertical">
-                    <Label Text="EndTime" />
+                    <Label Text="{x:Static resx:AppResources.EndTime}" />
                     <TimePicker
                         x:Name="EndTimePicker"
                         Margin="0,20,0,0"
@@ -105,7 +105,7 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     Orientation="Vertical">
-                    <Label Text="EndDate" />
+                    <Label Text="{x:Static resx:AppResources.EndDate}" />
                     <DatePicker
                         x:Name="EndDatePicker"
                         Margin="0,20,0,0"
@@ -115,7 +115,7 @@
 
                 <Picker
                     x:Name="MachineNumberPicker"
-                    Title="MachineNumber"
+                    Title="{x:Static resx:AppResources.MachineNumber}"
                     Grid.Row="2"
                     Grid.Column="0"
                     Margin="0,20,0,0"
@@ -128,7 +128,7 @@
 
                 <Picker
                     x:Name="CustomerNamePicker"
-                    Title="CustomerName"
+                    Title="{x:Static resx:AppResources.CustomerName}"
                     Grid.Row="2"
                     Grid.Column="1"
                     Margin="0,20,0,0"
@@ -141,7 +141,7 @@
 
                 <Picker
                     x:Name="WorkTypePicker"
-                    Title="WorkType"
+                    Title="{x:Static resx:AppResources.WorkType}"
                     Grid.Row="3"
                     Margin="0,20,0,0"
                     HorizontalOptions="Start"
@@ -156,7 +156,7 @@
                     Grid.Row="4"
                     Grid.ColumnSpan="2"
                     Margin="0,20,0,0"
-                    Placeholder="Description"
+                    Placeholder="{x:Static resx:AppResources.Description}"
                     Text="{Binding Description, Mode=TwoWay}" />
             </Grid>
         </Frame>

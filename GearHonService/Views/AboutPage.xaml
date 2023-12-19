@@ -38,7 +38,7 @@
                 <Button
                     Grid.Column="1"
                     HorizontalOptions="End"
-                    Text="Setup user"
+                    Text="{x:Static resx:AppResources.SetupUser}"
                     VerticalOptions="Center" />
             </Grid>
         </Frame>
@@ -65,29 +65,29 @@
                 <Label
                     FontAttributes="Bold"
                     FontSize="Subtitle"
-                    Text="APP informations"
+                    Text="{x:Static resx:AppResources.AppInformations}"
                     VerticalTextAlignment="Center" />
                 <Button
                     Grid.Column="1"
                     HorizontalOptions="End"
-                    Text="Copy"
+                    Text="{x:Static resx:AppResources.Copy}"
                     VerticalOptions="Center" />
 
                 <StackLayout Grid.Row="1" Orientation="Vertical">
                     <StackLayout Margin="10,5,0,0" Orientation="Vertical">
-                        <Label Text="APP Version" />
+                        <Label Text="{x:Static resx:AppResources.AppVersion}" />
                         <Label Text="{Binding AppVersion, Mode=TwoWay}" TextColor="Grey" />
                     </StackLayout>
                     <StackLayout Margin="10,5,0,0" Orientation="Vertical">
-                        <Label Text="Total customers" />
+                        <Label Text="{x:Static resx:AppResources.TotalCustomers}" />
                         <Label Text="10" TextColor="Grey" />
                     </StackLayout>
                     <StackLayout Margin="10,5,0,0" Orientation="Vertical">
-                        <Label Text="Total machines" />
+                        <Label Text="{x:Static resx:AppResources.TotalMachines}" />
                         <Label Text="192" TextColor="Grey" />
                     </StackLayout>
                     <StackLayout Margin="10,5,0,0" Orientation="Vertical">
-                        <Label Text="Total hours recorded" />
+                        <Label Text="{x:Static resx:AppResources.TotalHoursRecorded}" />
                         <Label Text="2324" TextColor="Grey" />
                     </StackLayout>
                 </StackLayout>
@@ -108,7 +108,7 @@
                 </Grid.RowDefinitions>
 
 
-                <Label FontSize="Medium" Text="Customer Service" />
+                <Label FontSize="Medium" Text="{x:Static resx:AppResources.CustomerService}" />
                 <StackLayout
                     Grid.Row="1"
                     Margin="10,5,0,0"

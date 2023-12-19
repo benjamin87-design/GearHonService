@@ -53,7 +53,7 @@
 
                     <Picker
                         x:Name="ServiceTypePicker"
-                        Title="ServiceType"
+                        Title="{x:Static resx:AppResources.ServiceType}"
                         Margin="20,20,20,20"
                         HorizontalOptions="FillAndExpand"
                         ItemDisplayBinding="{Binding Value}"
@@ -68,7 +68,7 @@
 
                     <Picker
                         x:Name="DistributorPicker"
-                        Title="Customer Name"
+                        Title="{x:Static resx:AppResources.Distributor}"
                         Margin="20,0,20,20"
                         HorizontalOptions="FillAndExpand"
                         ItemDisplayBinding="{Binding Value}"
@@ -83,7 +83,7 @@
 
                     <Picker
                         x:Name="CustomerPicker"
-                        Title="Customer Name"
+                        Title="{x:Static resx:AppResources.CustomerName}"
                         Margin="20,0,20,20"
                         HorizontalOptions="FillAndExpand"
                         ItemDisplayBinding="{Binding CustomerName}"
@@ -98,7 +98,7 @@
 
                     <Button
                         Command="{Binding CreateServiceReportCommand}"
-                        Text="Create Service Report"
+                        Text="{x:Static resx:AppResources.CreateServiceReport}"
                         WidthRequest="200" />
                 </StackLayout>
             </Grid>

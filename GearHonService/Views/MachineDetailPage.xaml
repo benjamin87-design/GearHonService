@@ -87,7 +87,7 @@
 
                                 <Picker
                                     x:Name="CustomerPicker"
-                                    Title="Customer Name"
+                                    Title="{x:Static resx:AppResources.CustomerName}"
                                     Margin="20,0,20,20"
                                     HorizontalOptions="FillAndExpand"
                                     ItemDisplayBinding="{Binding CustomerName}"
@@ -98,7 +98,7 @@
 
                                 <Picker
                                     x:Name="BrandPicker"
-                                    Title="Brand Name"
+                                    Title="{x:Static resx:AppResources.BrandName}"
                                     Margin="20,0,20,20"
                                     HorizontalOptions="FillAndExpand"
                                     ItemDisplayBinding="{Binding ContractorName}"
@@ -113,7 +113,7 @@
 
                                 <Picker
                                     x:Name="ModelPicker"
-                                    Title="Machine Model"
+                                    Title="{x:Static resx:AppResources.MachineModel}"
                                     Margin="20,0,20,20"
                                     HorizontalOptions="FillAndExpand"
                                     ItemDisplayBinding="{Binding Model}"
@@ -124,7 +124,7 @@
 
                                 <Picker
                                     x:Name="TypePicker"
-                                    Title=" Machine Type"
+                                    Title="{x:Static resx:AppResources.MachineType}"
                                     Margin="20,0,20,20"
                                     HorizontalOptions="FillAndExpand"
                                     ItemDisplayBinding="{Binding Type}"

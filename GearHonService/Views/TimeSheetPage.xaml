@@ -76,7 +76,7 @@
                 </Grid.ColumnDefinitions>
                 <Picker
                     x:Name="WorkTypePicker"
-                    Title="Work type"
+                    Title="{x:Static resx:AppResources.WorkType}"
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
@@ -90,7 +90,7 @@
 
                 <Picker
                     x:Name="CustomerPicker"
-                    Title="Customer Name"
+                    Title="{x:Static resx:AppResources.CustomerName}"
                     Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="{OnIdiom Desktop=0,
@@ -106,7 +106,7 @@
 
                 <Picker
                     x:Name="MachinePicker"
-                    Title="Machine Number"
+                    Title="{x:Static resx:AppResources.MachineNumber}"
                     Grid.Row="{OnIdiom Desktop=1,
                                        Phone=2}"
                     Grid.Column="{OnIdiom Desktop=1,
@@ -126,7 +126,7 @@
                     Grid.Row="3"
                     Grid.ColumnSpan="2"
                     Margin="20,0,20,0"
-                    Placeholder="Description"
+                    Placeholder="{x:Static resx:AppResources.Description}"
                     Text="{Binding Description, Mode=TwoWay}" />
 
                 <ListView

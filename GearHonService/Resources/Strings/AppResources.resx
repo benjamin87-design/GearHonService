@@ -126,6 +126,12 @@
   <data name="AHSVersion" xml:space="preserve">
     <value>AHS version</value>
   </data>
+  <data name="AppInformations" xml:space="preserve">
+    <value>APP Informations</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>APP Version</value>
+  </data>
   <data name="BrandName" xml:space="preserve">
     <value>Brand name</value>
   </data>
@@ -138,11 +144,17 @@
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Confirm password</value>
   </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
   <data name="Country" xml:space="preserve">
     <value>Country</value>
   </data>
   <data name="CreateAccount" xml:space="preserve">
     <value>Create an account.</value>
+  </data>
+  <data name="CreateServiceReport" xml:space="preserve">
+    <value>Create service report</value>
   </data>
   <data name="Customer" xml:space="preserve">
     <value>Customer</value>
@@ -156,8 +168,23 @@
   <data name="CustomerPage" xml:space="preserve">
     <value>Customer</value>
   </data>
+  <data name="CustomerService" xml:space="preserve">
+    <value>Customer Service</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Distributor" xml:space="preserve">
+    <value>Distributor</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End date</value>
+  </data>
+  <data name="EndTime" xml:space="preserve">
+    <value>End time</value>
   </data>
   <data name="EnergyMonitoring" xml:space="preserve">
     <value>Energy monitoring ACI controls</value>
@@ -216,6 +243,9 @@
   <data name="MachineDetailPage" xml:space="preserve">
     <value>Machine details</value>
   </data>
+  <data name="MachineModel" xml:space="preserve">
+    <value>Machine model</value>
+  </data>
   <data name="MachineNumber" xml:space="preserve">
     <value>Machine number</value>
   </data>
@@ -243,6 +273,15 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="PRWPictureLink" xml:space="preserve">
+    <value>https://www.dvs-technology.com/fileadmin/_processed_/6/7/csm_DVS-Praewema-Uebersicht_B1920px_x_H1280px_e8cba7341d.jpg</value>
+  </data>
+  <data name="PRWSubTitle" xml:space="preserve">
+    <value>ALREADY THOUGHT OF TODAY FOR THE FUTURE</value>
+  </data>
+  <data name="PRWTitle" xml:space="preserve">
+    <value>Präwema Antriebstechnik</value>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>
   </data>
@@ -255,8 +294,14 @@
   <data name="ServiceReport" xml:space="preserve">
     <value>Service Report</value>
   </data>
+  <data name="ServiceType" xml:space="preserve">
+    <value>Service type</value>
+  </data>
   <data name="SettingsAndPrivacy" xml:space="preserve">
     <value>Settings and Privacy</value>
+  </data>
+  <data name="SetupUser" xml:space="preserve">
+    <value>Setup user</value>
   </data>
   <data name="SignIn" xml:space="preserve">
     <value>Sign in</value>
@@ -270,6 +315,12 @@
   <data name="SpindleC2" xml:space="preserve">
     <value>Spindle C2</value>
   </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start date</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Start time </value>
+  </data>
   <data name="StreetName" xml:space="preserve">
     <value>Street name</value>
   </data>
@@ -282,8 +333,20 @@
   <data name="Titel" xml:space="preserve">
     <value>GearHonService</value>
   </data>
+  <data name="TotalCustomers" xml:space="preserve">
+    <value>Total customers</value>
+  </data>
+  <data name="TotalHoursRecorded" xml:space="preserve">
+    <value>Total hours recorded</value>
+  </data>
+  <data name="TotalMachines" xml:space="preserve">
+    <value>Total machines</value>
+  </data>
   <data name="WinStudio" xml:space="preserve">
     <value>WinStudio</value>
+  </data>
+  <data name="WorkType" xml:space="preserve">
+    <value>Work type</value>
   </data>
   <data name="ZIPCode" xml:space="preserve">
     <value>ZIP code</value>

@@ -88,6 +88,24 @@ namespace GearHonService.Resources.Strings {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die APP Informations ähnelt.
+        /// </summary>
+        internal static string AppInformations {
+            get {
+                return ResourceManager.GetString("AppInformations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die APP Version ähnelt.
+        /// </summary>
+        internal static string AppVersion {
+            get {
+                return ResourceManager.GetString("AppVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Brand name ähnelt.
         /// </summary>
         internal static string BrandName {
@@ -124,6 +142,15 @@ namespace GearHonService.Resources.Strings {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Copy ähnelt.
+        /// </summary>
+        internal static string Copy {
+            get {
+                return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Country ähnelt.
         /// </summary>
         internal static string Country {
@@ -138,6 +165,15 @@ namespace GearHonService.Resources.Strings {
         internal static string CreateAccount {
             get {
                 return ResourceManager.GetString("CreateAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Create service report ähnelt.
+        /// </summary>
+        internal static string CreateServiceReport {
+            get {
+                return ResourceManager.GetString("CreateServiceReport", resourceCulture);
             }
         }
         
@@ -178,11 +214,56 @@ namespace GearHonService.Resources.Strings {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Customer Service ähnelt.
+        /// </summary>
+        internal static string CustomerService {
+            get {
+                return ResourceManager.GetString("CustomerService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Description ähnelt.
+        /// </summary>
+        internal static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Distributor ähnelt.
+        /// </summary>
+        internal static string Distributor {
+            get {
+                return ResourceManager.GetString("Distributor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Email ähnelt.
         /// </summary>
         internal static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die End date ähnelt.
+        /// </summary>
+        internal static string EndDate {
+            get {
+                return ResourceManager.GetString("EndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die End time ähnelt.
+        /// </summary>
+        internal static string EndTime {
+            get {
+                return ResourceManager.GetString("EndTime", resourceCulture);
             }
         }
         
@@ -358,6 +439,15 @@ namespace GearHonService.Resources.Strings {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Machine model ähnelt.
+        /// </summary>
+        internal static string MachineModel {
+            get {
+                return ResourceManager.GetString("MachineModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Machine number ähnelt.
         /// </summary>
         internal static string MachineNumber {
@@ -439,6 +529,33 @@ namespace GearHonService.Resources.Strings {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die https://www.dvs-technology.com/fileadmin/_processed_/6/7/csm_DVS-Praewema-Uebersicht_B1920px_x_H1280px_e8cba7341d.jpg ähnelt.
+        /// </summary>
+        internal static string PRWPictureLink {
+            get {
+                return ResourceManager.GetString("PRWPictureLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die ALREADY THOUGHT OF TODAY FOR THE FUTURE ähnelt.
+        /// </summary>
+        internal static string PRWSubTitle {
+            get {
+                return ResourceManager.GetString("PRWSubTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Präwema Antriebstechnik ähnelt.
+        /// </summary>
+        internal static string PRWTitle {
+            get {
+                return ResourceManager.GetString("PRWTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Register ähnelt.
         /// </summary>
         internal static string Register {
@@ -475,11 +592,29 @@ namespace GearHonService.Resources.Strings {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Service type ähnelt.
+        /// </summary>
+        internal static string ServiceType {
+            get {
+                return ResourceManager.GetString("ServiceType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Settings and Privacy ähnelt.
         /// </summary>
         internal static string SettingsAndPrivacy {
             get {
                 return ResourceManager.GetString("SettingsAndPrivacy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Setup user ähnelt.
+        /// </summary>
+        internal static string SetupUser {
+            get {
+                return ResourceManager.GetString("SetupUser", resourceCulture);
             }
         }
         
@@ -520,6 +655,24 @@ namespace GearHonService.Resources.Strings {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Start date ähnelt.
+        /// </summary>
+        internal static string StartDate {
+            get {
+                return ResourceManager.GetString("StartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Start time  ähnelt.
+        /// </summary>
+        internal static string StartTime {
+            get {
+                return ResourceManager.GetString("StartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Street name ähnelt.
         /// </summary>
         internal static string StreetName {
@@ -556,11 +709,47 @@ namespace GearHonService.Resources.Strings {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Total customers ähnelt.
+        /// </summary>
+        internal static string TotalCustomers {
+            get {
+                return ResourceManager.GetString("TotalCustomers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Total hours recorded ähnelt.
+        /// </summary>
+        internal static string TotalHoursRecorded {
+            get {
+                return ResourceManager.GetString("TotalHoursRecorded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Total machines ähnelt.
+        /// </summary>
+        internal static string TotalMachines {
+            get {
+                return ResourceManager.GetString("TotalMachines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die WinStudio ähnelt.
         /// </summary>
         internal static string WinStudio {
             get {
                 return ResourceManager.GetString("WinStudio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Work type ähnelt.
+        /// </summary>
+        internal static string WorkType {
+            get {
+                return ResourceManager.GetString("WorkType", resourceCulture);
             }
         }
         
