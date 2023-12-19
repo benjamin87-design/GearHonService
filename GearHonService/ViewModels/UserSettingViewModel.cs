@@ -32,6 +32,11 @@ namespace GearHonService.ViewModels
 		private string userId;
 
 		[ObservableProperty]
+		private string pictureFileName;
+		[ObservableProperty]
+		private string pictureFilePath;
+
+		[ObservableProperty]
 		private ObservableCollection<UserModel> users;
 
 		private readonly Supabase.Client _supabaseClient;
@@ -58,7 +63,7 @@ namespace GearHonService.ViewModels
 
 		private void DisplayUser()
 		{
-			var userUID = Preferences.Get("useruid", "");
+			var userUID = Preferences.Get("uid", "");
 			var user = Users.Where(x => x.UserId == userUID).FirstOrDefault();
 
 			if (user != null)
@@ -82,7 +87,7 @@ namespace GearHonService.ViewModels
 		[RelayCommand]
 		private async Task UpdateUser()
 		{
-			var userUID = Preferences.Get("useruid", "");
+			var userUID = Preferences.Get("uid", "");
 			var user = Users.Where(x => x.UserId == userUID).FirstOrDefault();
 
 			if (user == null)
@@ -166,6 +171,67 @@ namespace GearHonService.ViewModels
 			Preferences.Clear();
 			Users.Clear();
 			await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
+		}
+
+		[RelayCommand]
+		public async Task UploadPictureCommand()
+		{
+			await CreatePictureFileName();
+			await GetPictureFilePath();
+			await UploadPictureToSupabase();
+		}
+
+		public async Task CreatePictureFileName()
+		{
+			try
+			{
+				PictureFileName = Preferences.Get("uid", "") + ".png";
+			}
+			catch (Exception ex)
+			{
+				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+			}
+		}
+
+		public async Task GetPictureFilePath()
+		{
+			try
+			{
+				var result = await FilePicker.PickAsync(new PickOptions
+				{
+					PickerTitle = "Please select a picture",
+					FileTypes = FilePickerFileType.Images,
+				});
+
+				if (result != null)
+				{
+					var stream = await result.OpenReadAsync();
+					var path = result.FullPath;
+					// Use the path as needed
+				}
+			}
+			catch (Exception ex)
+			{
+				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+			}
+		}
+
+		public async Task UploadPictureToSupabase()
+		{
+			try
+			{
+				var imagePath = Path.Combine(PictureFilePath, PictureFileName);
+
+				await _supabaseClient.Storage
+				  .From("UserProfilePic")
+				  .Upload(imagePath, PictureFileName);
+
+				await Shell.Current.DisplayAlert("Success", "Picture uploaded", "OK");
+			}
+			catch (Exception ex)
+			{
+				await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
+			}
 		}
 	}
 }
