@@ -58,11 +58,9 @@ namespace GearHonService.ViewModels
 
 		private void DisplayUser()
 		{
-			//filter users for the same user with the uid
 			var userUID = Preferences.Get("useruid", "");
 			var user = Users.Where(x => x.UserId == userUID).FirstOrDefault();
 
-			//if user is not null then display the user
 			if (user != null)
 			{
 				UserName = user.UserName;
@@ -89,7 +87,6 @@ namespace GearHonService.ViewModels
 
 			if (user == null)
 			{
-				//Create new user and also save userid
 				var newUser = new UserModel()
 				{
 					UserName = UserName,
@@ -152,6 +149,23 @@ namespace GearHonService.ViewModels
 					await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
 				}
 			}
+		}
+
+		[RelayCommand]
+		private async Task ChangeUser()
+		{
+			try
+			{
+				await _supabaseClient.Auth.SignOut();
+			}
+			catch (Exception ex)
+			{
+				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+			}
+
+			Preferences.Clear();
+			Users.Clear();
+			await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
 		}
 	}
 }

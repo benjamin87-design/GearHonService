@@ -45,6 +45,7 @@ namespace GearHonService
 			builder.Services.AddSingleton<TimeSheetDetailPage>();
 			builder.Services.AddSingleton<ServiceReportPage>();
 			builder.Services.AddSingleton<AboutPage>();
+			builder.Services.AddSingleton<UserSettingPage>();
 
 			//Singelton for ViewModels
 			builder.Services.AddSingleton<LoginViewModel>();
@@ -58,6 +59,7 @@ namespace GearHonService
 			builder.Services.AddSingleton<TimeSheetDetailViewModel>();
 			builder.Services.AddSingleton<ServiceReportViewModel>();
 			builder.Services.AddSingleton<AboutViewModel>();
+			builder.Services.AddSingleton<UserSettingViewModel>();
 
 #if DEBUG
 			builder.Logging.AddDebug();

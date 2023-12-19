@@ -37,6 +37,7 @@
                     VerticalTextAlignment="Center" />
                 <Button
                     Grid.Column="1"
+                    Command="{Binding GoToUserSettingCommand}"
                     HorizontalOptions="End"
                     Text="{x:Static resx:AppResources.SetupUser}"
                     VerticalOptions="Center" />

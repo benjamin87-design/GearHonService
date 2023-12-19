@@ -20,33 +20,6 @@
                     <Image.Source>
                         <FontImageSource
                             FontFamily="GoogleMaterialFont"
-                            Glyph="{x:Static icon:IconFont.Settings}"
-                            Size="18" />
-                    </Image.Source>
-                </Image>
-                <Label
-                    Margin="12,0,0,0"
-                    Text="{x:Static resx:AppResources.SettingsAndPrivacy}"
-                    VerticalTextAlignment="Center" />
-            </StackLayout>
-
-            <Frame.GestureRecognizers>
-                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1" />
-            </Frame.GestureRecognizers>
-        </Frame>
-
-        <Frame
-            Margin="10,0,0,10"
-            Padding="10"
-            BackgroundColor="Transparent"
-            BorderColor="Transparent"
-            CornerRadius="0">
-            <StackLayout Orientation="Horizontal">
-
-                <Image Margin="2,0,0,0" BackgroundColor="Transparent">
-                    <Image.Source>
-                        <FontImageSource
-                            FontFamily="GoogleMaterialFont"
                             Glyph="{x:Static icon:IconFont.Info}"
                             Size="18" />
                     </Image.Source>

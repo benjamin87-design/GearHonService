@@ -35,5 +35,11 @@ namespace GearHonService.ViewModels
 			//TODO: Add Setup user 
 			//TODO: Add copy for Version, so user can easily copy version info
 		}
+
+		[RelayCommand]
+		private async Task GoToUserSetting()
+		{
+			await Shell.Current.GoToAsync($"//{nameof(UserSettingPage)}");
+		}
 	}
 }

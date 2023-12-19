@@ -11,9 +11,4 @@ public partial class FlyoutFooter : ContentView
 	{
 		Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
 	}
-
-	private void TapGestureRecognizer_Tapped_1(object sender, TappedEventArgs e)
-	{
-		Shell.Current.GoToAsync($"//{nameof(SettingPage)}");
-	}
 }

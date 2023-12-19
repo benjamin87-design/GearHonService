@@ -156,7 +156,7 @@
     </ShellContent>
 
     <ShellContent
-        Title="{x:Static resx:AppResources.Machine}"
+        Title="About"
         ContentTemplate="{DataTemplate views:AboutPage}"
         FlyoutItemIsVisible="False"
         Route="AboutPage">
@@ -169,15 +169,15 @@
     </ShellContent>
 
     <ShellContent
-        Title="{x:Static resx:AppResources.SettingsAndPrivacy}"
-        ContentTemplate="{DataTemplate views:SettingPage}"
-        FlyoutItemIsVisible="False"
-        Route="SettingPage">
+     Title="UserSetting"
+     ContentTemplate="{DataTemplate views:UserSettingPage}"
+     FlyoutItemIsVisible="False"
+     Route="UserSettingPage">
         <ShellContent.Icon>
             <FontImageSource
-                FontFamily="GoogleMaterialFont"
-                Glyph="{x:Static icon:IconFont.Settings}"
-                Size="50" />
+             FontFamily="GoogleMaterialFont"
+             Glyph="{x:Static icon:IconFont.Settings}"
+             Size="50" />
         </ShellContent.Icon>
     </ShellContent>
 
