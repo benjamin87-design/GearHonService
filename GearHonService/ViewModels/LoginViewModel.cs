@@ -47,8 +47,24 @@ namespace GearHonService.ViewModels
 		[RelayCommand]
 		public async Task ForgotPassword()
 		{
-			await Task.Delay(1000);
-			//TODO: Implement Forgot Password	Messege if sure to reset password then send email with reset link
+			bool result = await Shell.Current.DisplayAlert("Forgot Password", "Are you sure you want to reset your password?", "Yes", "No");
+			if(result)
+			{
+				//check email entry
+				if(Email != null)
+				{
+					await _supabaseClient.Auth.ResetPasswordForEmail(Email);
+					await Shell.Current.DisplayAlert("Forgot Password", "Reset link sent to your email", "Ok");
+				}
+				else
+				{
+					await Shell.Current.DisplayAlert("Error!", "Please enter your email address.", "Ok");
+				}
+			}
+			else
+			{
+				//do nothing
+			}
 		}
 
 		[RelayCommand]
