@@ -30,11 +30,11 @@
 
 		//Supabase Client
 		private readonly Supabase.Client _supabaseClient;
-		private CustomerViewModel _customeriewModel;
+		private CustomerViewModel _customerViewModel;
 		public CustomerDetailViewModel(Supabase.Client supabaseClient, CustomerViewModel customerViewModel)
 		{
 			_supabaseClient = supabaseClient;
-			_customeriewModel = customerViewModel;
+			_customerViewModel = customerViewModel;
 
 			Customers = new ObservableCollection<CustomerModel>();
 
@@ -66,7 +66,7 @@
 
 					ClearStrings();
 
-					await _customeriewModel.LoadCustomerFromDb();
+					await _customerViewModel.LoadCustomerFromDb();
 					await Shell.Current.GoToAsync($"//{nameof(CustomerPage)}");
 				}
 				catch (Exception ex)
@@ -104,7 +104,7 @@
 
 					ClearStrings();
 
-					await _customeriewModel.LoadCustomerFromDb();
+					await _customerViewModel.LoadCustomerFromDb();
 					await Shell.Current.GoToAsync($"//{nameof(CustomerPage)}");
 				}
 				catch (Exception ex)
@@ -129,7 +129,7 @@
 
 					ClearStrings();
 
-					await _customeriewModel.LoadCustomerFromDb();
+					await _customerViewModel.LoadCustomerFromDb();
 					await Shell.Current.GoToAsync($"//{nameof(CustomerPage)}");
 				}
 				catch (Exception ex)
@@ -165,14 +165,14 @@
 			}
 			else
 			{
-				ID = _customeriewModel.SelectedCustomer.ID;
-				CustomerName = _customeriewModel.SelectedCustomer.CustomerName;
-				StreetName = _customeriewModel.SelectedCustomer.StreetName;
-				StreetNumber = _customeriewModel.SelectedCustomer.StreetNumber;
-				ZIPCode = _customeriewModel.SelectedCustomer.ZIPCode;
-				City = _customeriewModel.SelectedCustomer.City;
-				Country = _customeriewModel.SelectedCustomer.Country;
-				FullAddress = _customeriewModel.SelectedCustomer.FullAddress;
+				ID = _customerViewModel.SelectedCustomer.ID;
+				CustomerName = _customerViewModel.SelectedCustomer.CustomerName;
+				StreetName = _customerViewModel.SelectedCustomer.StreetName;
+				StreetNumber = _customerViewModel.SelectedCustomer.StreetNumber;
+				ZIPCode = _customerViewModel.SelectedCustomer.ZIPCode;
+				City = _customerViewModel.SelectedCustomer.City;
+				Country = _customerViewModel.SelectedCustomer.Country;
+				FullAddress = _customerViewModel.SelectedCustomer.FullAddress;
 			}
 		}
 

@@ -65,6 +65,32 @@
     </ShellContent>
 
     <ShellContent
+        Title="Contractor"
+        ContentTemplate="{DataTemplate views:ContractorPage}"
+        Route="ContractorPage"
+        Shell.NavBarIsVisible="True">
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="GoogleMaterialFont"
+                Glyph="{x:Static icon:IconFont.Edit_document}"
+                Size="50" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <ShellContent
+        Title="ContractorDetailPage"
+        ContentTemplate="{DataTemplate views:ContractorDetailPage}"
+        FlyoutItemIsVisible="False"
+        Route="ContractorDetailPage">
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="GoogleMaterialFont"
+                Glyph="{x:Static icon:IconFont.Edit_document}"
+                Size="50" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <ShellContent
         Title="{x:Static resx:AppResources.Customer}"
         ContentTemplate="{DataTemplate views:CustomerPage}"
         Route="CustomerPage"

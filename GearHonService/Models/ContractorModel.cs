@@ -9,6 +9,9 @@ namespace GearHonService.Models
 		[PrimaryKey("id")]
 		public int ID { get; set; }
 
+		[Column("UID")]
+		public string UID { get; set; }
+
 		[Column("Name")]
 		public string Name { get; set; }
 
