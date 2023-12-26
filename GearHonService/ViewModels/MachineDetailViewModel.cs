@@ -161,7 +161,7 @@
 					MachineNumber = MachineNumber,
 					CustomerName = selectedCustomer.CustomerName,
 					Type = selectedMachineType.Type,
-					BrandName = selectedContractor.ContractorName,
+					BrandName = selectedContractor.Name,
 					Model = selectedMachineModel.Model,
 					SpindleC1 = SpindleC1,
 					SpindleC2 = SpindleC2,
@@ -304,7 +304,7 @@
 		{
 			if (selectedContractor != null)
 			{
-				switch (selectedContractor.ContractorName)
+				switch (selectedContractor.Name)
 				{
 					case "Präwema Antriebstechnik GmbH":
 						LoadPraewemaMachines();
@@ -366,7 +366,7 @@
 				//Get Customer
 				SelectedCustomer = Customers.FirstOrDefault(x => x.CustomerName == SelectedMachine.CustomerName);
 				//Get Contractor
-				SelectedContractor = Contractors.FirstOrDefault(x => x.ContractorName == SelectedMachine.BrandName);
+				SelectedContractor = Contractors.FirstOrDefault(x => x.Name == SelectedMachine.BrandName);
 				//Get MachineModel
 				SelectedMachineModel = MachineModels.FirstOrDefault(x => x.Model == SelectedMachine.Model);
 				//Get MachineType
@@ -388,10 +388,10 @@
 		public void AddContractorToList()
 		{
 			Contractors.Clear();
-			Contractors.Add(new ContractorModel { ID = 1, ContractorName = "Präwema Antriebstechnik GmbH" });
-			Contractors.Add(new ContractorModel { ID = 1, ContractorName = "Reishauer AG" });
-			Contractors.Add(new ContractorModel { ID = 1, ContractorName = "KAPP" });
-			Contractors.Add(new ContractorModel { ID = 1, ContractorName = "Weisser" });
+			Contractors.Add(new ContractorModel { ID = 1, Name = "Präwema Antriebstechnik GmbH" });
+			Contractors.Add(new ContractorModel { ID = 1, Name = "Reishauer AG" });
+			Contractors.Add(new ContractorModel { ID = 1, Name = "KAPP" });
+			Contractors.Add(new ContractorModel { ID = 1, Name = "Weisser" });
 		}
 
 		public void LoadPraewemaMachines()

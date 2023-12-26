@@ -727,6 +727,15 @@ namespace GearHonService.Resources.Strings {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Timesheet Details ähnelt.
+        /// </summary>
+        internal static string TimeSheetDetails {
+            get {
+                return ResourceManager.GetString("TimeSheetDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die GearHonService ähnelt.
         /// </summary>
         internal static string Titel {

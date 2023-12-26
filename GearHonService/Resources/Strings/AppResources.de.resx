@@ -339,6 +339,9 @@
   <data name="TimeSheet" xml:space="preserve">
     <value>Stempeluhr</value>
   </data>
+  <data name="TimeSheetDetails" xml:space="preserve">
+    <value>Timesheet Details</value>
+  </data>
   <data name="Titel" xml:space="preserve">
     <value>ServiceSolutions</value>
   </data>
