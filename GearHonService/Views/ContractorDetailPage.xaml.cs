@@ -7,4 +7,17 @@ public partial class ContractorDetailPage : ContentPage
 		InitializeComponent();
 		BindingContext = viewModel;
 	}
+
+	private void ContentPage_Appearing(object sender, EventArgs e)
+	{
+		OnAppearing();
+	}
+
+	protected override void OnAppearing()
+	{
+		base.OnAppearing();
+
+		var viewModel = BindingContext as ContractorDetailViewModel;
+		viewModel.OnNavigatedTo();
+	}
 }

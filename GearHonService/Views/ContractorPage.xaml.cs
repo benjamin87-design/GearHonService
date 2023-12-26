@@ -7,4 +7,16 @@ public partial class ContractorPage : ContentPage
 		InitializeComponent();
 		BindingContext = viewModel;
 	}
+
+	private void ContentPage_Appearing(object sender, EventArgs e)
+	{
+		OnAppearing();
+	}
+
+	protected override void OnAppearing()
+	{
+		base.OnAppearing();
+
+		ContractorListView.SelectedItem = null;
+	}
 }

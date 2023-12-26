@@ -55,6 +55,13 @@ namespace GearHonService.ViewModels
 			set { selectedCurrency = value; }
 		}
 
+		private ContractorModel selectedContractor;
+		public ContractorModel SelectedContractor
+		{
+			get { return selectedContractor; }
+			set { selectedContractor = value;}
+		}
+
 		//Service to load currency from ECBank
 		private readonly CurrencyLoader _currencyLoader;
 		private readonly Supabase.Client _supabaseClient;
@@ -70,6 +77,7 @@ namespace GearHonService.ViewModels
 
 			UID = Preferences.Get("uid", string.Empty);
 
+			GetSelectedContractor();
 			LoadCurrencies();
 		}
 
@@ -85,15 +93,62 @@ namespace GearHonService.ViewModels
 			Currency = SelectedCurrency.Code;
 		}
 
+		private async Task GetSelectedContractor()
+		{
+			SelectedContractor = WeakReferenceManager.GetReference("SelectedContractor") as ContractorModel;
+
+			if (SelectedContractor == null)
+			{
+				ClearStrings();
+			}
+			else
+			{
+				UID = _contractorViewModel.SelectedContractor.UID;
+				Name = _contractorViewModel.SelectedContractor.Name;
+				Street = _contractorViewModel.SelectedContractor.Street;
+				City = _contractorViewModel.SelectedContractor.City;
+				ZipCode = _contractorViewModel.SelectedContractor.ZipCode;
+				Country = _contractorViewModel.SelectedContractor.Country;
+				Phone = _contractorViewModel.SelectedContractor.Phone;
+				Email = _contractorViewModel.SelectedContractor.Email;
+				Contact = _contractorViewModel.SelectedContractor.Contact;
+				HoursPerMonth = _contractorViewModel.SelectedContractor.HoursPerMonth;
+				PaymentPerMonth = _contractorViewModel.SelectedContractor.PaymentPerMonth;
+				PaymentOvertime = _contractorViewModel.SelectedContractor.PaymentOvertime;
+				PaymentPerHour = _contractorViewModel.SelectedContractor.PaymentPerHour;
+				PaymentTerms = _contractorViewModel.SelectedContractor.PaymentTerms;
+				PaymentMethod = _contractorViewModel.SelectedContractor.PaymentMethod;
+				PaymentBankAccount = _contractorViewModel.SelectedContractor.PaymentBankAccount;
+				PaymentBankName = _contractorViewModel.SelectedContractor.PaymentBankName;
+				PaymentBankSwift = _contractorViewModel.SelectedContractor.PaymentBankSwift;
+				PaymentBankIban = _contractorViewModel.SelectedContractor.PaymentBankIban;
+				Currency = _contractorViewModel.SelectedContractor.Currency;
+				ExpensePerDay = _contractorViewModel.SelectedContractor.ExpensePerDay;
+				ExpenseBreakfast = _contractorViewModel.SelectedContractor.ExpenseBreakfast;
+				ExpenseLunch = _contractorViewModel.SelectedContractor.ExpenseLunch;
+				ExpenseDinner = _contractorViewModel.SelectedContractor.ExpenseDinner;
+				ExpenseHotel = _contractorViewModel.SelectedContractor.ExpenseHotel;
+				TaxText = _contractorViewModel.SelectedContractor.TaxText;
+				TaxPercent = _contractorViewModel.SelectedContractor.TaxPercent;
+			}
+		}
+
+		public async void OnNavigatedTo()
+		{
+			await GetSelectedContractor();
+		}
+
 		private async void LoadCurrencies()
 		{
 			try
 			{
+				Currencies.Add(new CurrencyModel { Code = "EUR", Rate = 1 });
+
 				var currencies = await _currencyLoader.LoadCurrenciesAsync();
 
 				foreach (var currency in currencies)
 				{
-					currencies.Add(currency);
+					Currencies.Add(currency);
 				}
 			}
 			catch (Exception ex)
