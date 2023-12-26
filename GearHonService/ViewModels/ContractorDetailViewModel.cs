@@ -68,6 +68,8 @@ namespace GearHonService.ViewModels
 
 			currencies = new ObservableCollection<CurrencyModel>();
 
+			UID = Preferences.Get("uid", string.Empty);
+
 			LoadCurrencies();
 		}
 

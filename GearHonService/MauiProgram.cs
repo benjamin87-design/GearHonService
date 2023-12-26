@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using GearHonService.Services;
 using Microsoft.Extensions.Logging;
 using Supabase;
 
@@ -59,6 +60,8 @@ namespace GearHonService
 			builder.Services.AddSingleton<UserSettingPage>();
 
 			builder.Services.AddSingleton(provider => new Supabase.Client(url, key));
+
+			builder.Services.AddSingleton<CurrencyLoader>();
 
 			return builder.Build();
 		}
