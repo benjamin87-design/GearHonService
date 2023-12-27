@@ -182,6 +182,19 @@
     </ShellContent>
 
     <ShellContent
+        Title="Expense"
+        ContentTemplate="{DataTemplate views:ExpensePage}"
+        Route="ExpensePage"
+        Shell.NavBarIsVisible="True">
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="GoogleMaterialFont"
+                Glyph="{x:Static icon:IconFont.Money}"
+                Size="50" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <ShellContent
         Title="About"
         ContentTemplate="{DataTemplate views:AboutPage}"
         FlyoutItemIsVisible="False"

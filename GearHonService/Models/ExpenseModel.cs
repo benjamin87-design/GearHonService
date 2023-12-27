@@ -14,8 +14,8 @@ namespace GearHonService.Models
         [PrimaryKey("id")]
 		public int ID { get; set; }
 
-        [Column("ContractorID")]
-        public int ContractorID { get; set; }
+        [Column("ContractorName")]
+        public string ContractorName { get; set; }
 
         [Column("UID")]
         public string UID { get; set; }

@@ -44,6 +44,8 @@ namespace GearHonService
 			builder.Services.AddSingleton<CustomerPage>();
 			builder.Services.AddSingleton<CustomerDetailViewModel>();
 			builder.Services.AddSingleton<CustomerDetailPage>();
+			builder.Services.AddSingleton<ExpenseViewModel>();
+			builder.Services.AddSingleton<ExpensePage>();
 			builder.Services.AddSingleton<MachineViewModel>();
 			builder.Services.AddSingleton<MachinePage>();
 			builder.Services.AddSingleton<MachineDetailViewModel>();
