@@ -12,8 +12,6 @@ namespace GearHonService.ViewModels
 		//Currency
 		[ObservableProperty] string code;
 		[ObservableProperty] decimal rate;
-
-		//Contractor
 		[ObservableProperty] int iD;
 		[ObservableProperty] string uID;
 		[ObservableProperty] string name;
@@ -121,7 +119,6 @@ namespace GearHonService.ViewModels
 		{
 			await Shell.Current.GoToAsync($"//{nameof(ContractorPage)}");
 		}
-
 
 		[RelayCommand]
 		public void SelectedCurrencyChanged()

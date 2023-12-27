@@ -291,7 +291,7 @@
                                 ItemDisplayBinding="{Binding Code}"
                                 ItemsSource="{Binding Currencies}"
                                 SelectedItem="{Binding SelectedCurrency}"
-                                WidthRequest="200" >
+                                WidthRequest="200">
                                 <Picker.Behaviors>
                                     <toolkit:EventToCommandBehavior Command="{Binding SelectedCurrencyChangedCommand}" EventName="SelectedIndexChanged" />
                                 </Picker.Behaviors>
