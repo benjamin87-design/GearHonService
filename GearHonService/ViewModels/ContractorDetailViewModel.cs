@@ -126,7 +126,7 @@ namespace GearHonService.ViewModels
 		[RelayCommand]
 		public void SelectedCurrencyChanged()
 		{
-			Currency = SelectedCurrency.Code;
+			Currency = SelectedCurrency.Code.ToString();
 		}
 
 		private async Task GetSelectedContractor()
@@ -139,7 +139,8 @@ namespace GearHonService.ViewModels
 			}
 			else
 			{
-				UID = _contractorViewModel.SelectedContractor.UID;
+				ID = _contractorViewModel.SelectedContractor.ID;
+				UID = Preferences.Get("uid", string.Empty);
 				Name = _contractorViewModel.SelectedContractor.Name;
 				Street = _contractorViewModel.SelectedContractor.Street;
 				City = _contractorViewModel.SelectedContractor.City;
@@ -248,7 +249,51 @@ namespace GearHonService.ViewModels
 				}
 				else
 				{
+					try
+					{
+						var update = await _supabaseClient
+							.From<ContractorModel>()
+							.Where(x => x.ID == ID)
+							.Set(x => x.UID, UID)
+							.Set(x => x.Name, Name)
+							.Set(x => x.Street, Street)
+							.Set(x => x.City, City)
+							.Set(x => x.ZipCode, ZipCode)
+							.Set(x => x.Country, Country)
+							.Set(x => x.Phone, Phone)
+							.Set(x => x.Email, Email)
+							.Set(x => x.Contact, Contact)
+							.Set(x => x.HoursPerMonth, HoursPerMonth)
+							.Set(x => x.PaymentPerMonth, PaymentPerMonth)
+							.Set(x => x.PaymentOvertime, PaymentOvertime)
+							.Set(x => x.PaymentPerHour, PaymentPerHour)
+							.Set(x => x.PaymentTerms, PaymentTerms)
+							.Set(x => x.PaymentMethod, PaymentMethod)
+							.Set(x => x.PaymentBankAccount, PaymentBankAccount)
+							.Set(x => x.PaymentBankName, PaymentBankName)
+							.Set(x => x.PaymentBankSwift, PaymentBankSwift)
+							.Set(x => x.PaymentBankIban, PaymentBankIban)
+							.Set(x => x.Currency, Currency)
+							.Set(x => x.ExpensePerDay, ExpensePerDay)
+							.Set(x => x.ExpenseBreakfast, ExpenseBreakfast)
+							.Set(x => x.ExpenseLunch, ExpenseLunch)
+							.Set(x => x.ExpenseDinner, ExpenseDinner)
+							.Set(x => x.ExpenseHotel, ExpenseHotel)
+							.Set(x => x.TaxText, TaxText)
+							.Set(x => x.TaxPercent, TaxPercent)
+							.Update();
 
+						await Shell.Current.DisplayAlert("Success", "Contractor successfully updated", "Ok");
+
+						ClearStrings();
+
+						await _contractorViewModel.LoadContractorFromDb();
+						await Shell.Current.GoToAsync($"//{nameof(ContractorPage)}");
+					}
+					catch (Exception ex)
+					{
+						await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
+					}
 				}
 			}
 			catch(Exception ex)
@@ -259,6 +304,7 @@ namespace GearHonService.ViewModels
 
 		private void ClearStrings()
 		{
+			ID = 0;
 			UID = string.Empty;
 			Name = string.Empty;
 			Street = string.Empty;
