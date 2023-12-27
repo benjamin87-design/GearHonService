@@ -71,7 +71,7 @@ namespace GearHonService.ViewModels
 		}
 
 		[RelayCommand]
-        private async Task LoadContractorFromDb()
+        public async Task LoadContractorFromDb()
         {
 			var result = await _supabaseClient.From<ContractorModel>().Get();
 			Contractors.Clear();

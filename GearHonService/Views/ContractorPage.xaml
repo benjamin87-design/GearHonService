@@ -25,7 +25,7 @@
         <Grid Grid.Row="0" Grid.Column="1">
             <StackLayout HorizontalOptions="End" Orientation="Horizontal">
                 <Button
-                    Margin="20,0,5,0"
+                    Margin="20,0,20,0"
                     Command="{Binding AddContractorCommand}"
                     FontFamily="GoogleMaterialFont"
                     FontSize="24"

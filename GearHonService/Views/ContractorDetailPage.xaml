@@ -3,14 +3,438 @@
     x:Class="GearHonService.Views.ContractorDetailPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:icon="clr-namespace:GearHonService"
+    xmlns:resx="clr-namespace:GearHonService.Resources.Strings"
     xmlns:vm="clr-namespace:GearHonService.ViewModels"
     Title="ContractorDetailPage"
     x:DataType="vm:ContractorDetailViewModel"
     Appearing="ContentPage_Appearing">
-    <VerticalStackLayout>
-        <Picker
-            ItemDisplayBinding="{Binding Code}"
-            ItemsSource="{Binding Currencies}"
-            WidthRequest="100" />
-    </VerticalStackLayout>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <StackLayout HorizontalOptions="End" Orientation="Horizontal">
+                <Button
+                    Margin="20,0,5,0"
+                    Command="{Binding SaveCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Save}"
+                    VerticalOptions="Center" />
+
+                <Button
+                    Margin="0,0,5,0"
+                    Command="{Binding DeleteCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Delete}"
+                    VerticalOptions="Center" />
+
+                <Button
+                    Margin="0,0,20,0"
+                    Command="{Binding CancelCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Cancel}"
+                    VerticalOptions="Center" />
+            </StackLayout>
+        </Grid>
+
+        <ScrollView
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            VerticalScrollBarVisibility="Default">
+            <StackLayout Orientation="Vertical">
+                <!--  General Informations  -->
+                <Frame
+                    Margin="20,20,20,10"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600},
+                                                      Light={StaticResource Gray100}}"
+                    CornerRadius="10"
+                    HasShadow="True">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Row="0"
+                            Margin="0,0,0,20"
+                            FontAttributes="Bold"
+                            FontSize="Subtitle"
+                            Text="General Informations" />
+
+                        <StackLayout
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="0,0,10,0"
+                            Orientation="Vertical">
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Company Name" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding Name, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Street" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding Street, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="City" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding City, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="ZIP Code" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding ZipCode, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+                        </StackLayout>
+
+                        <StackLayout
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="10,0,0,0"
+                            Orientation="Vertical">
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Country" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding Country, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Phone" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding Phone, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Email" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding Email, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Contact Name" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding Contact, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+                        </StackLayout>
+                    </Grid>
+                </Frame>
+
+                <!--  Payment Informations  -->
+                <Frame
+                    Margin="20,10,20,10"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600},
+                                                      Light={StaticResource Gray100}}"
+                    CornerRadius="10"
+                    HasShadow="True">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Row="0"
+                            Margin="0,0,0,20"
+                            FontAttributes="Bold"
+                            FontSize="Subtitle"
+                            Text="Payment Informations" />
+
+                        <StackLayout
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="0,0,10,0"
+                            Orientation="Vertical">
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Payment per month" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding PaymentPerMonth, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Payment overtime" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding PaymentOvertime, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Payment per hour" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding PaymentPerHour, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Payment terms" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding PaymentTerms, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Payment method" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding PaymentMethod, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+                        </StackLayout>
+
+                        <StackLayout
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="10,0,0,0"
+                            Orientation="Vertical">
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Bank account" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding PaymentBankAccount, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Bankname" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding PaymentBankName, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="SWIFT" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding PaymentBankSwift, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="IBAN" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding PaymentBankIban, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <Picker
+                                Title="Currency"
+                                ItemDisplayBinding="{Binding Code}"
+                                ItemsSource="{Binding Currencies}"
+                                SelectedItem="{Binding SelectedCurrency}"
+                                WidthRequest="200" />
+                        </StackLayout>
+                    </Grid>
+                </Frame>
+
+                <!--  Expense Informations  -->
+                <Frame
+                    Margin="20,10,20,10"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600},
+                                                      Light={StaticResource Gray100}}"
+                    CornerRadius="10"
+                    HasShadow="True">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Row="0"
+                            Margin="0,0,0,20"
+                            FontAttributes="Bold"
+                            FontSize="Subtitle"
+                            Text="Expense Informations" />
+
+                        <StackLayout
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="0,0,10,0"
+                            Orientation="Vertical">
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Allowance per day" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding ExpensePerDay, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Breakfast" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding ExpenseBreakfast, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Lunch" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding ExpenseLunch, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Dinner" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding ExpenseDinner, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Hotel" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding ExpenseHotel, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+                        </StackLayout>
+                    </Grid>
+                </Frame>
+
+                <!--  Other Informations  -->
+                <Frame
+                    Margin="20,10,20,10"
+                    BackgroundColor="{AppThemeBinding Dark={StaticResource Gray600},
+                                                      Light={StaticResource Gray100}}"
+                    CornerRadius="10"
+                    HasShadow="True">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Row="0"
+                            Margin="0,0,0,20"
+                            FontAttributes="Bold"
+                            FontSize="Subtitle"
+                            Text="Other Informations" />
+
+                        <StackLayout
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="0,0,10,0"
+                            Orientation="Vertical">
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Hours per Month" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding HoursPerMonth, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Tax percentage" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding TaxPercent, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Vertical">
+                                <Label Margin="0,0,0,5" Text="Tax text for invoice" />
+                                <Entry
+                                    Margin="0,0,0,5"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding TaxText, Mode=TwoWay}"
+                                    WidthRequest="200" />
+                            </StackLayout>
+                        </StackLayout>
+                    </Grid>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

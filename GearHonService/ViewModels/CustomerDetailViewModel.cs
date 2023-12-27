@@ -62,7 +62,7 @@
 					.From<CustomerModel>()
 					.Insert(insertCustomer);
 
-					await Application.Current.MainPage.DisplayAlert("Success", "Customer successfully added", "Ok");
+					await Shell.Current.DisplayAlert("Success", "Customer successfully added", "Ok");
 
 					ClearStrings();
 
@@ -71,7 +71,7 @@
 				}
 				catch (Exception ex)
 				{
-					await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+					await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
 				}
 			}
 			else
@@ -100,7 +100,7 @@
 						.Set(x => x.Country, Country)
 						.Update();
 
-					await Application.Current.MainPage.DisplayAlert("Success", "Customer successfully updated", "Ok");
+					await Shell.Current.DisplayAlert("Success", "Customer successfully updated", "Ok");
 
 					ClearStrings();
 
@@ -109,7 +109,7 @@
 				}
 				catch (Exception ex)
 				{
-					await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+					await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
 				}
 			}
 		}
@@ -125,7 +125,7 @@
 						.From<CustomerModel>()
 						.Where(x => x.ID == ID)
 						.Delete();
-					await Application.Current.MainPage.DisplayAlert("Success", "Customer successfully deleted", "Ok");
+					await Shell.Current.DisplayAlert("Success", "Customer successfully deleted", "Ok");
 
 					ClearStrings();
 
@@ -134,12 +134,12 @@
 				}
 				catch (Exception ex)
 				{
-					await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+					await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
 				}
 			}
 			else
 			{
-				await Application.Current.MainPage.DisplayAlert("Error", "No Customer selected", "Ok");
+				await Shell.Current.DisplayAlert("Error", "No Customer selected", "Ok");
 			}
 		}
 

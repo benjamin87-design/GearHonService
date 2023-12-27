@@ -82,13 +82,49 @@ namespace GearHonService.ViewModels
 		}
 
 		[RelayCommand]
-		public async Task SaveCommand()
+		public async Task Save()
 		{
 			await SaveContractor();
 		}
 
 		[RelayCommand]
-		public async Task SelectedCurrencyChanged()
+		public async Task Delete()
+		{
+			if (SelectedContractor.ID != 0)
+			{
+				try
+				{
+					await _supabaseClient
+						.From<ContractorModel>()
+						.Where(x => x.ID == ID)
+						.Delete();
+					await Shell.Current.DisplayAlert("Success", "Contractor successfully deleted", "Ok");
+
+					ClearStrings();
+
+					await _contractorViewModel.LoadContractorFromDb();
+					await Shell.Current.GoToAsync($"//{nameof(ContractorPage)}");
+				}
+				catch (Exception ex)
+				{
+					await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
+				}
+			}
+			else
+			{
+				await Shell.Current.DisplayAlert("Error", "No Contractor selected", "Ok");
+			}
+		}
+
+		[RelayCommand]
+		public async Task Cancel()
+		{
+			await Shell.Current.GoToAsync($"//{nameof(ContractorPage)}");
+		}
+
+
+		[RelayCommand]
+		public void SelectedCurrencyChanged()
 		{
 			Currency = SelectedCurrency.Code;
 		}
