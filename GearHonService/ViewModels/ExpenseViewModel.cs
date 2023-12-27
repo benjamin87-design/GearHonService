@@ -9,6 +9,9 @@ namespace GearHonService.ViewModels
 {
 	public partial class ExpenseViewModel : BaseViewModel
 	{
+		[ObservableProperty] private string name;
+		[ObservableProperty] private string code;
+		[ObservableProperty] private string type;
 		[ObservableProperty] private int iD;
 		[ObservableProperty] private string contractorName;
 		[ObservableProperty] private string uID;
@@ -48,6 +51,13 @@ namespace GearHonService.ViewModels
 			set { selectedContractor = value; }
 		}
 
+		private ExpenseTypeModel selectedExpenseType;
+		public ExpenseTypeModel SelectedExpenseType
+		{
+			get { return selectedExpenseType; }
+			set { selectedExpenseType = value; }
+		}
+
 		private readonly Supabase.Client _supabaseClient;
 		private readonly CurrencyLoader _currencyLoader;
 
@@ -71,15 +81,16 @@ namespace GearHonService.ViewModels
 		}
 
 		[RelayCommand]
-		private void SelectedContractorChanged()
+		private void SelectedExpenseChanged()
 		{
-			ContractorName = SelectedContractor.Name.ToString();
-		}
-
-		[RelayCommand]
-		private void SelectedCurrencyChanged()
-		{
-			ExpenseCurrency = SelectedCurrency.Code.ToString();
+			//load selected expense to strings	
+			ID = SelectedExpense.ID;
+			ContractorName = SelectedExpense.ContractorName;
+			UID = SelectedExpense.UID;
+			Date = SelectedExpense.Date;
+			ExpenseType = SelectedExpense.ExpenseType;
+			ExpenseAmount = SelectedExpense.ExpenseAmount;
+			ExpenseCurrency = SelectedExpense.ExpenseCurrency;
 		}
 
 		[RelayCommand]
@@ -92,11 +103,11 @@ namespace GearHonService.ViewModels
 					var insertExpense = new ExpenseModel
 					{
 						UID = UID,
-						ContractorName = ContractorName,
+						ContractorName = SelectedContractor.Name,
 						Date = Date,
-						ExpenseType = ExpenseType,
+						ExpenseType = SelectedExpenseType.Type,
 						ExpenseAmount = ExpenseAmount,
-						ExpenseCurrency = ExpenseCurrency
+						ExpenseCurrency = SelectedCurrency.Code
 					};
 					
 					try
@@ -177,15 +188,17 @@ namespace GearHonService.ViewModels
 
 		private void PopulateExpenseTypes()
 		{
-			ExpenseTypes.Add(new ExpenseTypeModel { ID = 1, Type = "Train" });
-			ExpenseTypes.Add(new ExpenseTypeModel { ID = 2, Type = "Bus" });
-			ExpenseTypes.Add(new ExpenseTypeModel { ID = 3, Type = "Taxi" });
-			ExpenseTypes.Add(new ExpenseTypeModel { ID = 4, Type = "Flight" });
-			ExpenseTypes.Add(new ExpenseTypeModel { ID = 5, Type = "Hotel" });
-			ExpenseTypes.Add(new ExpenseTypeModel { ID = 6, Type = "Buisiness Dinner" });
-			ExpenseTypes.Add(new ExpenseTypeModel { ID = 7, Type = "Tools" });
-			ExpenseTypes.Add(new ExpenseTypeModel { ID = 8, Type = "Spare parts" });
-			ExpenseTypes.Add(new ExpenseTypeModel { ID = 9, Type = "Other" });
+			ExpenseTypes.Add(new ExpenseTypeModel { ID = 1, Type = "Daily allowance" });
+			ExpenseTypes.Add(new ExpenseTypeModel { ID = 2, Type = "Car" });
+			ExpenseTypes.Add(new ExpenseTypeModel { ID = 3, Type = "Train" });
+			ExpenseTypes.Add(new ExpenseTypeModel { ID = 4, Type = "Bus" });
+			ExpenseTypes.Add(new ExpenseTypeModel { ID = 5, Type = "Taxi" });
+			ExpenseTypes.Add(new ExpenseTypeModel { ID = 6, Type = "Flight" });
+			ExpenseTypes.Add(new ExpenseTypeModel { ID = 7, Type = "Hotel" });
+			ExpenseTypes.Add(new ExpenseTypeModel { ID = 8, Type = "Buisiness Dinner" });
+			ExpenseTypes.Add(new ExpenseTypeModel { ID = 9, Type = "Tools" });
+			ExpenseTypes.Add(new ExpenseTypeModel { ID = 10, Type = "Spare parts" });
+			ExpenseTypes.Add(new ExpenseTypeModel { ID = 11, Type = "Other" });
 		}
 
 		private async Task GetExpenseFromDb()
