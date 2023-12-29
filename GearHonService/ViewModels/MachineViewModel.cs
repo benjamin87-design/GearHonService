@@ -98,7 +98,7 @@ namespace GearHonService.ViewModels
 		[RelayCommand]
 		private async Task LoadXMLInfo()
 		{
-			string action = await Application.Current.MainPage.DisplayActionSheet("Choose the XML version", "Cancel", null, "Sysinfo 1.0.9", "Sysinfo 1.0.5", "Sysinfo 1.0.2");
+			string action = await Shell.Current.DisplayActionSheet("Choose the XML version", "Cancel", null, "Sysinfo 1.0.9", "Sysinfo 1.0.5", "Sysinfo 1.0.2");
 
 			switch (action)
 			{
@@ -173,7 +173,7 @@ namespace GearHonService.ViewModels
 								}
 								else
 								{
-									await App.Current.MainPage.DisplayAlert("Error", "Wrong XML version selected", "OK");
+									await Shell.Current.DisplayAlert("Error", "Wrong XML version selected", "OK");
 								}
 							}
 						}
@@ -229,7 +229,7 @@ namespace GearHonService.ViewModels
 								}
 								else
 								{
-									await App.Current.MainPage.DisplayAlert("Error", "Wrong XML version selected", "OK");
+									await Shell.Current.DisplayAlert("Error", "Wrong XML version selected", "OK");
 								}
 							}
 						}

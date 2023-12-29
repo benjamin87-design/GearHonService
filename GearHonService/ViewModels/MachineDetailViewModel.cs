@@ -137,22 +137,22 @@
 			{
 				if(selectedCustomer == null)
 				{
-					await Application.Current.MainPage.DisplayAlert("Error", "No Customer selected", "Ok");
+					await Shell.Current.DisplayAlert("Error", "No Customer selected", "Ok");
 					return;
 				}
 				if(selectedContractor == null)
 				{
-					await Application.Current.MainPage.DisplayAlert("Error", "No Contractor selected", "Ok");
+					await Shell.Current.DisplayAlert("Error", "No Contractor selected", "Ok");
 					return;
 				}
 				if(selectedMachineModel == null)
 				{
-					await Application.Current.MainPage.DisplayAlert("Error", "No Model selected", "Ok");
+					await Shell.Current.DisplayAlert("Error", "No Model selected", "Ok");
 					return;
 				}
 				if(selectedMachineType == null)
 				{
-					await Application.Current.MainPage.DisplayAlert("Error", "No Type selected", "Ok");
+					await Shell.Current.DisplayAlert("Error", "No Type selected", "Ok");
 					return;
 				}
 				//insert
@@ -194,7 +194,7 @@
 					var insertResult = await _supabaseClient
 					.From<MachineModel>()
 					.Insert(insertMachine);
-					await Application.Current.MainPage.DisplayAlert("Success", "Machine successfully added", "Ok");
+					await Shell.Current.DisplayAlert("Success", "Machine successfully added", "Ok");
 
 					ClearStrings();
 
@@ -203,7 +203,7 @@
 				}
 				catch (Exception ex)
 				{
-					await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+					await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
 				}
 			}
 			else
@@ -246,7 +246,7 @@
 					model.SerialNumber = SerialNumber;
 					await model.Update<MachineModel>();
 
-					await Application.Current.MainPage.DisplayAlert("Success", "Machine successfully updated", "Ok");
+					await Shell.Current.DisplayAlert("Success", "Machine successfully updated", "Ok");
 
 					ClearStrings();
 
@@ -255,7 +255,7 @@
 				}
 				catch (Exception ex)
 				{
-					await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+					await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
 				}
 			}
 		}
@@ -273,7 +273,7 @@
 						.From<MachineModel>()
 						.Where(x => x.Id == Id)
 						.Delete();
-					await Application.Current.MainPage.DisplayAlert("Success", "Machine successfully deleted", "Ok");
+					await Shell.Current.DisplayAlert("Success", "Machine successfully deleted", "Ok");
 
 					ClearStrings();
 
@@ -282,12 +282,12 @@
 				}
 				catch (Exception ex)
 				{
-					await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+					await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
 				}
 			}
 			else
 			{
-				await Application.Current.MainPage.DisplayAlert("Error", "No Machine selected", "Ok");
+				await Shell.Current.DisplayAlert("Error", "No Machine selected", "Ok");
 			}
 		}
 

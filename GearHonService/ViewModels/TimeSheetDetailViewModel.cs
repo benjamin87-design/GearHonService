@@ -101,7 +101,7 @@
 		{
 			if (selectedMachine == null || selectedCustomer == null)
 			{
-				await Application.Current.MainPage.DisplayAlert("Error", "Please select a machine and a customer", "OK");
+				await Shell.Current.DisplayAlert("Error", "Please select a machine and a customer", "OK");
 				return;
 			}
 			else
@@ -130,12 +130,12 @@
 				}
 				catch (Exception ex)
 				{
-					await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+					await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
 				}
 
 				ClearStrings();
-				_timeSheetViewModel.RefreshList();
-				_timeSheetViewModel.CheckLastEntry();
+				await _timeSheetViewModel.RefreshList();
+				await _timeSheetViewModel.CheckLastEntry();
 
 				await Shell.Current.GoToAsync($"//{nameof(TimeSheetPage)}");
 			}
@@ -165,12 +165,12 @@
 				}
 				catch (Exception ex)
 				{
-					await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Ok");
+					await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
 				}
 			}
 			else
 			{
-				await Application.Current.MainPage.DisplayAlert("Error", "No Timesheet selected", "Ok");
+				await Shell.Current.DisplayAlert("Error", "No Timesheet selected", "Ok");
 			}
 		}
 
@@ -183,7 +183,7 @@
 
 		public async Task OnNavigatedTo()
 		{
-			GetSelectedTimeSheet();
+			await GetSelectedTimeSheet();
 		}
 
 		public async Task GetSelectedTimeSheet()

@@ -110,7 +110,7 @@
 
 			if (selectedMachine == null || selectedCustomer == null)
 			{
-				await Application.Current.MainPage.DisplayAlert("Error", "Please select a machine and a customer", "OK");
+				await Shell.Current.DisplayAlert("Error", "Please select a machine and a customer", "OK");
 				return;
 			}
 			else
@@ -166,7 +166,7 @@
 				}
 				catch (Exception ex)
 				{
-					await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+					await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
 				}
 				RefreshList();
 				CheckLastEntry();
@@ -183,7 +183,7 @@
 			}
 			catch (Exception ex)
 			{
-				await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
 			}
 		}
 
