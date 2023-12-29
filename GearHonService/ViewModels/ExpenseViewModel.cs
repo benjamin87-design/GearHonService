@@ -1,9 +1,4 @@
 ﻿using GearHonService.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GearHonService.ViewModels
 {
@@ -37,11 +32,11 @@ namespace GearHonService.ViewModels
 			set { selectedExpense = value; }
 		}
 
-		private CurrencyModel selectedCurreny;
+		private CurrencyModel selectedCurrency;
 		public CurrencyModel SelectedCurrency
 		{
-			get { return selectedCurreny; }
-			set { selectedCurreny = value; }
+			get { return selectedCurrency; }
+			set { selectedCurrency = value; }
 		}
 
 		private ContractorModel selectedContractor;
@@ -84,13 +79,13 @@ namespace GearHonService.ViewModels
 		private void SelectedExpenseChanged()
 		{
 			//load selected expense to strings	
-			ID = SelectedExpense.ID;
-			ContractorName = SelectedExpense.ContractorName;
-			UID = SelectedExpense.UID;
-			Date = SelectedExpense.Date;
-			ExpenseType = SelectedExpense.ExpenseType;
-			ExpenseAmount = SelectedExpense.ExpenseAmount;
-			ExpenseCurrency = SelectedExpense.ExpenseCurrency;
+			ID = selectedExpense.ID;
+			ContractorName = selectedExpense.ContractorName;
+			UID = selectedExpense.UID;
+			Date = selectedExpense.Date;
+			ExpenseType = selectedExpense.ExpenseType;
+			ExpenseAmount = selectedExpense.ExpenseAmount;
+			ExpenseCurrency = selectedExpense.ExpenseCurrency;
 		}
 
 		[RelayCommand]
@@ -103,11 +98,11 @@ namespace GearHonService.ViewModels
 					var insertExpense = new ExpenseModel
 					{
 						UID = UID,
-						ContractorName = SelectedContractor.Name,
+						ContractorName = selectedContractor.Name,
 						Date = Date,
-						ExpenseType = SelectedExpenseType.Type,
+						ExpenseType = selectedExpenseType.Type,
 						ExpenseAmount = ExpenseAmount,
-						ExpenseCurrency = SelectedCurrency.Code
+						ExpenseCurrency = selectedCurrency.Code
 					};
 					
 					try
@@ -132,15 +127,15 @@ namespace GearHonService.ViewModels
 						var update = await _supabaseClient
 							.From<ExpenseModel>()
 							.Where(x => x.ID == ID)
-							.Set(x => x.ContractorName, ContractorName)
+							.Set(x => x.ContractorName, selectedContractor.Name)
 							.Set(x => x.UID, UID)
 							.Set(x => x.Date, Date)
-							.Set(x => x.ExpenseType, ExpenseType)
+							.Set(x => x.ExpenseType, selectedExpenseType.Type)
 							.Set(x => x.ExpenseAmount, ExpenseAmount)
-							.Set(x => x.ExpenseCurrency, ExpenseCurrency)
+							.Set(x => x.ExpenseCurrency, selectedCurrency.Code)
 							.Update();
 
-						await Shell.Current.DisplayAlert("Success", "Contractor successfully updated", "Ok");
+						await Shell.Current.DisplayAlert("Success", "Expense successfully updated", "Ok");
 
 						ClearStrings();
 

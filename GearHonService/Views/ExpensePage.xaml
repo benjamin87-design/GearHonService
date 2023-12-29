@@ -63,21 +63,21 @@
                         ItemDisplayBinding="{Binding Type}"
                         ItemsSource="{Binding ExpenseTypes}"
                         SelectedItem="{Binding SelectedExpenseType}"
-                        WidthRequest="200"/>
+                        WidthRequest="200" />
 
                     <Picker
                         Title="Contractor"
                         ItemDisplayBinding="{Binding Name}"
                         ItemsSource="{Binding Contractors}"
                         SelectedItem="{Binding SelectedContractor}"
-                        WidthRequest="200"/>
+                        WidthRequest="200" />
 
                     <Picker
                         Title="Currency"
                         ItemDisplayBinding="{Binding Code}"
                         ItemsSource="{Binding Currencies}"
                         SelectedItem="{Binding SelectedCurrency}"
-                        WidthRequest="200"/>
+                        WidthRequest="200" />
                 </StackLayout>
 
                 <StackLayout Grid.Column="1" Orientation="Vertical">
@@ -119,8 +119,8 @@
                     Grid.Row="1"
                     Margin="20"
                     IsPullToRefreshEnabled="True"
-                    ItemsSource="{Binding Expenses}"
-                    SelectedItem="{Binding SelectedExpense}"
+                    ItemsSource="{Binding Expenses, Mode=TwoWay}"
+                    SelectedItem="{Binding SelectedExpense, Mode=TwoWay}"
                     SelectionMode="Single">
                     <ListView.Behaviors>
                         <toolkit:EventToCommandBehavior Command="{Binding SelectedExpenseChangedCommand}" EventName="ItemSelected" />
@@ -143,20 +143,36 @@
                                         Grid.Column="0"
                                         Orientation="Horizontal">
                                         <Label FontAttributes="Bold" Text="{Binding ContractorName}" />
-                                        <Label FontAttributes="Bold" Text="{Binding ExpenseType}" />
+                                        <Label
+                                            Margin="10,0,0,0"
+                                            FontAttributes="Bold"
+                                            Text="{Binding ExpenseType}" />
                                     </StackLayout>
-                                    <Label
+                                    <StackLayout
                                         Grid.Row="1"
                                         Grid.Column="0"
-                                        FontAttributes="Italic"
-                                        Text="{Binding ExpenseCurrency}"
-                                        VerticalOptions="End" />
-                                    <Label
+                                        Orientation="Horizontal">
+                                        <Label
+                                            FontAttributes="Italic"
+                                            Text="{Binding ExpenseCurrency}"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            Margin="10,0,0,0"
+                                            FontAttributes="Italic"
+                                            Text="{Binding ExpenseAmount}"
+                                            VerticalOptions="Center" />
+                                    </StackLayout>
+
+                                    <StackLayout
                                         Grid.Row="1"
                                         Grid.Column="1"
-                                        FontAttributes="Italic"
-                                        Text="{Binding ExpenseAmount}"
-                                        VerticalOptions="End" />
+                                        Orientation="Horizontal">
+                                        <Label
+                                            FontAttributes="Italic"
+                                            Text="{Binding Date}"
+                                            VerticalOptions="Center" />
+                                    </StackLayout>
+
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
