@@ -18,6 +18,6 @@ public partial class UserSettingPage : ContentPage
 		base.OnAppearing();
 
 		var viewModel = BindingContext as UserSettingViewModel;
-		viewModel.GetUser();
+		_= viewModel.GetUser();
 	}
 }

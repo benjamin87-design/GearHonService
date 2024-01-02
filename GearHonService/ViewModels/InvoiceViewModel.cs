@@ -2,6 +2,7 @@
 using GearHonService.Services;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection.PortableExecutable;
 using System.Text;
@@ -27,6 +28,10 @@ namespace GearHonService.ViewModels
 		private decimal? totalExpenseInMonth;
 		[ObservableProperty]
 		private decimal? totalForWorkInMonth;
+		[ObservableProperty]
+		private string? code;
+		[ObservableProperty]
+		private string? invoiceCurrency;
 
 		//address contractor
 		[ObservableProperty]
@@ -128,6 +133,8 @@ namespace GearHonService.ViewModels
 			InvoiceDateSelection = DateTime.Now;
 
 			UID = Preferences.Get("uid", string.Empty);
+			_ = GetContractor();
+			_ = GetCurrencyExchangeRate();
 		}
 
 		[RelayCommand]
@@ -145,22 +152,39 @@ namespace GearHonService.ViewModels
 			try
 			{
 				await CalculateInvoiceGrandTotal();
+				await GetInvoiceNumber();
 				LoadInformations();
+
+				//Create excel file and populate it with the data
+				try
+				{
+
+				}
+				catch (Exception ex)
+				{
+					await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+				}
+
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex.Message);
+				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
 			}
 		}
 
-		private async Task CalculateInvoiceGrandTotal()
+
+		private void TotalHours()
 		{
-			await TotalForExpense();
-			await TotalForWork();
+			if(Servicereports != null)
+			{
+				decimal totalHours = Servicereports.Sum(servicereport => Convert.ToDecimal(servicereport.TotalHour));
+				WorkingHours = totalHours;
+			}
+			else
+			{
 
-			InvoiceGrandTotal = (decimal)(TotalExpenseInMonth + TotalForWorkInMonth);
+			}
 		}
-
 		private async Task TotalForExpense()
 		{
 			await GetCurrencyExchangeRate();
@@ -181,20 +205,6 @@ namespace GearHonService.ViewModels
 
 			TotalExpenseInMonth = totalExpenseInEuro;
 		}
-
-		private void TotalHours()
-		{
-			if(Servicereports != null)
-			{
-				decimal totalHours = Servicereports.Sum(servicereport => Convert.ToDecimal(servicereport.TotalHour));
-				WorkingHours = totalHours;
-			}
-			else
-			{
-
-			}
-		}
-
 		private async Task TotalForWork()
 		{
 			TotalHours();
@@ -203,7 +213,7 @@ namespace GearHonService.ViewModels
 			{
 				if(Convert.ToDecimal(SelectedContractor.HoursPerMonth) <= WorkingHours)
 				{
-					var overtime = Convert.ToDecimal(SelectedContractor.HoursPerMonth) - WorkingHours;
+					var overtime = WorkingHours - Convert.ToDecimal(SelectedContractor.HoursPerMonth);
 					var overttimePayment = overtime * Convert.ToDecimal(SelectedContractor.PaymentOvertime);
 
 					TotalForWorkInMonth = Convert.ToDecimal(SelectedContractor.PaymentPerMonth) + overttimePayment;
@@ -218,28 +228,26 @@ namespace GearHonService.ViewModels
 				await Shell.Current.DisplayAlert("Error", "Please select a contractor", "OK");
 			}
 		}
+		private async Task CalculateInvoiceGrandTotal()
+		{
+			await TotalForExpense();
+			await TotalForWork();
+
+			InvoiceGrandTotal = ((decimal)(TotalExpenseInMonth + TotalForWorkInMonth)) * SelectedCurrency.Rate;
+
+			//load the currency symbole from internet depend on user currency selection
+			var symbole = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
+				.Select(culture => new RegionInfo(culture.Name))
+				.GroupBy(region => region.ISOCurrencySymbol)
+				.Select(group => group.First())
+				.ToDictionary(region => region.ISOCurrencySymbol, region => region.CurrencySymbol);
+
+			InvoiceCurrency = symbole[SelectedCurrency.Code];
+		}
+
 
 		private async Task GetAllDataFromDb()
 		{
-			//load contractors
-			try
-			{
-				var result = await _supabaseClient.From<ContractorModel>().Where(x => x.UID == UID).Get();
-				if(Contractors != null)
-				{
-					Contractors.Clear();
-				}
-
-				foreach (var contractor in result.Models)
-				{
-					Contractors?.Add(contractor);
-				}
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
-
 			//load user
 			try
 			{
@@ -303,7 +311,27 @@ namespace GearHonService.ViewModels
 				Console.WriteLine(ex.Message);
 			}
 		}
+		private async Task GetContractor()
+		{
+			//load contractors
+			try
+			{
+				var result = await _supabaseClient.From<ContractorModel>().Where(x => x.UID == UID).Get();
+				if (Contractors != null)
+				{
+					Contractors.Clear();
+				}
 
+				foreach (var contractor in result.Models)
+				{
+					Contractors?.Add(contractor);
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
+		}
 		private async Task GetCurrencyExchangeRate()
 		{
 			try
@@ -322,6 +350,13 @@ namespace GearHonService.ViewModels
 				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
 			}
 		}
+		private async Task GetInvoiceNumber()
+		{
+			//count how may are already in invoice table from database
+			var result = await _supabaseClient.From<InvoiceModel>().Get();
+			InvoiceNumber = result.Models.Count + 1;
+		}
+
 
 		private void LoadInformations()
 		{

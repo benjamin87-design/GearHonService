@@ -61,7 +61,7 @@ namespace GearHonService.ViewModels
 
 			Contractors = new ObservableCollection<ContractorModel>();
 
-			LoadContractorFromDb();
+			_= LoadContractorFromDb();
         }
 
 		[RelayCommand]

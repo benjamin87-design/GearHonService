@@ -15,5 +15,11 @@
                 <toolkit:EventToCommandBehavior Command="{Binding MonthAndYearChangedCommand}" EventName="DateSelected" />
             </DatePicker.Behaviors>
         </DatePicker>
+
+        <Picker SelectedItem="{Binding SelectedContractor}" ItemsSource="{Binding Contractors}" ItemDisplayBinding="{Binding ContractorName}"/>
+        
+        <Picker SelectedItem="{Binding SelectedCurrency}" ItemsSource="{Binding Currencies}" ItemDisplayBinding="{Binding Code}"/>
+        
+        <Button Text="Create" Command="{Binding CreateInvoiceCommand}"/>
     </VerticalStackLayout>
 </ContentPage>

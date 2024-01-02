@@ -75,7 +75,7 @@ namespace GearHonService.ViewModels
 
 			UID = Preferences.Get("uid", string.Empty);
 
-			GetSelectedContractor();
+			_= GetSelectedContractor();
 			LoadCurrencies();
 		}
 
