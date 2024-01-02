@@ -25,6 +25,8 @@ namespace GearHonService.ViewModels
 		private decimal? workingHours;
 		[ObservableProperty]
 		private decimal? totalExpenseInMonth;
+		[ObservableProperty]
+		private decimal? totalForWorkInMonth;
 
 		//address contractor
 		[ObservableProperty]
@@ -93,9 +95,20 @@ namespace GearHonService.ViewModels
 		[ObservableProperty]
 		private ObservableCollection<CurrencyModel>? currencies;
 
-		public ContractorModel? SelectedContractor { get; set; }
-		public UserModel? SelectedUser { get; set; }
-		public ServiceReportModel? SelectedServiceReport { get; set; }
+		//selected items
+		private ContractorModel? selectedContractor;
+		public ContractorModel? SelectedContractor
+		{
+			get { return selectedContractor; }
+			set { selectedContractor = value; }
+		}
+
+		private CurrencyModel? selectedCurrency;
+		public CurrencyModel? SelectedCurrency
+		{
+			get { return selectedCurrency; }
+			set { selectedCurrency = value; }
+		}
 
 		//Supabase Client
 		private readonly Supabase.Client _supabaseClient;
@@ -139,12 +152,15 @@ namespace GearHonService.ViewModels
 			}
 		}
 
-		private void CalculateInvoiceGrandTotal()
+		private async Task CalculateInvoiceGrandTotal()
 		{
+			await TotalForExpense();
+			await TotalForWork();
 
+			InvoiceGrandTotal = (decimal)(TotalExpenseInMonth + TotalForWorkInMonth);
 		}
 
-		private async Task TotalExpense()
+		private async Task TotalForExpense()
 		{
 			await GetCurrencyExchangeRate();
 
@@ -171,9 +187,28 @@ namespace GearHonService.ViewModels
 			WorkingHours = totalHours;
 		}
 
-		private void TotalForWork()
+		private async Task TotalForWork()
 		{
+			TotalHours();
 
+			if(SelectedContractor != null)
+			{
+				if(Convert.ToDecimal(SelectedContractor.HoursPerMonth) <= WorkingHours)
+				{
+					var overtime = Convert.ToDecimal(SelectedContractor.HoursPerMonth) - WorkingHours;
+					var overttimePayment = overtime * Convert.ToDecimal(SelectedContractor.PaymentOvertime);
+
+					TotalForWorkInMonth = Convert.ToDecimal(SelectedContractor.PaymentPerMonth) + overttimePayment;
+				}
+				else
+				{
+					await Shell.Current.DisplayAlert("Error", "You has not worked enough hours", "OK");
+				}
+			}
+			else
+			{
+				await Shell.Current.DisplayAlert("Error", "Please select a contractor", "OK");
+			}
 		}
 
 		private async Task GetAllDataFromDb()
@@ -181,7 +216,7 @@ namespace GearHonService.ViewModels
 			//load contractors
 			try
 			{
-				var result = await _supabaseClient.From<ContractorModel>().Get();
+				var result = await _supabaseClient.From<ContractorModel>().Where(x => x.UID == UID).Get();
 				if(Contractors != null)
 				{
 					Contractors.Clear();
