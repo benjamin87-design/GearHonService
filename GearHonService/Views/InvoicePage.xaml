@@ -3,13 +3,17 @@
     x:Class="GearHonService.Views.InvoicePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:GearHonService.ViewModels"
     Title="InvoicePage"
     x:DataType="vm:InvoiceViewModel">
+    
     <VerticalStackLayout>
-        <Label
-            HorizontalOptions="Center"
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" />
+        <DatePicker Format="MM.yyyy"
+                    Date="{Binding InvoiceDateSelection, Mode=TwoWay}">
+            <DatePicker.Behaviors>
+                <toolkit:EventToCommandBehavior Command="{Binding MonthAndYearChangedCommand}" EventName="DateSelected" />
+            </DatePicker.Behaviors>
+        </DatePicker>
     </VerticalStackLayout>
 </ContentPage>

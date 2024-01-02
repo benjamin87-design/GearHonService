@@ -195,6 +195,19 @@
     </ShellContent>
 
     <ShellContent
+     Title="Invoice"
+     ContentTemplate="{DataTemplate views:InvoicePage}"
+     Route="InvoicePage"
+     Shell.NavBarIsVisible="True">
+        <ShellContent.Icon>
+            <FontImageSource
+             FontFamily="GoogleMaterialFont"
+             Glyph="{x:Static icon:IconFont.Payments}"
+             Size="50" />
+        </ShellContent.Icon>
+    </ShellContent>
+
+    <ShellContent
         Title="About"
         ContentTemplate="{DataTemplate views:AboutPage}"
         FlyoutItemIsVisible="False"

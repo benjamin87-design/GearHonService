@@ -69,10 +69,10 @@ namespace GearHonService.ViewModels
 			Currencies = new ObservableCollection<CurrencyModel>();
 			Contractors = new ObservableCollection<ContractorModel>();
 
-			PopulateExpenseTypes();
-			GetContractorFromDb();
-			GetExpenseFromDb();
-			GetCurrenies();
+			_ = PopulateExpenseTypes();
+			_ = GetContractorFromDb();
+			_ = GetExpenseFromDb();
+			_ = GetCurrenies();
 		}
 
 		[RelayCommand]
