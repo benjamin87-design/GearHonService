@@ -12,10 +12,10 @@ namespace GearHonService.ViewModels
 		[RelayCommand]
 		private async Task GoToCompanyHomePage()
 		{
-			bool answer = await Shell.Current.DisplayAlert("Warning!", "You are about to leave this app. Do you want to qontinue?", "Yes", "No");
+			bool answer = await Shell.Current.DisplayAlert("Warning!", "You are about to leave this app. Do you want to continue?", "Yes", "No");
 			if (answer)
 			{
-				await Launcher.OpenAsync(new Uri("https://www.praewema.de"));
+				await Launcher.OpenAsync(new Uri("https://www.dvs-technology.com/praewema-antriebstechnik/"));
 			}
 			else
 			{
