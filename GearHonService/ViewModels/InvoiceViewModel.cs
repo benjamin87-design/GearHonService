@@ -144,7 +144,8 @@ namespace GearHonService.ViewModels
 
 			try
 			{
-				CalculateInvoiceGrandTotal();
+				await CalculateInvoiceGrandTotal();
+				LoadInformations();
 			}
 			catch (Exception ex)
 			{
@@ -183,8 +184,15 @@ namespace GearHonService.ViewModels
 
 		private void TotalHours()
 		{
-			decimal totalHours = Servicereports.Sum(servicereport => Convert.ToDecimal(servicereport.TotalHour));
-			WorkingHours = totalHours;
+			if(Servicereports != null)
+			{
+				decimal totalHours = Servicereports.Sum(servicereport => Convert.ToDecimal(servicereport.TotalHour));
+				WorkingHours = totalHours;
+			}
+			else
+			{
+
+			}
 		}
 
 		private async Task TotalForWork()
@@ -312,6 +320,43 @@ namespace GearHonService.ViewModels
 			catch (Exception ex)
 			{
 				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+			}
+		}
+
+		private void LoadInformations()
+		{
+			if(SelectedContractor != null)
+			{
+				//Contractor Information
+				ContractorName = SelectedContractor.Name;
+				ContractorStreet = SelectedContractor.Street;
+				ContractorZipCode = SelectedContractor.ZipCode;
+				ContractorCity = SelectedContractor.City;
+				ContractorCountry = SelectedContractor.Country;
+
+				//Bank Information
+				BankName = SelectedContractor.PaymentBankName;
+				AccountName = SelectedContractor.PaymentBankAccount;
+				IBAN = SelectedContractor.PaymentBankIban;
+				SWIFT = SelectedContractor.PaymentBankSwift;
+
+				//TAX
+				TaxText = SelectedContractor.TaxText;
+				TaxPercentage = Convert.ToDecimal(SelectedContractor.TaxPercent);
+
+				//Dates
+				InvoiceDate = DateTime.Now;
+				InvoiceDueDate = DateTime.Now.AddDays(Convert.ToInt32(SelectedContractor.PaymentTerms));
+			}
+
+			//user information
+			if(Users != null)
+			{
+				UserName = Users.First().UserName;
+				UserStreet = Users.First().StreetName + " " + Users.First().StreetNumber;
+				UserZipCode = Users.First().ZIPCode;
+				UserCity = Users.First().City;
+				UserCountry = Users.First().Country;
 			}
 		}
 	}
