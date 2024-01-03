@@ -242,7 +242,6 @@ namespace GearHonService.ViewModels
 		{
 			ID = 0;
 			ContractorName = string.Empty;
-			UID = string.Empty;
 			Date = DateTime.Now;
 			ExpenseType = string.Empty;
 			ExpenseAmount = 0;

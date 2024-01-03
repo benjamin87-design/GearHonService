@@ -9,6 +9,5 @@ namespace GearHonService.Models
 {
 	public partial class InvoiceModel : BaseModel
 	{
-
 	}
 }
