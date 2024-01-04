@@ -78,7 +78,7 @@
     </ShellContent>
 
     <ShellContent
-        Title="{x:Static resx:AppResources.ContractorDetialPage}"
+        Title="{x:Static resx:AppResources.ContractorDetailPage}"
         ContentTemplate="{DataTemplate views:ContractorDetailPage}"
         FlyoutItemIsVisible="False"
         Route="ContractorDetailPage">

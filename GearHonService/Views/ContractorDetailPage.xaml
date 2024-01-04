@@ -7,7 +7,7 @@
     xmlns:resx="clr-namespace:GearHonService.Resources.Strings"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:GearHonService.ViewModels"
-    Title="ContractorDetailPage"
+    Title="{x:Static resx:AppResources.ContractorDetailPage}"
     x:DataType="vm:ContractorDetailViewModel"
     Appearing="ContentPage_Appearing">
     <Grid>
