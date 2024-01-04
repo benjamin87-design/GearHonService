@@ -1,10 +1,13 @@
-﻿using GearHonService.Services;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using GearHonService.Services;
 using System.Globalization;
 
 namespace GearHonService.ViewModels
 {
 	public partial class InvoiceViewModel : BaseViewModel
 	{
+		[ObservableProperty]
+		private int iD;
 		[ObservableProperty]
 		private string name;
 		[ObservableProperty]
@@ -22,7 +25,7 @@ namespace GearHonService.ViewModels
 		[ObservableProperty]
 		private decimal totalExpenseInMonth;
 		[ObservableProperty]
-		private decimal totalForWorkInMonth;
+		private double totalForWorkInMonth;
 		[ObservableProperty]
 		private string code;
 		[ObservableProperty]
@@ -80,7 +83,7 @@ namespace GearHonService.ViewModels
 		[ObservableProperty]
 		private DateTime invoiceDate;
 		[ObservableProperty]
-		private DateTime invoiceDueDate;
+		private string invoiceDueDate;
 		[ObservableProperty]
 		private string invoicePaymentTerms;
 		[ObservableProperty]
@@ -92,9 +95,9 @@ namespace GearHonService.ViewModels
 		[ObservableProperty]
 		private decimal taxAmount;
 		[ObservableProperty]
-		private string? taxText;
+		private string taxText;
 		[ObservableProperty]
-		private decimal invoiceGrandTotal;
+		private string invoiceGrandTotal;
 
 		[ObservableProperty]
 		private bool isRunning;
@@ -159,28 +162,72 @@ namespace GearHonService.ViewModels
 		[RelayCommand]
 		private async Task CreateInvoice()
 		{
-			IsRunning = true;
-			await GetAllDataFromDb();
-			GetCurrencySymbole();
-
-			try
+			if(selectedContractor != null)
 			{
-				LoadInformations();
+				IsRunning = true;
+				await GetAllDataFromDb();
+				await GetCurrencySymbole();
+				await GetInvoiceNumber();
+
 				try
 				{
-					await GetInvoiceItems();
+					LoadInformations();
+					try
+					{
+						await GetInvoiceItems();
+					}
+					catch (Exception ex)
+					{
+						await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+					}
 				}
 				catch (Exception ex)
 				{
 					await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+				}
+				IsRunning = false;
+				InvoiceVisible = true;
+			}
+			else
+			{
+				await Shell.Current.DisplayAlert("Error", "Bitte wählen Sie einen Auftraggeber aus", "OK");
+			}
+		}
+
+		public async Task SaveInvoice()
+		{
+			//save invoice to database
+			try
+			{
+				if (ID == 0)
+				{
+					var insertInvoice = new InvoiceModel
+					{
+						UID = UID,
+						InvoiceNumber = InvoiceNumber,
+						InvoiceDate = InvoiceDate,
+						InvoiceDueDate = Convert.ToDateTime(InvoiceDueDate),
+						InvoiceTotal = InvoiceGrandTotal
+					};
+
+					try
+					{
+						var insertResult = await _supabaseClient
+						.From<InvoiceModel>()
+						.Insert(insertInvoice);
+
+						await Shell.Current.DisplayAlert("Success", "Invoice successfully added", "Ok");
+					}
+					catch (Exception ex)
+					{
+						await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
+					}
 				}
 			}
 			catch (Exception ex)
 			{
 				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
 			}
-			IsRunning = false;
-			InvoiceVisible = true;
 		}
 
 		private async Task GetInvoiceItems()
@@ -209,6 +256,8 @@ namespace GearHonService.ViewModels
 						Description = "Service für den Zeitraum" + " " + InvoiceMonth + "." + InvoiceYear + " " + "gemäss Anlage",
 						Currency = InvoiceCurrency
 					});
+
+					TotalForWorkInMonth = totalpayforwork;
 				}
 				else
 				{
@@ -223,9 +272,11 @@ namespace GearHonService.ViewModels
 						Description = "Service für den Zeitraum" + " " + InvoiceMonth + "." + InvoiceYear + " " + "gemäss Anlage",
 						Currency = InvoiceCurrency
 					});
+
+					TotalForWorkInMonth = totalpayforwork;
 				}
 
-				if(Expenses.Where(x => x.ExpenseType == "Daily allowance").Count() > 0)
+				if (Expenses.Where(x => x.ExpenseType == "Daily allowance").Any())
 				{
 					double ammountallowance = Expenses.Where(x => x.ExpenseType == "Daily allowance").Count();
 					double paymentallowance = Convert.ToDouble(SelectedContractor.ExpensePerDay);
@@ -241,7 +292,7 @@ namespace GearHonService.ViewModels
 					});
 				}
 
-				if (Expenses.Where(x => x.ExpenseType == "Flight").Count() > 0)
+				if (Expenses.Where(x => x.ExpenseType == "Flight").Any())
 				{
 					double ammountflight= Expenses.Where(x => x.ExpenseType == "Flight").Count();
 
@@ -263,11 +314,11 @@ namespace GearHonService.ViewModels
 					});
 				}
 
-				if (Expenses.Where(x => x.ExpenseType == "Taxi").Count() > 0)
+				if (Expenses.Where(x => x.ExpenseType == "Taxi").Any())
 				{
 					double ammounttaxi = Expenses.Where(x => x.ExpenseType == "Taxi").Count();
 
-					//sum for each flight the total price in the right currency
+					//sum for each taxi the total price in the right currency
 					double totaltaxi = 0;
 					foreach (var taxi in Expenses.Where(x => x.ExpenseType == "Taxi"))
 					{
@@ -285,11 +336,11 @@ namespace GearHonService.ViewModels
 					});
 				}
 
-				if (Expenses.Where(x => x.ExpenseType == "Train").Count() > 0)
+				if (Expenses.Where(x => x.ExpenseType == "Train").Any())
 				{
 					double ammounttrain = Expenses.Where(x => x.ExpenseType == "Train").Count();
 
-					//sum for each flight the total price in the right currency
+					//sum for each train the total price in the right currency
 					double totaltrain = 0;
 					foreach (var train in Expenses.Where(x => x.ExpenseType == "Train"))
 					{
@@ -306,6 +357,85 @@ namespace GearHonService.ViewModels
 						Currency = InvoiceCurrency
 					});
 				}
+
+				if (Expenses.Where(x => x.ExpenseType == "Car").Any())
+				{
+					double ammountcar = Expenses.Where(x => x.ExpenseType == "Car").Count();
+
+					//sum for each Car the total price in the right currency
+					double totalcar = 0;
+					foreach (var car in Expenses.Where(x => x.ExpenseType == "Car"))
+					{
+						decimal rate = Currencies.Where(x => x.Code == car.ExpenseCurrency).First().Rate;
+						double price = Convert.ToDouble(car.ExpenseAmount) / Convert.ToDouble(rate);
+						totalcar += price;
+					}
+
+					InvoiceItems.Add(new InvoiceItemModel
+					{
+						Ammount = ammountcar.ToString("F"),
+						Price = totalcar.ToString("F"),
+						Description = "Autokosten für den Zeitraum" + " " + InvoiceMonth + "." + InvoiceYear + " " + "gemäss Anlage",
+						Currency = InvoiceCurrency
+					});
+				}
+
+				if (Expenses.Where(x => x.ExpenseType == "Bus").Any())
+				{
+					double ammountbus = Expenses.Where(x => x.ExpenseType == "Bus").Count();
+
+					//sum for each Bus the total price in the right currency
+					double totalbus = 0;
+					foreach (var bus in Expenses.Where(x => x.ExpenseType == "Bus"))
+					{
+						decimal rate = Currencies.Where(x => x.Code == bus.ExpenseCurrency).First().Rate;
+						double price = Convert.ToDouble(bus.ExpenseAmount) / Convert.ToDouble(rate);
+						totalbus += price;
+					}
+
+					InvoiceItems.Add(new InvoiceItemModel
+					{
+						Ammount = ammountbus.ToString("F"),
+						Price = totalbus.ToString("F"),
+						Description = "Buskosten für den Zeitraum" + " " + InvoiceMonth + "." + InvoiceYear + " " + "gemäss Anlage",
+						Currency = InvoiceCurrency
+					});
+				}
+
+				if (Expenses.Where(x => x.ExpenseType == "Hotel").Any())
+				{
+					double ammounthotel = Expenses.Where(x => x.ExpenseType == "Hotel").Count();
+
+					//sum for each hotel the total price in the right currency
+					double totalhotel = 0;
+					foreach (var hotel in Expenses.Where(x => x.ExpenseType == "Hotel"))
+					{
+						decimal rate = Currencies.Where(x => x.Code == hotel.ExpenseCurrency).First().Rate;
+						double price = Convert.ToDouble(hotel.ExpenseAmount) / Convert.ToDouble(rate);
+						totalhotel += price;
+					}
+
+					InvoiceItems.Add(new InvoiceItemModel
+					{
+						Ammount = ammounthotel.ToString("F"),
+						Price = totalhotel.ToString("F"),
+						Description = "Hotelkosten für den Zeitraum" + " " + InvoiceMonth + "." + InvoiceYear + " " + "gemäss Anlage",
+						Currency = InvoiceCurrency
+					});
+				}
+
+				//sum all expenses
+				double totalexpense = 0;
+				foreach (var expense in Expenses)
+				{
+					decimal rate = Currencies.Where(x => x.Code == expense.ExpenseCurrency).First().Rate;
+					double price = Convert.ToDouble(expense.ExpenseAmount) / Convert.ToDouble(rate);
+					totalexpense += price;
+				}
+
+				//sum expenses and total for work
+				double grandtotal = totalexpense + TotalForWorkInMonth;
+				InvoiceGrandTotal = grandtotal.ToString("F") + InvoiceCurrency;
 			}
 			catch (Exception ex)
 			{
@@ -421,20 +551,42 @@ namespace GearHonService.ViewModels
 		}
 		private async Task GetInvoiceNumber()
 		{
-			//count how may are already in invoice table from database
-			var result = await _supabaseClient.From<InvoiceModel>().Get();
-			InvoiceNumber = result.Models.Count + 1;
+			//get the last invoicenumber from database and add 1
+			try
+			{
+				//get last invoice number
+				var result = await _supabaseClient.From<InvoiceModel>().Where(x => x.UID == UID).Get();
+				if (result.Models.Count > 0)
+				{
+					InvoiceNumber = result.Models.Last().InvoiceNumber + 1;
+				}
+				else
+				{
+					InvoiceNumber = 1;
+				}
+			}
+			catch(Exception ex)
+			{
+				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+			}
 		}
-		private void GetCurrencySymbole()
+		private async Task GetCurrencySymbole()
 		{
-			//load the currency symbole from internet depend on user currency selection
-			var symbole = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
-				.Select(culture => new RegionInfo(culture.Name))
-				.GroupBy(region => region.ISOCurrencySymbol)
-				.Select(group => group.First())
-				.ToDictionary(region => region.ISOCurrencySymbol, region => region.CurrencySymbol);
+			try
+			{
+				//load the currency symbole from internet depend on user currency selection
+				var symbole = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
+					.Select(culture => new RegionInfo(culture.Name))
+					.GroupBy(region => region.ISOCurrencySymbol)
+					.Select(group => group.First())
+					.ToDictionary(region => region.ISOCurrencySymbol, region => region.CurrencySymbol);
 
-			InvoiceCurrency = symbole[selectedContractor.Currency];
+				InvoiceCurrency = symbole[selectedContractor.Currency];
+			}
+			catch(Exception ex)
+			{
+				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
+			}
 		}
 
 
@@ -461,7 +613,7 @@ namespace GearHonService.ViewModels
 
 				//Dates
 				InvoiceDate = DateTime.Now;
-				InvoiceDueDate = DateTime.Now.AddDays(Convert.ToInt32(SelectedContractor.PaymentTerms)).Date;
+				InvoiceDueDate = DateTime.Now.AddDays(Convert.ToInt32(SelectedContractor.PaymentTerms)).ToShortDateString();
 			}
 
 			//user information

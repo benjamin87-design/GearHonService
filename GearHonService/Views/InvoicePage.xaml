@@ -16,27 +16,52 @@
             </Grid.RowDefinitions>
 
             <StackLayout Grid.Row="0" Orientation="Vertical">
-                <DatePicker Date="{Binding InvoiceDateSelection, Mode=TwoWay}" Format="MM.yyyy">
-                    <DatePicker.Behaviors>
-                        <toolkit:EventToCommandBehavior Command="{Binding MonthAndYearChangedCommand}" EventName="DateSelected" />
-                    </DatePicker.Behaviors>
-                </DatePicker>
 
-                <Picker
-                    ItemDisplayBinding="{Binding Name}"
-                    ItemsSource="{Binding Contractors}"
-                    SelectedItem="{Binding SelectedContractor}" />
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                    <DatePicker Date="{Binding InvoiceDateSelection, Mode=TwoWay}" Format="MM.yyyy">
+                        <DatePicker.Behaviors>
+                            <toolkit:EventToCommandBehavior Command="{Binding MonthAndYearChangedCommand}" EventName="DateSelected" />
+                        </DatePicker.Behaviors>
+                    </DatePicker>
+                    <Picker
+                        Margin="20"
+                        ItemDisplayBinding="{Binding Name}"
+                        ItemsSource="{Binding Contractors}"
+                        SelectedItem="{Binding SelectedContractor}"
+                        WidthRequest="250" />
+                </StackLayout>
 
-                <Button Command="{Binding CreateInvoiceCommand}" Text="Create" />
-                <Button Text="Print" />
-                <ActivityIndicator IsRunning="{Binding IsRunning, Mode=TwoWay}" />
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                    <Button
+                        Margin="20"
+                        Command="{Binding CreateInvoiceCommand}"
+                        Text="Create"
+                        WidthRequest="100" />
+                    <Button
+                        Margin="20"
+                        Clicked="Button_Clicked"
+                        Text="Print"
+                        WidthRequest="100" />
+                </StackLayout>
+
+                <ActivityIndicator
+                    Margin="20"
+                    HorizontalOptions="Center"
+                    IsRunning="{Binding IsRunning, Mode=TwoWay}" />
             </StackLayout>
 
-            <Grid x:Name="print" Grid.Row="1" IsVisible="{Binding InvoiceVisible,Mode=TwoWay}">
+            <Grid
+                x:Name="print"
+                Grid.Row="1"
+                Margin="20"
+                Background="White"
+                HeightRequest="1122"
+                IsVisible="{Binding InvoiceVisible, Mode=TwoWay}"
+                WidthRequest="794">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="120" />
-                    <RowDefinition Height="500" />
-                    <RowDefinition Height="100" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="250" />
                 </Grid.RowDefinitions>
 
                 <StackLayout
@@ -66,60 +91,90 @@
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <StackLayout Grid.Column="0" Margin="10">
-                            <Label
-                                Margin="5"
-                                FontSize="20"
-                                Text="{Binding ContractorName, Mode=TwoWay}" />
+                            <StackLayout Orientation="Vertical">
+                                <Label
+                                    Margin="5"
+                                    FontSize="20"
+                                    Text="{Binding ContractorName, Mode=TwoWay}"
+                                    TextColor="Black" />
+                                <Label
+                                    Margin="5,0,0,0"
+                                    FontSize="12"
+                                    Text="{Binding ContractorStreet}"
+                                    TextColor="Black" />
+
+                                <StackLayout Orientation="Horizontal">
+                                    <Label
+                                        Margin="5,0,0,0"
+                                        FontSize="12"
+                                        Text="{Binding ContractorZipCode}"
+                                        TextColor="Black" />
+                                    <Label
+                                        Margin="5,0,0,0"
+                                        FontSize="12"
+                                        Text="{Binding ContractorCity}"
+                                        TextColor="Black" />
+                                </StackLayout>
+                            </StackLayout>
+
                             <StackLayout Orientation="Horizontal">
                                 <Label
                                     Margin="5"
                                     FontSize="12"
-                                    Text="Ausgestellt am:" />
+                                    Text="Ausgestellt am:"
+                                    TextColor="Black" />
                                 <Label
                                     Margin="5"
                                     FontAttributes="Bold"
                                     FontSize="12"
-                                    Text="{Binding InvoiceDate, Mode=TwoWay}" />
+                                    Text="{Binding InvoiceDate, Mode=TwoWay}"
+                                    TextColor="Black" />
                             </StackLayout>
                             <StackLayout Orientation="Horizontal">
                                 <Label
                                     Margin="5"
                                     FontSize="12"
-                                    Text="Rechungs Nr:" />
+                                    Text="Rechungs Nr:"
+                                    TextColor="Black" />
                                 <Label
                                     Margin="5"
                                     FontAttributes="Bold"
                                     FontSize="12"
-                                    Text="0001" />
+                                    Text="{Binding InvoiceNumber, Mode=TwoWay}"
+                                    TextColor="Black" />
                             </StackLayout>
                         </StackLayout>
                         <StackLayout Grid.Column="1" Margin="10">
                             <Label
-                                Margin="5"
+                                Margin="5,0,0,0"
                                 FontSize="12"
                                 HorizontalOptions="End"
-                                Text="{Binding UserName, Mode=TwoWay}" />
+                                Text="{Binding UserName, Mode=TwoWay}"
+                                TextColor="Black" />
                             <Label
-                                Margin="5"
+                                Margin="5,0,0,0"
                                 FontSize="12"
                                 HorizontalOptions="End"
-                                Text="{Binding UserStreet, Mode=TwoWay}" />
-                            <StackLayout Orientation="Horizontal" HorizontalOptions="End">
+                                Text="{Binding UserStreet, Mode=TwoWay}"
+                                TextColor="Black" />
+                            <StackLayout HorizontalOptions="End" Orientation="Horizontal">
                                 <Label
-                                    Margin="5"
+                                    Margin="5,0,0,0"
                                     FontSize="12"
-                                    Text="{Binding UserZipCode, Mode=TwoWay}" />
+                                    Text="{Binding UserZipCode, Mode=TwoWay}"
+                                    TextColor="Black" />
                                 <Label
-                                    Margin="5"
+                                    Margin="5,0,0,0"
                                     FontSize="12"
-                                    Text="{Binding UserCity, Mode=TwoWay}" />
+                                    Text="{Binding UserCity, Mode=TwoWay}"
+                                    TextColor="Black" />
                             </StackLayout>
                         </StackLayout>
                     </Grid>
 
                     <Grid Margin="10,30,10,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="4*" />
                             <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="1*" />
@@ -127,27 +182,31 @@
                         <Label
                             Grid.Column="0"
                             FontSize="12"
-                            Text="BESCHREIBUNG" />
+                            Text="BESCHREIBUNG"
+                            TextColor="Black" />
                         <Label
                             Grid.Column="1"
                             FontSize="12"
                             HorizontalOptions="Center"
-                            Text="STÜCKZAHL" />
+                            Text="STÜCKZAHL"
+                            TextColor="Black" />
                         <Label
                             Grid.Column="2"
                             FontSize="12"
                             HorizontalOptions="Center"
-                            Text="PREIS" />
+                            Text="PREIS"
+                            TextColor="Black" />
                         <Label
                             Grid.Column="3"
                             FontSize="12"
                             HorizontalOptions="End"
-                            Text="TOTAL" />
+                            Text="TOTAL"
+                            TextColor="Black" />
                     </Grid>
                     <Rectangle
                         Margin="5,2"
                         Fill="Black"
-                        HeightRequest="1"
+                        HeightRequest="2"
                         Opacity="0.5" />
                     <ListView HorizontalOptions="FillAndExpand" ItemsSource="{Binding InvoiceItems, Mode=TwoWay}">
                         <ListView.ItemTemplate>
@@ -155,29 +214,39 @@
                                 <ViewCell>
                                     <Grid Margin="10,30,10,0">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="3*" />
+                                            <ColumnDefinition Width="4*" />
                                             <ColumnDefinition Width="1*" />
                                             <ColumnDefinition Width="1*" />
                                             <ColumnDefinition Width="1*" />
                                         </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Text="{Binding Description}" />
+                                        <Label
+                                            Grid.Column="0"
+                                            FontSize="11"
+                                            Text="{Binding Description}"
+                                            TextColor="Black" />
                                         <Label
                                             Grid.Column="1"
+                                            FontSize="11"
                                             HorizontalOptions="Center"
-                                            Text="{Binding Ammount}" />
+                                            Text="{Binding Ammount}"
+                                            TextColor="Black" />
                                         <Label
                                             Grid.Column="2"
+                                            FontSize="11"
                                             HorizontalOptions="Center"
-                                            Text="{Binding AmmountPrice}" />
+                                            Text="{Binding AmmountPrice}"
+                                            TextColor="Black" />
                                         <StackLayout
                                             Grid.Column="3"
                                             HorizontalOptions="End"
                                             Orientation="Horizontal">
                                             <Label
+                                                FontSize="11"
                                                 HorizontalOptions="Center"
                                                 Text="{Binding Price}"
                                                 TextColor="{StaticResource Primary}" />
                                             <Label
+                                                FontSize="11"
                                                 HorizontalOptions="Center"
                                                 Text="{Binding Currency}"
                                                 TextColor="{StaticResource Primary}" />
@@ -200,22 +269,25 @@
                         <Label
                             Grid.Column="0"
                             FontSize="12"
-                            Text="BANK INFO" />
+                            Text="BANK INFO"
+                            TextColor="Black" />
                         <Label
                             Grid.Column="1"
                             FontSize="12"
                             HorizontalOptions="Start"
-                            Text="FÄLLIG BIS" />
+                            Text="FÄLLIG BIS"
+                            TextColor="Black" />
                         <Label
                             Grid.Column="3"
                             FontSize="12"
                             HorizontalOptions="End"
-                            Text="TOTAL FÄLLIG" />
+                            Text="TOTAL FÄLLIG"
+                            TextColor="Black" />
                     </Grid>
                     <Rectangle
                         Margin="5"
                         Fill="Black"
-                        HeightRequest="1"
+                        HeightRequest="2"
                         Opacity="0.5" />
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
@@ -228,30 +300,35 @@
                                 <Label
                                     Margin="5"
                                     FontSize="10"
-                                    Text="Account No:" />
+                                    Text="Account No:"
+                                    TextColor="Black" />
                                 <Label
                                     Margin="5"
                                     FontAttributes="Bold"
                                     FontSize="10"
-                                    Text="{Binding IBAN, Mode=TwoWay}" />
+                                    Text="{Binding IBAN, Mode=TwoWay}"
+                                    TextColor="Black" />
                             </StackLayout>
                             <StackLayout Orientation="Horizontal">
                                 <Label
                                     Margin="5"
                                     FontSize="10"
-                                    Text="SWIFT:" />
+                                    Text="SWIFT:"
+                                    TextColor="Black" />
                                 <Label
                                     Margin="5"
                                     FontAttributes="Bold"
                                     FontSize="10"
-                                    Text="{Binding SWIFT, Mode=TwoWay}" />
+                                    Text="{Binding SWIFT, Mode=TwoWay}"
+                                    TextColor="Black" />
                             </StackLayout>
                         </StackLayout>
                         <StackLayout Grid.Column="1">
                             <Label
                                 Margin="5"
                                 FontSize="25"
-                                Text="{Binding InvoiceDueDate, Mode=TwoWay}" />
+                                Text="{Binding InvoiceDueDate, Mode=TwoWay}"
+                                TextColor="Black" />
                         </StackLayout>
                         <StackLayout Grid.Column="2">
                             <StackLayout HorizontalOptions="End" Orientation="Horizontal">
@@ -262,13 +339,6 @@
                                     HorizontalOptions="End"
                                     Text="{Binding InvoiceGrandTotal, Mode=TwoWay}"
                                     TextColor="{StaticResource Primary}" />
-                                <Label
-                                    Margin="5"
-                                    FontAttributes="Bold"
-                                    FontSize="25"
-                                    HorizontalOptions="End"
-                                    Text="{Binding InvoiceCurrency, Mode=TwoWay}"
-                                    TextColor="{StaticResource Primary}" />
                             </StackLayout>
 
                         </StackLayout>
@@ -276,42 +346,48 @@
                     <Rectangle
                         Margin="5"
                         Fill="Black"
-                        HeightRequest="1"
+                        HeightRequest="2"
                         Opacity="0.5" />
 
-                    <Grid Margin="0,20" HorizontalOptions="FillAndExpand">
+                    <Grid Margin="0,20,0,20" HorizontalOptions="FillAndExpand">
                         <StackLayout Orientation="Vertical">
-                            <StackLayout Orientation="Horizontal">
-                                <Label
-                                    Margin="5"
-                                    FontSize="20"
-                                    Text="Vielen Dank!"
-                                    VerticalOptions="Center" />
-                            </StackLayout>
                             <Label
-                                Margin="5"
+                                Margin="5,5,5,20"
                                 FontSize="8"
                                 Text="{Binding TaxText, Mode=TwoWay}"
+                                TextColor="Grey"
                                 VerticalOptions="Center" />
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label
+                                    Margin="5,5,5,20"
+                                    FontSize="20"
+                                    Text="Vielen Dank!"
+                                    TextColor="Black"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
                         </StackLayout>
                         <StackLayout
                             HorizontalOptions="End"
                             Orientation="Horizontal"
                             VerticalOptions="End">
                             <Label
-                                Margin="5"
+                                Margin="5,5,5,20"
                                 FontSize="8"
                                 Text="{Binding UserEmail, Mode=TwoWay}"
+                                TextColor="Grey"
                                 VerticalOptions="Center" />
                             <Label
-                                Margin="5"
+                                Margin="5,5,5,20"
                                 FontSize="8"
                                 Text="{Binding UserPhone, Mode=TwoWay}"
+                                TextColor="Grey"
                                 VerticalOptions="Center" />
                             <Label
-                                Margin="5"
+                                Margin="5,5,5,20"
                                 FontSize="8"
                                 Text="codewhizserviceengineer.onrender.com"
+                                TextColor="Grey"
                                 VerticalOptions="Center" />
                         </StackLayout>
                     </Grid>

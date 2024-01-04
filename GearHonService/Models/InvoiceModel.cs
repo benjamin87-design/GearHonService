@@ -1,13 +1,22 @@
-﻿using Postgrest.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Postgrest.Attributes;
+using Postgrest.Models;
 
 namespace GearHonService.Models
 {
-	public partial class InvoiceModel : BaseModel
+	[Table("Invoice")]
+	public class InvoiceModel : BaseModel
 	{
+		[PrimaryKey("id")]
+		public int ID { get; set; }
+		[Column("UID")]
+		public string UID { get; set; }
+		[Column("InvoiceNumber")]
+		public int InvoiceNumber { get; set; }
+		[Column("InvoiceDate")]
+		public DateTime InvoiceDate { get; set; }
+		[Column("InvoiceDueDate")]
+		public DateTime InvoiceDueDate { get; set; }
+		[Column("InvoiceTotal")]
+		public string InvoiceTotal { get; set; }
 	}
 }
