@@ -144,6 +144,12 @@
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Passwort bestätigen</value>
   </data>
+  <data name="Contractor" xml:space="preserve">
+    <value>Auftraggeber</value>
+  </data>
+  <data name="ContractorDetailPage" xml:space="preserve">
+    <value>Auftraggeber details</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopieren</value>
   </data>

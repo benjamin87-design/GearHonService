@@ -3,6 +3,8 @@
     x:Class="GearHonService.Views.InvoicePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:icon="clr-namespace:GearHonService"
+    xmlns:resx="clr-namespace:GearHonService.Resources.Strings"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:GearHonService.ViewModels"
     Title="InvoicePage"
@@ -90,10 +92,12 @@
                             <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
+                        <!--  Contractor  -->
                         <StackLayout Grid.Column="0" Margin="10">
                             <StackLayout Orientation="Vertical">
                                 <Label
                                     Margin="5"
+                                    FontAttributes="Bold"
                                     FontSize="20"
                                     Text="{Binding ContractorName, Mode=TwoWay}"
                                     TextColor="Black" />
@@ -119,12 +123,12 @@
 
                             <StackLayout Orientation="Horizontal">
                                 <Label
-                                    Margin="5"
+                                    Margin="5,10,0,0"
                                     FontSize="12"
                                     Text="Ausgestellt am:"
                                     TextColor="Black" />
                                 <Label
-                                    Margin="5"
+                                    Margin="5,10,0,0"
                                     FontAttributes="Bold"
                                     FontSize="12"
                                     Text="{Binding InvoiceDate, Mode=TwoWay}"
@@ -144,9 +148,12 @@
                                     TextColor="Black" />
                             </StackLayout>
                         </StackLayout>
+
+                        <!--  User  -->
                         <StackLayout Grid.Column="1" Margin="10">
                             <Label
-                                Margin="5,0,0,0"
+                                Margin="5,5,0,5"
+                                FontAttributes="Bold"
                                 FontSize="12"
                                 HorizontalOptions="End"
                                 Text="{Binding UserName, Mode=TwoWay}"
@@ -172,6 +179,7 @@
                         </StackLayout>
                     </Grid>
 
+                    <!--  Header for Invoice Items  -->
                     <Grid Margin="10,30,10,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="4*" />
@@ -203,11 +211,14 @@
                             Text="TOTAL"
                             TextColor="Black" />
                     </Grid>
+
                     <Rectangle
                         Margin="5,2"
                         Fill="Black"
                         HeightRequest="2"
                         Opacity="0.5" />
+
+                    <!--  Invoice items  -->
                     <ListView HorizontalOptions="FillAndExpand" ItemsSource="{Binding InvoiceItems, Mode=TwoWay}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -260,6 +271,8 @@
                 </StackLayout>
 
                 <StackLayout Grid.Row="2" Margin="20,0">
+
+                    <!--  header for info section  -->
                     <Grid Margin="10,20,10,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*" />
@@ -289,6 +302,7 @@
                         Fill="Black"
                         HeightRequest="2"
                         Opacity="0.5" />
+
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*" />
@@ -323,13 +337,16 @@
                                     TextColor="Black" />
                             </StackLayout>
                         </StackLayout>
+
                         <StackLayout Grid.Column="1">
                             <Label
                                 Margin="5"
+                                FontAttributes="Bold"
                                 FontSize="25"
                                 Text="{Binding InvoiceDueDate, Mode=TwoWay}"
                                 TextColor="Black" />
                         </StackLayout>
+
                         <StackLayout Grid.Column="2">
                             <StackLayout HorizontalOptions="End" Orientation="Horizontal">
                                 <Label
@@ -343,6 +360,7 @@
 
                         </StackLayout>
                     </Grid>
+
                     <Rectangle
                         Margin="5"
                         Fill="Black"
@@ -357,13 +375,21 @@
                                 Text="{Binding TaxText, Mode=TwoWay}"
                                 TextColor="Grey"
                                 VerticalOptions="Center" />
-
                             <StackLayout Orientation="Horizontal">
                                 <Label
                                     Margin="5,5,5,20"
+                                    FontAttributes="Bold"
+                                    FontFamily="GoogleMaterialFont"
+                                    FontSize="24"
+                                    Text="{x:Static icon:IconFont.Handshake}"
+                                    TextColor="{StaticResource Primary}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Margin="5,5,5,20"
+                                    FontAttributes="Bold"
                                     FontSize="20"
                                     Text="Vielen Dank!"
-                                    TextColor="Black"
+                                    TextColor="{StaticResource Primary}"
                                     VerticalOptions="Center" />
                             </StackLayout>
                         </StackLayout>
