@@ -1,86 +1,79 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
-using GearHonService.Services;
-using System;
-using System.Collections.Generic;
+﻿using GearHonService.Services;
 using System.Globalization;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GearHonService.ViewModels
 {
 	public partial class InvoiceViewModel : BaseViewModel
 	{
 		[ObservableProperty]
-		private string? name;
+		private string name;
 		[ObservableProperty]
 		private int invoiceId;
 		[ObservableProperty]
-		private string? uID;
+		private string uID;
 		[ObservableProperty]
 		private DateTime invoiceDateSelection;
 		[ObservableProperty]
-		private string? invoiceMonth;
+		private string invoiceMonth;
 		[ObservableProperty]
-		private string? invoiceYear;
+		private string invoiceYear;
 		[ObservableProperty]
-		private decimal? workingHours;
+		private decimal workingHours;
 		[ObservableProperty]
-		private decimal? totalExpenseInMonth;
+		private decimal totalExpenseInMonth;
 		[ObservableProperty]
-		private decimal? totalForWorkInMonth;
+		private decimal totalForWorkInMonth;
 		[ObservableProperty]
-		private string? code;
+		private string code;
 		[ObservableProperty]
-		private string? invoiceCurrency;
+		private string invoiceCurrency;
 
 		//invoice item
 		[ObservableProperty]
-		private string? description;
+		private string description;
 		[ObservableProperty]
-		private string? ammount;
+		private string ammount;
 		[ObservableProperty]
-		private string? ammountPrice;
+		private string ammountPrice;
 		[ObservableProperty]
-		private string? price;
+		private string price;
 		[ObservableProperty]
-		private string? currency;
+		private string currency;
 
 		[ObservableProperty]
-		private string? contractorName;
+		private string contractorName;
 		[ObservableProperty]
-		private string? contractorStreet;
+		private string contractorStreet;
 		[ObservableProperty]
-		private string? contractorCity;
+		private string contractorCity;
 		[ObservableProperty]
-		private string? contractorZipCode;
+		private string contractorZipCode;
 		[ObservableProperty]
-		private string? contractorCountry;
+		private string contractorCountry;
 
 		[ObservableProperty]
-		private string? userName;
+		private string userName;
 		[ObservableProperty]
-		private string? userStreet;
+		private string userStreet;
 		[ObservableProperty]
-		private string? userCity;
+		private string userCity;
 		[ObservableProperty]
-		private string? userZipCode;
+		private string userZipCode;
 		[ObservableProperty]
-		private string? userCountry;
+		private string userCountry;
 		[ObservableProperty]
-		private string? userEmail;
+		private string userEmail;
 		[ObservableProperty]
-		private string? userPhone;
+		private string userPhone;
 
 		[ObservableProperty]
-		private string? bankName;
+		private string bankName;
 		[ObservableProperty]
-		private string? accountName;
+		private string accountName;
 		[ObservableProperty]
-		private string? iBAN;
+		private string iBAN;
 		[ObservableProperty]
-		private string? sWIFT;
+		private string sWIFT;
 
 		[ObservableProperty]
 		private int invoiceNumber;
@@ -89,9 +82,9 @@ namespace GearHonService.ViewModels
 		[ObservableProperty]
 		private DateTime invoiceDueDate;
 		[ObservableProperty]
-		private string? invoicePaymentTerms;
+		private string invoicePaymentTerms;
 		[ObservableProperty]
-		private string? invoicePaymentMethod;
+		private string invoicePaymentMethod;
 		[ObservableProperty]
 		private decimal invoiceTotal;
 		[ObservableProperty]
@@ -104,21 +97,26 @@ namespace GearHonService.ViewModels
 		private decimal invoiceGrandTotal;
 
 		[ObservableProperty]
-		private ObservableCollection<ContractorModel>? contractors;
+		private bool isRunning;
 		[ObservableProperty]
-		private ObservableCollection<UserModel>? users;
+		private bool invoiceVisible;
+
 		[ObservableProperty]
-		private ObservableCollection<ServiceReportModel>? servicereports;
+		private ObservableCollection<ContractorModel> contractors;
 		[ObservableProperty]
-		private ObservableCollection<ExpenseModel>? expenses;
+		private ObservableCollection<UserModel> users;
 		[ObservableProperty]
-		private ObservableCollection<CurrencyModel>? currencies;
+		private ObservableCollection<ServiceReportModel> servicereports;
 		[ObservableProperty]
-		private ObservableCollection<InvoiceItemModel>? invoiceItems;
+		private ObservableCollection<ExpenseModel> expenses;
+		[ObservableProperty]
+		private ObservableCollection<CurrencyModel> currencies;
+		[ObservableProperty]
+		private ObservableCollection<InvoiceItemModel> invoiceItems;
 
 		//selected items
-		private ContractorModel? selectedContractor;
-		public ContractorModel? SelectedContractor
+		private ContractorModel selectedContractor;
+		public ContractorModel SelectedContractor
 		{
 			get { return selectedContractor; }
 			set { selectedContractor = value; }
@@ -133,6 +131,12 @@ namespace GearHonService.ViewModels
 			_supabaseClient = supabaseClient;
 			_currencyLoader = currencyLoader;
 
+			InvoiceDateSelection = DateTime.Now;
+			UID = Preferences.Get("uid", string.Empty);
+
+			IsRunning = false;
+			InvoiceVisible = false;
+
 			Contractors = new ObservableCollection<ContractorModel>();
 			Users = new ObservableCollection<UserModel>();
 			Servicereports = new ObservableCollection<ServiceReportModel>();
@@ -140,10 +144,7 @@ namespace GearHonService.ViewModels
 			Currencies = new ObservableCollection<CurrencyModel>();
 			InvoiceItems = new ObservableCollection<InvoiceItemModel>();
 
-			InvoiceDateSelection = DateTime.Now;
-
-			UID = Preferences.Get("uid", string.Empty);
-			_ = GetContractor();
+			_ = GetContractorFromDb();
 			_ = GetCurrencyExchangeRate();
 			_ = GetInvoiceNumber();
 		}
@@ -158,8 +159,9 @@ namespace GearHonService.ViewModels
 		[RelayCommand]
 		private async Task CreateInvoice()
 		{
+			IsRunning = true;
 			await GetAllDataFromDb();
-			await GetCurrencySymbole();
+			GetCurrencySymbole();
 
 			try
 			{
@@ -177,6 +179,8 @@ namespace GearHonService.ViewModels
 			{
 				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
 			}
+			IsRunning = false;
+			InvoiceVisible = true;
 		}
 
 		private async Task GetInvoiceItems()
@@ -250,8 +254,6 @@ namespace GearHonService.ViewModels
 						totalflight += price;
 					}
 
-					
-
 					InvoiceItems.Add(new InvoiceItemModel
 					{
 						Ammount = ammountflight.ToString("F"),
@@ -260,9 +262,50 @@ namespace GearHonService.ViewModels
 						Currency = InvoiceCurrency
 					});
 				}
-				
 
+				if (Expenses.Where(x => x.ExpenseType == "Taxi").Count() > 0)
+				{
+					double ammounttaxi = Expenses.Where(x => x.ExpenseType == "Taxi").Count();
 
+					//sum for each flight the total price in the right currency
+					double totaltaxi = 0;
+					foreach (var taxi in Expenses.Where(x => x.ExpenseType == "Taxi"))
+					{
+						decimal rate = Currencies.Where(x => x.Code == taxi.ExpenseCurrency).First().Rate;
+						double price = Convert.ToDouble(taxi.ExpenseAmount) / Convert.ToDouble(rate);
+						totaltaxi += price;
+					}
+
+					InvoiceItems.Add(new InvoiceItemModel
+					{
+						Ammount = ammounttaxi.ToString("F"),
+						Price = totaltaxi.ToString("F"),
+						Description = "Taxikosten für den Zeitraum" + " " + InvoiceMonth + "." + InvoiceYear + " " + "gemäss Anlage",
+						Currency = InvoiceCurrency
+					});
+				}
+
+				if (Expenses.Where(x => x.ExpenseType == "Train").Count() > 0)
+				{
+					double ammounttrain = Expenses.Where(x => x.ExpenseType == "Train").Count();
+
+					//sum for each flight the total price in the right currency
+					double totaltrain = 0;
+					foreach (var train in Expenses.Where(x => x.ExpenseType == "Train"))
+					{
+						decimal rate = Currencies.Where(x => x.Code == train.ExpenseCurrency).First().Rate;
+						double price = Convert.ToDouble(train.ExpenseAmount) / Convert.ToDouble(rate);
+						totaltrain += price;
+					}
+
+					InvoiceItems.Add(new InvoiceItemModel
+					{
+						Ammount = ammounttrain.ToString("F"),
+						Price = totaltrain.ToString("F"),
+						Description = "Zugkosten für den Zeitraum" + " " + InvoiceMonth + "." + InvoiceYear + " " + "gemäss Anlage",
+						Currency = InvoiceCurrency
+					});
+				}
 			}
 			catch (Exception ex)
 			{
@@ -295,7 +338,7 @@ namespace GearHonService.ViewModels
 			//Load Servicereports within the right month and year
 			try
 			{
-				var result = await _supabaseClient.From<ServiceReportModel>().Get();
+				var result = await _supabaseClient.From<ServiceReportModel>().Where(x => x.UID == UID).Get();
 				if (Servicereports != null)
 				{
 					Servicereports.Clear();
@@ -317,7 +360,7 @@ namespace GearHonService.ViewModels
 			//load expenses within the right month and year
 			try
 			{
-				var result = await _supabaseClient.From<ExpenseModel>().Get();
+				var result = await _supabaseClient.From<ExpenseModel>().Where(x => x.UID == UID).Get();
 				if (Expenses != null)
 				{
 					Expenses.Clear();
@@ -336,7 +379,7 @@ namespace GearHonService.ViewModels
 				Console.WriteLine(ex.Message);
 			}
 		}
-		private async Task GetContractor()
+		private async Task GetContractorFromDb()
 		{
 			//load contractors
 			try
@@ -361,6 +404,7 @@ namespace GearHonService.ViewModels
 		{
 			try
 			{
+				Currencies.Clear();
 				Currencies.Add(new CurrencyModel { Code = "EUR", Rate = 1 });
 
 				var currencies = await _currencyLoader.LoadCurrenciesAsync();
@@ -381,7 +425,7 @@ namespace GearHonService.ViewModels
 			var result = await _supabaseClient.From<InvoiceModel>().Get();
 			InvoiceNumber = result.Models.Count + 1;
 		}
-		private async Task GetCurrencySymbole()
+		private void GetCurrencySymbole()
 		{
 			//load the currency symbole from internet depend on user currency selection
 			var symbole = CultureInfo.GetCultures(CultureTypes.SpecificCultures)

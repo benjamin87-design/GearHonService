@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GearHonService", "GearHonService\GearHonService.csproj", "{E1702B3F-F949-4297-8D84-C320B13CDB54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GearHonService", "GearHonService\GearHonService.csproj", "{E1702B3F-F949-4297-8D84-C320B13CDB54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -28,13 +28,15 @@
                     SelectedItem="{Binding SelectedContractor}" />
 
                 <Button Command="{Binding CreateInvoiceCommand}" Text="Create" />
+                <Button Text="Print" />
+                <ActivityIndicator IsRunning="{Binding IsRunning, Mode=TwoWay}" />
             </StackLayout>
 
-            <Grid x:Name="print" Grid.Row="1">
+            <Grid x:Name="print" Grid.Row="1" IsVisible="{Binding InvoiceVisible,Mode=TwoWay}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="120" />
-                    <RowDefinition Height="400" />
-                    <RowDefinition Height="200" />
+                    <RowDefinition Height="500" />
+                    <RowDefinition Height="100" />
                 </Grid.RowDefinitions>
 
                 <StackLayout
@@ -102,16 +104,16 @@
                                 FontSize="12"
                                 HorizontalOptions="End"
                                 Text="{Binding UserStreet, Mode=TwoWay}" />
-                            <Label
-                                Margin="5"
-                                FontSize="12"
-                                HorizontalOptions="End"
-                                Text="{Binding UserCity, Mode=TwoWay}" />
-                            <Label
-                                Margin="5"
-                                FontSize="12"
-                                HorizontalOptions="End"
-                                Text="{Binding UserZipCode, Mode=TwoWay}" />
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="End">
+                                <Label
+                                    Margin="5"
+                                    FontSize="12"
+                                    Text="{Binding UserZipCode, Mode=TwoWay}" />
+                                <Label
+                                    Margin="5"
+                                    FontSize="12"
+                                    Text="{Binding UserCity, Mode=TwoWay}" />
+                            </StackLayout>
                         </StackLayout>
                     </Grid>
 
@@ -167,7 +169,10 @@
                                             Grid.Column="2"
                                             HorizontalOptions="Center"
                                             Text="{Binding AmmountPrice}" />
-                                        <StackLayout Grid.Column="3" Orientation="Horizontal" HorizontalOptions="End">
+                                        <StackLayout
+                                            Grid.Column="3"
+                                            HorizontalOptions="End"
+                                            Orientation="Horizontal">
                                             <Label
                                                 HorizontalOptions="Center"
                                                 Text="{Binding Price}"

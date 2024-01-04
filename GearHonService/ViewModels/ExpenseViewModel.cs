@@ -4,16 +4,16 @@ namespace GearHonService.ViewModels
 {
 	public partial class ExpenseViewModel : BaseViewModel
 	{
-		[ObservableProperty] private string? name;
-		[ObservableProperty] private string? code;
-		[ObservableProperty] private string? type;
+		[ObservableProperty] private string name;
+		[ObservableProperty] private string code;
+		[ObservableProperty] private string type;
 		[ObservableProperty] private int iD;
-		[ObservableProperty] private string? contractorName;
-		[ObservableProperty] private string? uID;
+		[ObservableProperty] private string contractorName;
+		[ObservableProperty] private string uID;
 		[ObservableProperty] private DateTime date;
-		[ObservableProperty] private string? expenseType;
+		[ObservableProperty] private string expenseType;
 		[ObservableProperty] private decimal expenseAmount;
-		[ObservableProperty] private string? expenseCurrency;
+		[ObservableProperty] private string expenseCurrency;
 
 		[ObservableProperty]
 		private ObservableCollection<ExpenseModel> expenses;
@@ -25,29 +25,29 @@ namespace GearHonService.ViewModels
 		private ObservableCollection<ContractorModel> contractors;
 
 		//Selection
-		private ExpenseModel? selectedExpense;
-		public ExpenseModel? SelectedExpense
+		private ExpenseModel selectedExpense;
+		public ExpenseModel SelectedExpense
 		{
 			get { return selectedExpense; }
 			set { selectedExpense = value; }
 		}
 
-		private CurrencyModel? selectedCurrency;
-		public CurrencyModel? SelectedCurrency
+		private CurrencyModel selectedCurrency;
+		public CurrencyModel SelectedCurrency
 		{
 			get { return selectedCurrency; }
 			set { selectedCurrency = value; }
 		}
 
-		private ContractorModel? selectedContractor;
-		public ContractorModel? SelectedContractor
+		private ContractorModel selectedContractor;
+		public ContractorModel SelectedContractor
 		{
 			get { return selectedContractor; }
 			set { selectedContractor = value; }
 		}
 
-		private ExpenseTypeModel? selectedExpenseType;
-		public ExpenseTypeModel? SelectedExpenseType
+		private ExpenseTypeModel selectedExpenseType;
+		public ExpenseTypeModel SelectedExpenseType
 		{
 			get { return selectedExpenseType; }
 			set { selectedExpenseType = value; }
@@ -70,9 +70,9 @@ namespace GearHonService.ViewModels
 			Contractors = new ObservableCollection<ContractorModel>();
 
 			PopulateExpenseTypes();
-			_ = GetContractorFromDb();
-			_ = GetExpenseFromDb();
-			_ = GetCurrenies();
+			GetContractorFromDb();
+			GetExpenseFromDb();
+			GetCurrenies();
 		}
 
 		[RelayCommand]
@@ -223,6 +223,8 @@ namespace GearHonService.ViewModels
 		{
 			try
 			{
+				Currencies.Clear();
+
 				Currencies.Add(new CurrencyModel { Code = "EUR", Rate = 1 });
 
 				var currencies = await _currencyLoader.LoadCurrenciesAsync();

@@ -65,7 +65,7 @@ namespace GearHonService
 
 			builder.Services.AddSingleton(provider => new Supabase.Client(url, key));
 
-			builder.Services.AddSingleton<CurrencyLoader>();
+			builder.Services.AddTransient<CurrencyLoader>();
 
 			return builder.Build();
 		}
