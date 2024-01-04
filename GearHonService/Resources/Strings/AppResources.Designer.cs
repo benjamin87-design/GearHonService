@@ -142,6 +142,24 @@ namespace GearHonService.Resources.Strings {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Contractor ähnelt.
+        /// </summary>
+        internal static string Contractor {
+            get {
+                return ResourceManager.GetString("Contractor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Contractor details ähnelt.
+        /// </summary>
+        internal static string ContractorDetailPage {
+            get {
+                return ResourceManager.GetString("ContractorDetailPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Copy ähnelt.
         /// </summary>
         internal static string Copy {

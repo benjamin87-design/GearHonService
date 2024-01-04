@@ -65,7 +65,7 @@
     </ShellContent>
 
     <ShellContent
-        Title="Contractor"
+        Title="{x:Static resx:AppResources.Contractor}"
         ContentTemplate="{DataTemplate views:ContractorPage}"
         Route="ContractorPage"
         Shell.NavBarIsVisible="True">
@@ -78,7 +78,7 @@
     </ShellContent>
 
     <ShellContent
-        Title="ContractorDetailPage"
+        Title="{x:Static resx:AppResources.ContractorDetialPage}"
         ContentTemplate="{DataTemplate views:ContractorDetailPage}"
         FlyoutItemIsVisible="False"
         Route="ContractorDetailPage">
