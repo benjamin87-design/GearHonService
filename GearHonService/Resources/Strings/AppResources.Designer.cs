@@ -160,7 +160,7 @@ namespace GearHonService.Resources.Strings {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die codewhizserviceengineer.onrender.com ähnelt.
         /// </summary>
         internal static string BlogAddress {
             get {

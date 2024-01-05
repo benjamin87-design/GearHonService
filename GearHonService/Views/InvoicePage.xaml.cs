@@ -1,4 +1,6 @@
+using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Storage;
+using System.Threading;
 
 namespace GearHonService.Views;
 
@@ -15,25 +17,35 @@ public partial class InvoicePage : ContentPage
 	{
 		try
 		{
-			var folder = await FolderPicker.PickAsync(default);
-			FolderPathSelected = folder.Folder.Path;
+			await PickFolder(CancellationToken.None);
 		}
 		catch
 		{
-			// TODO Implement
+			await Shell.Current.DisplayAlert("Folder Selection Canceled", "You have canceled the folder selection", "Ok");
 		}
-		var result = await print.CaptureAsync();
-		//var stream = await result.OpenReadAsync();
+		
+	}
 
-		using MemoryStream memoryStream = new();
-		//await stream.CopyToAsync(memoryStream);
-		await result.CopyToAsync(memoryStream);
+	async Task PickFolder(CancellationToken cancellationToken)
+	{
+		var result = await FolderPicker.Default.PickAsync(cancellationToken);
+		if (result.IsSuccessful)
+		{
+			FolderPathSelected = result.Folder.Path + "\\Invoice.png";
 
-#warning ONLY WORKS ON WINDOWS!
-		File.WriteAllBytes(FolderPathSelected + "/invoice.png", memoryStream.ToArray());
+			var resultpng = await print.CaptureAsync();
 
-		//trigger the method saveinvoice in viewmodel
-		var viewModel = BindingContext as InvoiceViewModel;
-		await viewModel.SaveInvoice();
+			using MemoryStream memoryStream = new();
+			await resultpng.CopyToAsync(memoryStream);
+
+			File.WriteAllBytes(FolderPathSelected, memoryStream.ToArray());
+
+			var viewModel = BindingContext as InvoiceViewModel;
+			await viewModel.SaveInvoice();
+		}
+		else
+		{
+			await Toast.Make($"The folder was not picked with error: {result.Exception.Message}").Show(cancellationToken);
+		}
 	}
 }
