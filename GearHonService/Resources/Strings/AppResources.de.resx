@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountNumber" xml:space="preserve">
+    <value>Kontonummer:</value>
+  </data>
   <data name="ACIControls" xml:space="preserve">
     <value>ACI Controls</value>
   </data>
@@ -126,14 +129,35 @@
   <data name="AHSVersion" xml:space="preserve">
     <value>AHS Version</value>
   </data>
+  <data name="AllowancePerDay" xml:space="preserve">
+    <value>Tagespauschale</value>
+  </data>
+  <data name="Ammount" xml:space="preserve">
+    <value>Betrag</value>
+  </data>
   <data name="AppInformations" xml:space="preserve">
     <value>APP Informationen</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
     <value>APP Version</value>
   </data>
+  <data name="BankAccount" xml:space="preserve">
+    <value>Bankkonto</value>
+  </data>
+  <data name="BankInformation" xml:space="preserve">
+    <value>Bank Info</value>
+  </data>
+  <data name="BankName" xml:space="preserve">
+    <value>Bankname</value>
+  </data>
+  <data name="BlogAddress" xml:space="preserve">
+    <value />
+  </data>
   <data name="BrandName" xml:space="preserve">
     <value>Herstellername</value>
+  </data>
+  <data name="Breakfast" xml:space="preserve">
+    <value>Frühstück</value>
   </data>
   <data name="CardType" xml:space="preserve">
     <value>Kartentype</value>
@@ -141,8 +165,14 @@
   <data name="City" xml:space="preserve">
     <value>Stadt</value>
   </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>Firmenname</value>
+  </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Passwort bestätigen</value>
+  </data>
+  <data name="ContactName" xml:space="preserve">
+    <value>Kontakt</value>
   </data>
   <data name="Contractor" xml:space="preserve">
     <value>Auftraggeber</value>
@@ -156,11 +186,17 @@
   <data name="Country" xml:space="preserve">
     <value>Land</value>
   </data>
+  <data name="Create" xml:space="preserve">
+    <value>Erstellen</value>
+  </data>
   <data name="CreateAccount" xml:space="preserve">
     <value>Konto erstellen.</value>
   </data>
   <data name="CreateServiceReport" xml:space="preserve">
     <value>Erstelle Servicerapport</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Währung</value>
   </data>
   <data name="Customer" xml:space="preserve">
     <value>Kunde</value>
@@ -177,11 +213,23 @@
   <data name="CustomerService" xml:space="preserve">
     <value>Kundenservice</value>
   </data>
+  <data name="Date" xml:space="preserve">
+    <value>Datum</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Beschreibung</value>
   </data>
+  <data name="Dinner" xml:space="preserve">
+    <value>Abendessen</value>
+  </data>
   <data name="Distributor" xml:space="preserve">
     <value>Verteiler</value>
+  </data>
+  <data name="DueTill" xml:space="preserve">
+    <value>Fällig bis:</value>
+  </data>
+  <data name="DueTotal" xml:space="preserve">
+    <value>Total fällig:</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
@@ -195,6 +243,12 @@
   <data name="EnergyMonitoring" xml:space="preserve">
     <value>Energy Monitoring ACI Controls</value>
   </data>
+  <data name="ExpenseInformations" xml:space="preserve">
+    <value>Spesen Informations</value>
+  </data>
+  <data name="ExpenseType" xml:space="preserve">
+    <value>Spesentyp</value>
+  </data>
   <data name="File1Master" xml:space="preserve">
     <value>File1Master</value>
   </data>
@@ -203,6 +257,9 @@
   </data>
   <data name="FullAddress" xml:space="preserve">
     <value>Volle Adresse</value>
+  </data>
+  <data name="GeneralInformations" xml:space="preserve">
+    <value>Allgemeine Informationen</value>
   </data>
   <data name="HelpCenter" xml:space="preserve">
     <value>Hilfe</value>
@@ -216,8 +273,17 @@
   <data name="HoningHead" xml:space="preserve">
     <value>Honkopf</value>
   </data>
+  <data name="Hotel" xml:space="preserve">
+    <value>Hotel</value>
+  </data>
+  <data name="HoursPerMonth" xml:space="preserve">
+    <value>Stunden pro Monat</value>
+  </data>
   <data name="HRIVersion" xml:space="preserve">
     <value>HRI Version</value>
+  </data>
+  <data name="IBAN" xml:space="preserve">
+    <value>IBAN</value>
   </data>
   <data name="IndraLogic2G" xml:space="preserve">
     <value>IndraLogic2G</value>
@@ -227,6 +293,18 @@
   </data>
   <data name="IndraWorks" xml:space="preserve">
     <value>IndraWorks</value>
+  </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>Rechnung</value>
+  </data>
+  <data name="InvoiceNumber" xml:space="preserve">
+    <value>Rechnungs nr:</value>
+  </data>
+  <data name="InvoicePage" xml:space="preserve">
+    <value>Rechnung</value>
+  </data>
+  <data name="IssueDate" xml:space="preserve">
+    <value>Ausgestellt am:</value>
   </data>
   <data name="IWHMI" xml:space="preserve">
     <value>IW HMI</value>
@@ -242,6 +320,9 @@
   </data>
   <data name="LPNo" xml:space="preserve">
     <value>LP Nummer</value>
+  </data>
+  <data name="Lunch" xml:space="preserve">
+    <value>Mittagessen</value>
   </data>
   <data name="Machine" xml:space="preserve">
     <value>Maschine</value>
@@ -279,14 +360,41 @@
   <data name="NewToServiceSolutions" xml:space="preserve">
     <value>Neu bei ServiceSolutions?</value>
   </data>
+  <data name="OtherInformations" xml:space="preserve">
+    <value>Ander Informationen</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Passwort</value>
+  </data>
+  <data name="PaymentInformations" xml:space="preserve">
+    <value>Zahlungsinformationen</value>
+  </data>
+  <data name="PaymentMethod" xml:space="preserve">
+    <value>Zahlungsmethode</value>
+  </data>
+  <data name="PaymentOvertime" xml:space="preserve">
+    <value>Bezahlung pro Überstunde</value>
+  </data>
+  <data name="PaymentPerHour" xml:space="preserve">
+    <value>Bezahlung pro Stunde</value>
+  </data>
+  <data name="PaymentPerMonth" xml:space="preserve">
+    <value>Bezahlung pro Monat</value>
+  </data>
+  <data name="PaymentTerms" xml:space="preserve">
+    <value>Zahlungsbedingungen</value>
   </data>
   <data name="PersonalInformation" xml:space="preserve">
     <value>Persönliche Informationen</value>
   </data>
   <data name="Phone" xml:space="preserve">
     <value>Telefon</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Preis</value>
+  </data>
+  <data name="Print" xml:space="preserve">
+    <value>Drucken</value>
   </data>
   <data name="PRWPictureLink" xml:space="preserve">
     <value>https://www.dvs-technology.com/fileadmin/_processed_/6/7/csm_DVS-Praewema-Uebersicht_B1920px_x_H1280px_e8cba7341d.jpg</value>
@@ -296,6 +404,9 @@
   </data>
   <data name="PRWTitle" xml:space="preserve">
     <value>Präwema Antriebstechnik</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Stückzahl</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Registrieren</value>
@@ -342,6 +453,18 @@
   <data name="StreetNumber" xml:space="preserve">
     <value>Strassennummer</value>
   </data>
+  <data name="SWIFT" xml:space="preserve">
+    <value>SWIFT:</value>
+  </data>
+  <data name="TaxPercentage" xml:space="preserve">
+    <value>Steuersatz</value>
+  </data>
+  <data name="TaxText" xml:space="preserve">
+    <value>Steuertext</value>
+  </data>
+  <data name="ThankYou" xml:space="preserve">
+    <value>Vielen Dank!</value>
+  </data>
   <data name="TimeSheet" xml:space="preserve">
     <value>Stempeluhr</value>
   </data>
@@ -350,6 +473,9 @@
   </data>
   <data name="Titel" xml:space="preserve">
     <value>ServiceSolutions</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
   </data>
   <data name="TotalCustomers" xml:space="preserve">
     <value>Total Kunden</value>

@@ -7,7 +7,7 @@
     xmlns:resx="clr-namespace:GearHonService.Resources.Strings"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vm="clr-namespace:GearHonService.ViewModels"
-    Title="InvoicePage"
+    Title="{x:Static resx:AppResources.InvoicePage}"
     x:DataType="vm:InvoiceViewModel">
 
     <ScrollView>
@@ -37,12 +37,12 @@
                     <Button
                         Margin="20"
                         Command="{Binding CreateInvoiceCommand}"
-                        Text="Create"
+                        Text="{x:Static resx:AppResources.Create}"
                         WidthRequest="100" />
                     <Button
                         Margin="20"
                         Clicked="Button_Clicked"
-                        Text="Print"
+                        Text="{x:Static resx:AppResources.Print}"
                         WidthRequest="100" />
                 </StackLayout>
 
@@ -79,7 +79,7 @@
                         Margin="20,0,0,0"
                         FontAttributes="Bold"
                         FontSize="35"
-                        Text="RECHNUNG"
+                        Text="{x:Static resx:AppResources.Invoice}"
                         TextColor="{StaticResource Primary}"
                         VerticalOptions="Center" />
                 </StackLayout>
@@ -125,7 +125,7 @@
                                 <Label
                                     Margin="5,10,0,0"
                                     FontSize="12"
-                                    Text="Ausgestellt am:"
+                                    Text="{x:Static resx:AppResources.IssueDate}"
                                     TextColor="Black" />
                                 <Label
                                     Margin="5,10,0,0"
@@ -138,7 +138,7 @@
                                 <Label
                                     Margin="5"
                                     FontSize="12"
-                                    Text="Rechungs Nr:"
+                                    Text="{x:Static resx:AppResources.InvoiceNumber}"
                                     TextColor="Black" />
                                 <Label
                                     Margin="5"
@@ -190,25 +190,25 @@
                         <Label
                             Grid.Column="0"
                             FontSize="12"
-                            Text="BESCHREIBUNG"
+                            Text="{x:Static resx:AppResources.Description}"
                             TextColor="Black" />
                         <Label
                             Grid.Column="1"
                             FontSize="12"
                             HorizontalOptions="Center"
-                            Text="STÜCKZAHL"
+                            Text="{x:Static resx:AppResources.Quantity}"
                             TextColor="Black" />
                         <Label
                             Grid.Column="2"
                             FontSize="12"
                             HorizontalOptions="Center"
-                            Text="PREIS"
+                            Text="{x:Static resx:AppResources.Price}"
                             TextColor="Black" />
                         <Label
                             Grid.Column="3"
                             FontSize="12"
                             HorizontalOptions="End"
-                            Text="TOTAL"
+                            Text="{x:Static resx:AppResources.Total}"
                             TextColor="Black" />
                     </Grid>
 
@@ -282,19 +282,19 @@
                         <Label
                             Grid.Column="0"
                             FontSize="12"
-                            Text="BANK INFO"
+                            Text="{x:Static resx:AppResources.BankInformation}"
                             TextColor="Black" />
                         <Label
                             Grid.Column="1"
                             FontSize="12"
                             HorizontalOptions="Start"
-                            Text="FÄLLIG BIS"
+                            Text="{x:Static resx:AppResources.DueTill}"
                             TextColor="Black" />
                         <Label
                             Grid.Column="3"
                             FontSize="12"
                             HorizontalOptions="End"
-                            Text="TOTAL FÄLLIG"
+                            Text="{x:Static resx:AppResources.DueTotal}"
                             TextColor="Black" />
                     </Grid>
                     <Rectangle
@@ -314,7 +314,7 @@
                                 <Label
                                     Margin="5"
                                     FontSize="10"
-                                    Text="Account No:"
+                                    Text="{x:Static resx:AppResources.AccountNumber}"
                                     TextColor="Black" />
                                 <Label
                                     Margin="5"
@@ -327,7 +327,7 @@
                                 <Label
                                     Margin="5"
                                     FontSize="10"
-                                    Text="SWIFT:"
+                                    Text="{x:Static resx:AppResources.SWIFT}"
                                     TextColor="Black" />
                                 <Label
                                     Margin="5"
@@ -388,7 +388,7 @@
                                     Margin="5,5,5,20"
                                     FontAttributes="Bold"
                                     FontSize="20"
-                                    Text="Vielen Dank!"
+                                    Text="{x:Static resx:AppResources.ThankYou}"
                                     TextColor="{StaticResource Primary}"
                                     VerticalOptions="Center" />
                             </StackLayout>
@@ -412,7 +412,7 @@
                             <Label
                                 Margin="5,5,5,20"
                                 FontSize="8"
-                                Text="codewhizserviceengineer.onrender.com"
+                                Text="{x:Static resx:AppResources.BlogAddress}"
                                 TextColor="Grey"
                                 VerticalOptions="Center" />
                         </StackLayout>

@@ -79,7 +79,7 @@
                             Margin="0,0,0,20"
                             FontAttributes="Bold"
                             FontSize="Subtitle"
-                            Text="General Informations" />
+                            Text="{x:Static resx:AppResources.GeneralInformations}" />
 
                         <StackLayout
                             Grid.Row="1"
@@ -87,7 +87,7 @@
                             Margin="0,0,10,0"
                             Orientation="Vertical">
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Company Name" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.CompanyName}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -96,7 +96,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Street" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.StreetName}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -105,7 +105,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="City" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.City}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -114,7 +114,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="ZIP Code" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.ZIPCode}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -129,7 +129,7 @@
                             Margin="10,0,0,0"
                             Orientation="Vertical">
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Country" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.Country}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -138,7 +138,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Phone" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.Phone}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -147,7 +147,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Email" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.Email}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -156,7 +156,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Contact Name" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.ContactName}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -191,7 +191,7 @@
                             Margin="0,0,0,20"
                             FontAttributes="Bold"
                             FontSize="Subtitle"
-                            Text="Payment Informations" />
+                            Text="{x:Static resx:AppResources.PaymentInformations}" />
 
                         <StackLayout
                             Grid.Row="1"
@@ -199,7 +199,7 @@
                             Margin="0,0,10,0"
                             Orientation="Vertical">
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Payment per month" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.PaymentPerMonth}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -208,7 +208,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Payment overtime" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.PaymentOvertime}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -217,7 +217,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Payment per hour" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.PaymentPerMonth}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -226,7 +226,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Payment terms" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.PaymentTerms}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -235,7 +235,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Payment method" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.PaymentMethod}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -251,7 +251,7 @@
                             Orientation="Vertical">
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Bank account" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.BankAccount}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -260,7 +260,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Bankname" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.BankName}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -269,7 +269,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="SWIFT" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.SWIFT}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -278,7 +278,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="IBAN" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.IBAN}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -287,7 +287,7 @@
                             </StackLayout>
 
                             <Picker
-                                Title="Currency"
+                                Title="{x:Static resx:AppResources.Currency}"
                                 ItemDisplayBinding="{Binding Code}"
                                 ItemsSource="{Binding Currencies}"
                                 SelectedItem="{Binding SelectedCurrency}"
@@ -324,7 +324,7 @@
                             Margin="0,0,0,20"
                             FontAttributes="Bold"
                             FontSize="Subtitle"
-                            Text="Expense Informations" />
+                            Text="{x:Static resx:AppResources.ExpenseInformations}" />
 
                         <StackLayout
                             Grid.Row="1"
@@ -332,7 +332,7 @@
                             Margin="0,0,10,0"
                             Orientation="Vertical">
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Allowance per day" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.AllowancePerDay}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -341,7 +341,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Breakfast" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.Breakfast}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -350,7 +350,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Lunch" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.Lunch}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -359,7 +359,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Dinner" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.Dinner}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -368,7 +368,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Hotel" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.Hotel}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -403,7 +403,7 @@
                             Margin="0,0,0,20"
                             FontAttributes="Bold"
                             FontSize="Subtitle"
-                            Text="Other Informations" />
+                            Text="{x:Static resx:AppResources.OtherInformations}" />
 
                         <StackLayout
                             Grid.Row="1"
@@ -411,7 +411,7 @@
                             Margin="0,0,10,0"
                             Orientation="Vertical">
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Hours per Month" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.HoursPerMonth}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -420,7 +420,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Tax percentage" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.TaxPercentage}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
@@ -429,7 +429,7 @@
                             </StackLayout>
 
                             <StackLayout Orientation="Vertical">
-                                <Label Margin="0,0,0,5" Text="Tax text for invoice" />
+                                <Label Margin="0,0,0,5" Text="{x:Static resx:AppResources.TaxText}" />
                                 <Entry
                                     Margin="0,0,0,5"
                                     HorizontalOptions="Start"
