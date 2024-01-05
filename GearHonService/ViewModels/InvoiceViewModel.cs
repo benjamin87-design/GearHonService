@@ -158,7 +158,6 @@ namespace GearHonService.ViewModels
 			InvoiceMonth = InvoiceDateSelection.Month.ToString();
 			InvoiceYear = InvoiceDateSelection.Year.ToString();
 		}
-
 		[RelayCommand]
 		private async Task CreateInvoice()
 		{
@@ -193,7 +192,6 @@ namespace GearHonService.ViewModels
 				await Shell.Current.DisplayAlert("Error", "Bitte wählen Sie einen Auftraggeber aus", "OK");
 			}
 		}
-
 		public async Task SaveInvoice()
 		{
 			//save invoice to database
@@ -229,9 +227,10 @@ namespace GearHonService.ViewModels
 				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
 			}
 		}
-
 		private async Task GetInvoiceItems()
 		{
+			InvoiceItems.Clear();
+
 			try
 			{
 				//get the total amount of hours worked in the month
@@ -442,8 +441,6 @@ namespace GearHonService.ViewModels
 				await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
 			}
 		}
-
-		//Get relevant data from database and EZB API
 		private async Task GetAllDataFromDb()
 		{
 			//load user
@@ -588,8 +585,6 @@ namespace GearHonService.ViewModels
 				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
 			}
 		}
-
-
 		private void LoadInformations()
 		{
 			if (SelectedContractor != null)

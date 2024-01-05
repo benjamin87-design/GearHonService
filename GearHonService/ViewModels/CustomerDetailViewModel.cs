@@ -25,7 +25,6 @@
 		private ObservableCollection<CustomerModel> customers;
 
 		//Selected
-
 		public CustomerModel SelectedCustomer { get; set; }
 
 		//Supabase Client
