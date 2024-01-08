@@ -1,17 +1,24 @@
-﻿
-// HINWEIS: Für den generierten Code ist möglicherweise mindestens .NET Framework 4.5 oder .NET Core/Standard 2.0 erforderlich.
-/// <remarks/>
-[System.SerializableAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-[System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-public partial class Sysinfo1_0_5
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GearHonService.Services
 {
+
+	// HINWEIS: Für den generierten Code ist möglicherweise mindestens .NET Framework 4.5 oder .NET Core/Standard 2.0 erforderlich.
+	/// <remarks/>
+	[System.SerializableAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	[System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
+	public partial class Sysinfo1_0_2
+	{
+
 		private SystemInformationenPräwema präwemaField;
 
 		private SystemInformationenBoschRexroth boschRexrothField;
-
-		private SystemInformationenOperatingSystem operatingSystemField;
 
 		private string versionField;
 
@@ -20,8 +27,6 @@ public partial class Sysinfo1_0_5
 		private string deviceField;
 
 		private string infoField;
-
-		private string machineNoField;
 
 		/// <remarks/>
 		public SystemInformationenPräwema Präwema
@@ -46,19 +51,6 @@ public partial class Sysinfo1_0_5
 			set
 			{
 				this.boschRexrothField = value;
-			}
-		}
-
-		/// <remarks/>
-		public SystemInformationenOperatingSystem OperatingSystem
-		{
-			get
-			{
-				return this.operatingSystemField;
-			}
-			set
-			{
-				this.operatingSystemField = value;
 			}
 		}
 
@@ -115,20 +107,6 @@ public partial class Sysinfo1_0_5
 			set
 			{
 				this.infoField = value;
-			}
-		}
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string MachineNo
-		{
-			get
-			{
-				return this.machineNoField;
-			}
-			set
-			{
-				this.machineNoField = value;
 			}
 		}
 	}
@@ -189,8 +167,6 @@ public partial class Sysinfo1_0_5
 		private SystemInformationenPräwemaSoftwareComponentsPraewemaEnergyMonitoringAciControlsdll praewemaEnergyMonitoringAciControlsdllField;
 
 		private SystemInformationenPräwemaSoftwareComponentsPraewemaAciControlsHeaderdll praewemaAciControlsHeaderdllField;
-
-		private SystemInformationenPräwemaSoftwareComponentsIW_Project iW_ProjectField;
 
 		private SystemInformationenPräwemaSoftwareComponentsNC ncField;
 
@@ -276,19 +252,6 @@ public partial class Sysinfo1_0_5
 		}
 
 		/// <remarks/>
-		public SystemInformationenPräwemaSoftwareComponentsIW_Project IW_Project
-		{
-			get
-			{
-				return this.iW_ProjectField;
-			}
-			set
-			{
-				this.iW_ProjectField = value;
-			}
-		}
-
-		/// <remarks/>
 		public SystemInformationenPräwemaSoftwareComponentsNC NC
 		{
 			get
@@ -311,8 +274,6 @@ public partial class Sysinfo1_0_5
 
 		private string versionField;
 
-		private string dateField;
-
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
 		public string Version
@@ -324,20 +285,6 @@ public partial class Sysinfo1_0_5
 			set
 			{
 				this.versionField = value;
-			}
-		}
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string Date
-		{
-			get
-			{
-				return this.dateField;
-			}
-			set
-			{
-				this.dateField = value;
 			}
 		}
 	}
@@ -431,6 +378,8 @@ public partial class Sysinfo1_0_5
 
 		private string versionField;
 
+		private string dateField;
+
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
 		public string Version
@@ -442,6 +391,20 @@ public partial class Sysinfo1_0_5
 			set
 			{
 				this.versionField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string Date
+		{
+			get
+			{
+				return this.dateField;
+			}
+			set
+			{
+				this.dateField = value;
 			}
 		}
 	}
@@ -495,99 +458,7 @@ public partial class Sysinfo1_0_5
 
 		private string versionField;
 
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string Version
-		{
-			get
-			{
-				return this.versionField;
-			}
-			set
-			{
-				this.versionField = value;
-			}
-		}
-	}
-
-	/// <remarks/>
-	[System.SerializableAttribute()]
-	[System.ComponentModel.DesignerCategoryAttribute("code")]
-	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-	public partial class SystemInformationenPräwemaSoftwareComponentsIW_Project
-	{
-
-		private string versionField;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string Version
-		{
-			get
-			{
-				return this.versionField;
-			}
-			set
-			{
-				this.versionField = value;
-			}
-		}
-	}
-
-	/// <remarks/>
-	[System.SerializableAttribute()]
-	[System.ComponentModel.DesignerCategoryAttribute("code")]
-	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-	public partial class SystemInformationenPräwemaSoftwareComponentsNC
-	{
-
-		private SystemInformationenPräwemaSoftwareComponentsNCFile1Masternpg file1MasternpgField;
-
-		private string versionField;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute("File1Master.npg")]
-		public SystemInformationenPräwemaSoftwareComponentsNCFile1Masternpg File1Masternpg
-		{
-			get
-			{
-				return this.file1MasternpgField;
-			}
-			set
-			{
-				this.file1MasternpgField = value;
-			}
-		}
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string Version
-		{
-			get
-			{
-				return this.versionField;
-			}
-			set
-			{
-				this.versionField = value;
-			}
-		}
-	}
-
-	/// <remarks/>
-	[System.SerializableAttribute()]
-	[System.ComponentModel.DesignerCategoryAttribute("code")]
-	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-	public partial class SystemInformationenPräwemaSoftwareComponentsNCFile1Masternpg
-	{
-
-		private string versionField;
-
 		private string dateField;
-
-		private string controllerField;
-
-		private string customerField;
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
@@ -616,32 +487,28 @@ public partial class Sysinfo1_0_5
 				this.dateField = value;
 			}
 		}
+	}
+
+	/// <remarks/>
+	[System.SerializableAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class SystemInformationenPräwemaSoftwareComponentsNC
+	{
+
+		private string versionField;
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string Controller
+		public string Version
 		{
 			get
 			{
-				return this.controllerField;
+				return this.versionField;
 			}
 			set
 			{
-				this.controllerField = value;
-			}
-		}
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string Customer
-		{
-			get
-			{
-				return this.customerField;
-			}
-			set
-			{
-				this.customerField = value;
+				this.versionField = value;
 			}
 		}
 	}
@@ -1072,11 +939,11 @@ public partial class Sysinfo1_0_5
 	public partial class SystemInformationenBoschRexrothSoftwareComponentsMTXBasisFirmware
 	{
 
-		private string versionField;
+		private decimal versionField;
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string Version
+		public decimal Version
 		{
 			get
 			{
@@ -2164,22 +2031,71 @@ public partial class Sysinfo1_0_5
 	public partial class SystemInformationenBoschRexrothDriveSafetyParamters
 	{
 
-		private SystemInformationenBoschRexrothDriveSafetyParamtersSiMemoryChange siMemoryChangeField;
+		private SystemInformationenBoschRexrothDriveSafetyParamtersSMOconf sMOconfField;
+
+		private SystemInformationenBoschRexrothDriveSafetyParamtersSMOparameter sMOparameterField;
+
+		private SystemInformationenBoschRexrothDriveSafetyParamtersSMOchecksumConf sMOchecksumConfField;
+
+		private SystemInformationenBoschRexrothDriveSafetyParamtersSMOchecksumPara sMOchecksumParaField;
 
 		private SystemInformationenBoschRexrothDriveSafetyParamtersSafetyDeactivated safetyDeactivatedField;
 
 		private string siDescriptionField;
 
+		private string negInfoField;
+
+		private string percInfoField;
+
 		/// <remarks/>
-		public SystemInformationenBoschRexrothDriveSafetyParamtersSiMemoryChange SiMemoryChange
+		public SystemInformationenBoschRexrothDriveSafetyParamtersSMOconf SMOconf
 		{
 			get
 			{
-				return this.siMemoryChangeField;
+				return this.sMOconfField;
 			}
 			set
 			{
-				this.siMemoryChangeField = value;
+				this.sMOconfField = value;
+			}
+		}
+
+		/// <remarks/>
+		public SystemInformationenBoschRexrothDriveSafetyParamtersSMOparameter SMOparameter
+		{
+			get
+			{
+				return this.sMOparameterField;
+			}
+			set
+			{
+				this.sMOparameterField = value;
+			}
+		}
+
+		/// <remarks/>
+		public SystemInformationenBoschRexrothDriveSafetyParamtersSMOchecksumConf SMOchecksumConf
+		{
+			get
+			{
+				return this.sMOchecksumConfField;
+			}
+			set
+			{
+				this.sMOchecksumConfField = value;
+			}
+		}
+
+		/// <remarks/>
+		public SystemInformationenBoschRexrothDriveSafetyParamtersSMOchecksumPara SMOchecksumPara
+		{
+			get
+			{
+				return this.sMOchecksumParaField;
+			}
+			set
+			{
+				this.sMOchecksumParaField = value;
 			}
 		}
 
@@ -2209,13 +2125,113 @@ public partial class Sysinfo1_0_5
 				this.siDescriptionField = value;
 			}
 		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string negInfo
+		{
+			get
+			{
+				return this.negInfoField;
+			}
+			set
+			{
+				this.negInfoField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string PercInfo
+		{
+			get
+			{
+				return this.percInfoField;
+			}
+			set
+			{
+				this.percInfoField = value;
+			}
+		}
 	}
 
 	/// <remarks/>
 	[System.SerializableAttribute()]
 	[System.ComponentModel.DesignerCategoryAttribute("code")]
 	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-	public partial class SystemInformationenBoschRexrothDriveSafetyParamtersSiMemoryChange
+	public partial class SystemInformationenBoschRexrothDriveSafetyParamtersSMOconf
+	{
+
+		private string countField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string Count
+		{
+			get
+			{
+				return this.countField;
+			}
+			set
+			{
+				this.countField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.SerializableAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class SystemInformationenBoschRexrothDriveSafetyParamtersSMOparameter
+	{
+
+		private string countField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string Count
+		{
+			get
+			{
+				return this.countField;
+			}
+			set
+			{
+				this.countField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.SerializableAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class SystemInformationenBoschRexrothDriveSafetyParamtersSMOchecksumConf
+	{
+
+		private string countField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string Count
+		{
+			get
+			{
+				return this.countField;
+			}
+			set
+			{
+				this.countField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.SerializableAttribute()]
+	[System.ComponentModel.DesignerCategoryAttribute("code")]
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class SystemInformationenBoschRexrothDriveSafetyParamtersSMOchecksumPara
 	{
 
 		private string countField;
@@ -2242,225 +2258,20 @@ public partial class Sysinfo1_0_5
 	public partial class SystemInformationenBoschRexrothDriveSafetyParamtersSafetyDeactivated
 	{
 
-		private string countField;
+		private string valueField;
 
 		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string Count
+		[System.Xml.Serialization.XmlAttributeAttribute(DataType = "integer")]
+		public string Value
 		{
 			get
 			{
-				return this.countField;
+				return this.valueField;
 			}
 			set
 			{
-				this.countField = value;
+				this.valueField = value;
 			}
-		}
-	}
-
-	/// <remarks/>
-	[System.SerializableAttribute()]
-	[System.ComponentModel.DesignerCategoryAttribute("code")]
-	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-	public partial class SystemInformationenOperatingSystem
-	{
-
-		private SystemInformationenOperatingSystemAdapter[] networksettingsField;
-
-		private string platformField;
-
-		private string versionField;
-
-		private string is64BitSystemField;
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlArrayItemAttribute("Adapter", IsNullable = false)]
-		public SystemInformationenOperatingSystemAdapter[] Networksettings
-		{
-			get
-			{
-				return this.networksettingsField;
-			}
-			set
-			{
-				this.networksettingsField = value;
-			}
-		}
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string Platform
-		{
-			get
-			{
-				return this.platformField;
-			}
-			set
-			{
-				this.platformField = value;
-			}
-		}
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string Version
-		{
-			get
-			{
-				return this.versionField;
-			}
-			set
-			{
-				this.versionField = value;
-			}
-		}
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string Is64BitSystem
-		{
-			get
-			{
-				return this.is64BitSystemField;
-			}
-			set
-			{
-				this.is64BitSystemField = value;
-			}
-		}
-	}
-
-	/// <remarks/>
-	[System.SerializableAttribute()]
-	[System.ComponentModel.DesignerCategoryAttribute("code")]
-	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-	public partial class SystemInformationenOperatingSystemAdapter
-	{
-
-		private SystemInformationenOperatingSystemAdapterAddressesV4 addressesV4Field;
-
-		private SystemInformationenOperatingSystemAdapterDNSs dNSsField;
-
-		private string nameField;
-
-		private string physicalAddressField;
-
-		private string operationalStatusField;
-
-		/// <remarks/>
-		public SystemInformationenOperatingSystemAdapterAddressesV4 AddressesV4
-		{
-			get
-			{
-				return this.addressesV4Field;
-			}
-			set
-			{
-				this.addressesV4Field = value;
-			}
-		}
-
-		/// <remarks/>
-		public SystemInformationenOperatingSystemAdapterDNSs DNSs
-		{
-			get
-			{
-				return this.dNSsField;
-			}
-			set
-			{
-				this.dNSsField = value;
-			}
-		}
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string Name
-		{
-			get
-			{
-				return this.nameField;
-			}
-			set
-			{
-				this.nameField = value;
-			}
-		}
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string PhysicalAddress
-		{
-			get
-			{
-				return this.physicalAddressField;
-			}
-			set
-			{
-				this.physicalAddressField = value;
-			}
-		}
-
-		/// <remarks/>
-		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public string OperationalStatus
-		{
-			get
-			{
-				return this.operationalStatusField;
-			}
-			set
-			{
-				this.operationalStatusField = value;
-			}
-		}
-	}
-
-	/// <remarks/>
-	[System.SerializableAttribute()]
-	[System.ComponentModel.DesignerCategoryAttribute("code")]
-	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-	public partial class SystemInformationenOperatingSystemAdapterAddressesV4
-	{
-
-		private string ipField;
-
-		/// <remarks/>
-		public string IP
-		{
-			get
-			{
-				return this.ipField;
-			}
-			set
-			{
-				this.ipField = value;
-			}
-		}
-	}
-
-/// <remarks/>
-[System.SerializableAttribute()]
-[System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-public partial class SystemInformationenOperatingSystemAdapterDNSs
-{
-
-	private string dNSField;
-
-	/// <remarks/>
-	public string DNS
-	{
-		get
-		{
-			return this.dNSField;
-		}
-		set
-		{
-			this.dNSField = value;
 		}
 	}
 }
-
-

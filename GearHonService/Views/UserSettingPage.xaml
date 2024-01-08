@@ -38,7 +38,7 @@
                     Command="{Binding UploadPictureCommand}"
                     FontFamily="GoogleMaterialFont"
                     FontSize="24"
-                    Text="{x:Static icon:IconFont.Add_a_photo}"
+                    Text="{x:Static icon:IconFont.Photo}"
                     VerticalOptions="Center" />
 
                 <Button

@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using GearHonService.Services;
+using System.Diagnostics;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace GearHonService.ViewModels
@@ -132,13 +134,13 @@ namespace GearHonService.ViewModels
 
 						try
 						{
-							XmlSerializer serializer = new XmlSerializer(typeof(SystemInformationen));
+							XmlSerializer serializer = new XmlSerializer(typeof(Sysinfo1_0_5));
 
 							using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
 							{
-								SystemInformationen systemInformationen = serializer.Deserialize(fileStream) as SystemInformationen;
+								Sysinfo1_0_5 systemInformationen = serializer.Deserialize(fileStream) as Sysinfo1_0_5;
 
-								if(systemInformationen.Version == "1.0.5.0")
+								if (systemInformationen.Version == "1.0.5.0")
 								{
 									SelectedMachine = new MachineModel();
 									{
@@ -194,11 +196,11 @@ namespace GearHonService.ViewModels
 
 						try
 						{
-							XmlSerializer serializer = new XmlSerializer(typeof(SystemInformationen));
+							XmlSerializer serializer = new XmlSerializer(typeof(Sysinfo1_0_2));
 
 							using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
 							{
-								SystemInformationen systemInformationen = serializer.Deserialize(fileStream) as SystemInformationen;
+								Sysinfo1_0_2 systemInformationen = serializer.Deserialize(fileStream) as Sysinfo1_0_2;
 
 								if (systemInformationen.Version == "1.0.2")
 								{

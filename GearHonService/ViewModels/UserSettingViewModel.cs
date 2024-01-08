@@ -60,7 +60,6 @@ namespace GearHonService.ViewModels
 			}
 			DisplayUser();
 		}
-
 		private void DisplayUser()
 		{
 			var userUID = Preferences.Get("uid", "");
@@ -85,7 +84,6 @@ namespace GearHonService.ViewModels
 				UserId = userUID;
 			}
 		}
-
 		[RelayCommand]
 		private async Task UpdateUser()
 		{
@@ -157,7 +155,6 @@ namespace GearHonService.ViewModels
 				}
 			}
 		}
-
 		[RelayCommand]
 		private async Task ChangeUser()
 		{
@@ -176,7 +173,6 @@ namespace GearHonService.ViewModels
 
 			await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
 		}
-
 		private async Task ResetPreferences()
 		{
 			Preferences.Remove("uid");
@@ -184,7 +180,6 @@ namespace GearHonService.ViewModels
 			Preferences.Remove("profilepicture");
 			Preferences.Remove("token");
 		}
-
 		private void ClearStrings()
 		{
 			//clear all strings
@@ -198,7 +193,6 @@ namespace GearHonService.ViewModels
 			Email = "";
 			UserId = "";
 		}
-
 		[RelayCommand]
 		private async Task UploadPicture()
 		{
@@ -206,7 +200,6 @@ namespace GearHonService.ViewModels
 			await GetPictureFilePath();
 			await UploadPictureToSupabase();
 		}
-
 		private async Task CreatePictureFileName()
 		{
 			try
@@ -218,7 +211,6 @@ namespace GearHonService.ViewModels
 				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
 			}
 		}
-
 		private async Task GetPictureFilePath()
 		{
 			try
@@ -240,7 +232,6 @@ namespace GearHonService.ViewModels
 				await Shell.Current.DisplayAlert("Error", ex.Message, "OK");
 			}
 		}
-
 		private async Task UploadPictureToSupabase()
 		{
 			try
