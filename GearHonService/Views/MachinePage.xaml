@@ -39,6 +39,14 @@
                     FontSize="24"
                     Text="{x:Static icon:IconFont.File_open}"
                     VerticalOptions="Center" />
+
+                <Button
+                    Margin="0,0,20,0"
+                    Command="{Binding ExportMachineListCommand}"
+                    FontFamily="GoogleMaterialFont"
+                    FontSize="24"
+                    Text="{x:Static icon:IconFont.Upload_file}"
+                    VerticalOptions="Center" />
             </StackLayout>
         </Grid>
 

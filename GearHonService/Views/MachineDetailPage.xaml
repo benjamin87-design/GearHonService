@@ -101,7 +101,7 @@
                                     Title="{x:Static resx:AppResources.BrandName}"
                                     Margin="20,0,20,20"
                                     HorizontalOptions="FillAndExpand"
-                                    ItemDisplayBinding="{Binding ContractorName}"
+                                    ItemDisplayBinding="{Binding Name}"
                                     ItemsSource="{Binding Contractors}"
                                     SelectedItem="{Binding SelectedContractor, Mode=TwoWay}"
                                     VerticalOptions="Center"

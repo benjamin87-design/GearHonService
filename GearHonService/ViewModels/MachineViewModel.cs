@@ -1,12 +1,13 @@
-﻿using GearHonService.Services;
-using System.Diagnostics;
+﻿using ClosedXML.Excel;
+using CommunityToolkit.Maui.Storage;
 using System.Xml.Linq;
-using System.Xml.Serialization;
 
 namespace GearHonService.ViewModels
 {
 	public partial class MachineViewModel : BaseViewModel
 	{
+		//Strings
+		#region Strings
 		[ObservableProperty]
 		private int id;
 		[ObservableProperty]
@@ -70,7 +71,7 @@ namespace GearHonService.ViewModels
 
 		[ObservableProperty]
 		private string contractorName;
-
+		#endregion
 
 		//Lists
 		[ObservableProperty]
@@ -84,166 +85,242 @@ namespace GearHonService.ViewModels
 			set { selectedMachine = value; }
 		}
 
+		//Supabase client
 		private readonly Supabase.Client _supabaseClient;
 
 		public MachineViewModel(Supabase.Client supabaseClient)
 		{
 			_supabaseClient = supabaseClient;
-
-			//TODO: Add the export list to excel
 			
 			Machines = new ObservableCollection<MachineModel>();
 
-			LoadMachineFromDb();
+			_ = LoadMachineFromDb();
 		}
 
 		[RelayCommand]
 		private async Task LoadXMLInfo()
 		{
-			string action = await Shell.Current.DisplayActionSheet("Choose the XML version", "Cancel", null, "Sysinfo 1.0.9", "Sysinfo 1.0.5", "Sysinfo 1.0.2");
-
-			switch (action)
+			//use file picker th get the xml file
+			var file = await FilePicker.PickAsync();
+			if (file == null)
 			{
-				case "Sysinfo 1.0.9":
-					Debug.WriteLine("Sysinfo 1.0.9");
+				//user canceled the file picking
+				return;
+			}
+			else
+			{
+				//parse the xml file to get the info
+				var doc = XDocument.Load(file.FullPath);
+				var root = doc.Root;
 
-					var result9 = await FilePicker.PickAsync();
+				//get version from systeminformation
+				var systeminformationversion = root.Attribute("Version")?.Value;
 
-					if (result9 != null)
+				//TODO: Add new version when needed (each version has his differents)
+				if (systeminformationversion == "1.0.5.0")
+				{
+					var machinenumber = root.Attribute("MachineNo")?.Value;
+					var honinghmi = root.Descendants("HoningHMI").FirstOrDefault()?.Attribute("Version")?.Value;
+					var adaptivehonserver = root.Descendants("AdaptivHonServer").FirstOrDefault()?.Attribute("Version")?.Value;
+					var praewemahri = root.Descendants("PräwemaHRI").FirstOrDefault()?.Attribute("Version")?.Value;
+					var acicontrols = root.Descendants("Praewema.AciControls.dll").FirstOrDefault()?.Attribute("Version")?.Value;
+					var energymonitoringcontrol = root.Descendants("Praewema.EnergyMonitoring.AciControls.dll").FirstOrDefault()?.Attribute("Version")?.Value;
+					var acicontrolsheader = root.Descendants("Praewema.AciControls.Header.dll").FirstOrDefault()?.Attribute("Version")?.Value;
+					var iwproject = root.Descendants("IW_Project").FirstOrDefault()?.Attribute("Version")?.Value;
+					var ncversion = root.Descendants("NC").FirstOrDefault()?.Attribute("Version")?.Value;
+					var file1master = root.Descendants("File1Master.npg").FirstOrDefault()?.Attribute("Version")?.Value;
+					var indraworks = root.Descendants("IndraWorks").FirstOrDefault()?.Attribute("Version")?.Value;
+					var indralogic2g = root.Descendants("IndraLogic_2G").FirstOrDefault()?.Attribute("Version")?.Value;
+					var indramotionmtx = root.Descendants("IndraMotion_MTX").FirstOrDefault()?.Attribute("Version")?.Value;
+					var mtxbasisfirmware = root.Descendants("MTX-Basis-Firmware").FirstOrDefault()?.Attribute("Version")?.Value;
+					var iwmtx = root.Descendants("IW-MTX").FirstOrDefault()?.Attribute("Version")?.Value;
+					var iwhmi = root.Descendants("IW-HMI").FirstOrDefault()?.Attribute("Version")?.Value;
+					var winstudio = root.Descendants("WinStudio").FirstOrDefault()?.Attribute("Version")?.Value;
+					var mtxfirmware = root.Descendants("MTX-Firmware").FirstOrDefault()?.Attribute("Version")?.Value;
+					var cardtype = root.Descendants("CardType").FirstOrDefault()?.Attribute("Version")?.Value;
+					var lpno = root.Descendants("LP-No").FirstOrDefault()?.Attribute("Version")?.Value;
+					var version = root.Descendants("Version").FirstOrDefault()?.Attribute("Version")?.Value;
+					var serialno = root.Descendants("Serial-No").FirstOrDefault()?.Attribute("Version")?.Value;
+
+					//load data to selectedmachine
+					SelectedMachine = new MachineModel();
 					{
-						string filePath = result9.FullPath;
-
-						try
-						{
-							
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine(ex.Message);
-						}
+						selectedMachine.Id = 0;
+						selectedMachine.MachineNumber = machinenumber;
+						selectedMachine.HMIVersion = honinghmi;
+						selectedMachine.AHSVersion = adaptivehonserver;
+						selectedMachine.HRIVersion = praewemahri;
+						selectedMachine.ACIControls = acicontrols;
+						selectedMachine.EnergyMonitoringACIControls = energymonitoringcontrol;
+						selectedMachine.ACIControlsHeader = acicontrolsheader;
+						selectedMachine.IWProject = iwproject;
+						selectedMachine.NCVersion = ncversion;
+						selectedMachine.File1Master = file1master;
+						selectedMachine.IndraWorks = indraworks;
+						selectedMachine.IndraLogic2G = indralogic2g;
+						selectedMachine.IndraMotionMTX = indramotionmtx;
+						selectedMachine.MTXBasisFirmware = mtxbasisfirmware;
+						selectedMachine.IWMTX = iwmtx;
+						selectedMachine.IWHMI = iwhmi;
+						selectedMachine.WinStudio = winstudio;
+						selectedMachine.MTXFirmware = mtxfirmware;
+						selectedMachine.CardType = cardtype;
+						selectedMachine.LPNo = lpno;
+						selectedMachine.MTXHardwareVersion = version;
+						selectedMachine.SerialNumber = serialno;
 					}
-					break;
-				case "Sysinfo 1.0.5":
-					Debug.WriteLine("Sysinfo 1.0.5");
 
-					var result5 = await FilePicker.PickAsync();
+					//Send with weak reference to MachineDetailPage
+					WeakReferenceManager.AddReference("SelectedMachine", SelectedMachine);
 
-					if (result5 != null)
+					//go to detailpage
+					await Shell.Current.GoToAsync($"//{nameof(MachineDetailPage)}");
+				}
+				if(systeminformationversion == "1.0.2")
+				{
+					var honinghmi = root.Descendants("HoningHMI").FirstOrDefault()?.Attribute("Version")?.Value;
+					var adaptivehonserver = root.Descendants("AdaptivHonServer").FirstOrDefault()?.Attribute("Version")?.Value;
+					var praewemahri = root.Descendants("PräwemaHRI").FirstOrDefault()?.Attribute("Version")?.Value;
+					var acicontrols = root.Descendants("Praewema.AciControls.dll").FirstOrDefault()?.Attribute("Version")?.Value;
+					var energymonitoringcontrol = root.Descendants("Praewema.EnergyMonitoring.AciControls.dll").FirstOrDefault()?.Attribute("Version")?.Value;
+					var acicontrolsheader = root.Descendants("Praewema.AciControls.Header.dll").FirstOrDefault()?.Attribute("Version")?.Value;
+					var ncversion = root.Descendants("NC").FirstOrDefault()?.Attribute("Version")?.Value;
+					var indraworks = root.Descendants("IndraWorks").FirstOrDefault()?.Attribute("Version")?.Value;
+					var indralogic2g = root.Descendants("IndraLogic_2G").FirstOrDefault()?.Attribute("Version")?.Value;
+					var indramotionmtx = root.Descendants("IndraMotion_MTX").FirstOrDefault()?.Attribute("Version")?.Value;
+					var mtxbasisfirmware = root.Descendants("MTX-Basis-Firmware").FirstOrDefault()?.Attribute("Version")?.Value;
+					var iwmtx = root.Descendants("IW-MTX").FirstOrDefault()?.Attribute("Version")?.Value;
+					var iwhmi = root.Descendants("IW-HMI").FirstOrDefault()?.Attribute("Version")?.Value;
+					var winstudio = root.Descendants("WinStudio").FirstOrDefault()?.Attribute("Version")?.Value;
+					var mtxfirmware = root.Descendants("MTX-Firmware").FirstOrDefault()?.Attribute("Version")?.Value;
+					var cardtype = root.Descendants("CardType").FirstOrDefault()?.Attribute("Version")?.Value;
+					var lpno = root.Descendants("LP-No").FirstOrDefault()?.Attribute("Version")?.Value;
+					var version = root.Descendants("Version").FirstOrDefault()?.Attribute("Version")?.Value;
+					var serialno = root.Descendants("Serial-No").FirstOrDefault()?.Attribute("Version")?.Value;
+
+					//load data to selectedmachine
+					SelectedMachine = new MachineModel();
 					{
-						string filePath = result5.FullPath;
-
-						try
-						{
-							XmlSerializer serializer = new XmlSerializer(typeof(Sysinfo1_0_5));
-
-							using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
-							{
-								Sysinfo1_0_5 systemInformationen = serializer.Deserialize(fileStream) as Sysinfo1_0_5;
-
-								if (systemInformationen.Version == "1.0.5.0")
-								{
-									SelectedMachine = new MachineModel();
-									{
-										selectedMachine.Id = 0;
-										selectedMachine.MachineNumber = systemInformationen.Präwema.Licences.Licence.MachineNo.ToString();
-										selectedMachine.NCVersion = systemInformationen.Präwema.SoftwareComponents.NC.Version.ToString();
-										selectedMachine.HMIVersion = systemInformationen.Präwema.SoftwareComponents.HoningHMI.Version.ToString();
-										selectedMachine.HRIVersion = systemInformationen.Präwema.SoftwareComponents.PräwemaHRI.Version.ToString();
-										selectedMachine.AHSVersion = systemInformationen.Präwema.SoftwareComponents.AdaptivHonServer.Version.ToString();
-										selectedMachine.ACIControls = systemInformationen.Präwema.SoftwareComponents.PraewemaAciControlsdll.Version.ToString();
-										selectedMachine.EnergyMonitoringACIControls = systemInformationen.Präwema.SoftwareComponents.PraewemaEnergyMonitoringAciControlsdll.Version.ToString();
-										selectedMachine.ACIControlsHeader = systemInformationen.Präwema.SoftwareComponents.PraewemaAciControlsHeaderdll.Version.ToString();
-										selectedMachine.IndraWorks = systemInformationen.BoschRexroth.SoftwareComponents.IndraWorks.Version.ToString();
-										selectedMachine.IndraLogic2G = systemInformationen.BoschRexroth.SoftwareComponents.IndraLogic_2G.Version.ToString();
-										selectedMachine.IndraMotionMTX = systemInformationen.BoschRexroth.SoftwareComponents.IndraMotion_MTX.Version.ToString();
-										selectedMachine.MTXBasisFirmware = systemInformationen.BoschRexroth.SoftwareComponents.MTXBasisFirmware.Version.ToString();
-										selectedMachine.IWMTX = systemInformationen.BoschRexroth.SoftwareComponents.IWHMI.Version.ToString();
-										selectedMachine.IWHMI = systemInformationen.BoschRexroth.SoftwareComponents.IWHMI.Version.ToString();
-										selectedMachine.WinStudio = systemInformationen.BoschRexroth.SoftwareComponents.WinStudio.Version.ToString();
-										selectedMachine.MTXFirmware = systemInformationen.BoschRexroth.SoftwareComponents.MTXFirmware.Version.ToString();
-										selectedMachine.CardType = systemInformationen.BoschRexroth.MTXHardware.CardType.Version.ToString();
-										selectedMachine.LPNo = systemInformationen.BoschRexroth.MTXHardware.LPNo.Version.ToString();
-										selectedMachine.MTXHardwareVersion = systemInformationen.BoschRexroth.MTXHardware.Version.Version.ToString();
-										selectedMachine.SerialNumber = systemInformationen.BoschRexroth.MTXHardware.SerialNo.Version.ToString();
-									}
-
-									//Send with weak reference to MachineDetailPage
-									WeakReferenceManager.AddReference("SelectedMachine", SelectedMachine);
-
-									//go to MachinedetailPage
-									await Shell.Current.GoToAsync($"//{nameof(MachineDetailPage)}");
-								}
-								else
-								{
-									await Shell.Current.DisplayAlert("Error", "Wrong XML version selected", "OK");
-								}
-							}
-						}
-						catch (Exception ex)
-						{
-							await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
-						}
+						selectedMachine.Id = 0;
+						selectedMachine.HMIVersion = honinghmi;
+						selectedMachine.AHSVersion = adaptivehonserver;
+						selectedMachine.HRIVersion = praewemahri;
+						selectedMachine.ACIControls = acicontrols;
+						selectedMachine.EnergyMonitoringACIControls = energymonitoringcontrol;
+						selectedMachine.ACIControlsHeader = acicontrolsheader;
+						selectedMachine.NCVersion = ncversion;
+						selectedMachine.IndraWorks = indraworks;
+						selectedMachine.IndraLogic2G = indralogic2g;
+						selectedMachine.IndraMotionMTX = indramotionmtx;
+						selectedMachine.MTXBasisFirmware = mtxbasisfirmware;
+						selectedMachine.IWMTX = iwmtx;
+						selectedMachine.IWHMI = iwhmi;
+						selectedMachine.WinStudio = winstudio;
+						selectedMachine.MTXFirmware = mtxfirmware;
+						selectedMachine.CardType = cardtype;
+						selectedMachine.LPNo = lpno;
+						selectedMachine.MTXHardwareVersion = version;
+						selectedMachine.SerialNumber = serialno;
 					}
-					break;
-				case "Sysinfo 1.0.2":
-					Debug.WriteLine("Sysinfo 1.0.2");
 
-					var result2 = await FilePicker.PickAsync();
+					//Send with weak reference to MachineDetailPage
+					WeakReferenceManager.AddReference("SelectedMachine", SelectedMachine);
 
-					if (result2 != null)
-					{
-						string filePath = result2.FullPath;
+					//go to detailpage
+					await Shell.Current.GoToAsync($"//{nameof(MachineDetailPage)}");
+				}
+				else
+				{
+					//displayalert no such version supported
+					await Shell.Current.DisplayAlert("Error", "No such xml file version supported. Please enter the data manually", "Ok");
+				}
+			}
+		}
 
-						try
-						{
-							XmlSerializer serializer = new XmlSerializer(typeof(Sysinfo1_0_2));
+		[RelayCommand]
+		private async Task ExportMachineList()
+		{
+			//create new workbook
+			var workbook = new XLWorkbook();
 
-							using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
-							{
-								Sysinfo1_0_2 systemInformationen = serializer.Deserialize(fileStream) as Sysinfo1_0_2;
+			//create new worksheet
+			var worksheet = workbook.Worksheets.Add("MachineList");
 
-								if (systemInformationen.Version == "1.0.2")
-								{
-									Id = 0;
-									MachineNumber = systemInformationen.Präwema.Licences.Licence.MachineNo.ToString();
-									NCVersion = systemInformationen.Präwema.SoftwareComponents.NC.Version.ToString();
-									HMIVersion = systemInformationen.Präwema.SoftwareComponents.HoningHMI.Version.ToString();
-									HRIVersion = systemInformationen.Präwema.SoftwareComponents.PräwemaHRI.Version.ToString();
-									AHSVersion = systemInformationen.Präwema.SoftwareComponents.AdaptivHonServer.Version.ToString(); ;
-									ACIControls = systemInformationen.Präwema.SoftwareComponents.PraewemaAciControlsdll.Version.ToString();
-									EnergyMonitoringACIControls = systemInformationen.Präwema.SoftwareComponents.PraewemaEnergyMonitoringAciControlsdll.Version.ToString();
-									ACIControlsHeader = systemInformationen.Präwema.SoftwareComponents.PraewemaAciControlsHeaderdll.Version.ToString();
-									IndraWorks = systemInformationen.BoschRexroth.SoftwareComponents.IndraWorks.Version.ToString();
-									IndraLogic2G = systemInformationen.BoschRexroth.SoftwareComponents.IndraLogic_2G.Version.ToString();
-									IndraMotionMTX = systemInformationen.BoschRexroth.SoftwareComponents.IndraMotion_MTX.Version.ToString();
-									MTXBasisFirmware = systemInformationen.BoschRexroth.SoftwareComponents.MTXBasisFirmware.Version.ToString();
-									IWMTX = systemInformationen.BoschRexroth.SoftwareComponents.IWHMI.Version.ToString();
-									IWHMI = systemInformationen.BoschRexroth.SoftwareComponents.IWHMI.Version.ToString();
-									WinStudio = systemInformationen.BoschRexroth.SoftwareComponents.WinStudio.Version.ToString();
-									MTXFirmware = systemInformationen.BoschRexroth.SoftwareComponents.MTXFirmware.Version.ToString();
-									CardType = systemInformationen.BoschRexroth.MTXHardware.CardType.Version.ToString();
-									LPNo = systemInformationen.BoschRexroth.MTXHardware.LPNo.Version.ToString();
-									MTXHardwareVersion = systemInformationen.BoschRexroth.MTXHardware.Version.Version.ToString();
-									SerialNumber = systemInformationen.BoschRexroth.MTXHardware.SerialNo.Version.ToString();
+			//Set column width to content
+			worksheet.Columns().AdjustToContents();
 
-									//go to MachinedetailPage
-									await Shell.Current.GoToAsync($"//{nameof(MachineDetailPage)}");
-								}
-								else
-								{
-									await Shell.Current.DisplayAlert("Error", "Wrong XML version selected", "OK");
-								}
-							}
-						}
-						catch (Exception ex)
-						{
-							await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
-						}
-					}
-					break;
-				default:
-					// Handle other cases
-					break;
+			//add header
+			worksheet.Cell("A1").Value = "MachineNumber";
+			worksheet.Cell("B1").Value = "CustomerName";
+			worksheet.Cell("C1").Value = "Type";
+			worksheet.Cell("D1").Value = "BrandName";
+			worksheet.Cell("E1").Value = "Model";
+			worksheet.Cell("F1").Value = "SpindleC1";
+			worksheet.Cell("G1").Value = "SpindleC2";
+			worksheet.Cell("H1").Value = "HoningHead";
+			worksheet.Cell("I1").Value = "NCVersion";
+			worksheet.Cell("J1").Value = "HMIVersion";
+			worksheet.Cell("K1").Value = "HRIVersion";
+			worksheet.Cell("L1").Value = "AHSVersion";
+			worksheet.Cell("M1").Value = "ACIControls";
+			worksheet.Cell("N1").Value = "EnergyMonitoringACIControls";
+			worksheet.Cell("O1").Value = "ACIControlsHeader";
+			worksheet.Cell("P1").Value = "IWProject";
+			worksheet.Cell("Q1").Value = "File1Master";
+			worksheet.Cell("R1").Value = "IndraWorks";
+			worksheet.Cell("S1").Value = "IndraLogic2G";
+			worksheet.Cell("T1").Value = "IndraMotionMTX";
+			worksheet.Cell("U1").Value = "MTXBasisFirmware";
+			worksheet.Cell("V1").Value = "IWMTX";
+			worksheet.Cell("W1").Value = "IWHMI";
+			worksheet.Cell("X1").Value = "WinStudio";
+			worksheet.Cell("Y1").Value = "MTXFirmware";
+			worksheet.Cell("Z1").Value = "CardType";
+			worksheet.Cell("AA1").Value = "LPNo";
+			worksheet.Cell("AB1").Value = "MTXHardwareVersion";
+			worksheet.Cell("AC1").Value = "SerialNumber";
+
+			//add data
+			for (int i = 0; i < Machines.Count; i++)
+			{
+				worksheet.Cell(i + 2, 1).Value = Machines[i].MachineNumber;
+				worksheet.Cell(i + 2, 2).Value = Machines[i].CustomerName;
+				worksheet.Cell(i + 2, 3).Value = Machines[i].Type;
+				worksheet.Cell(i + 2, 4).Value = Machines[i].BrandName;
+				worksheet.Cell(i + 2, 5).Value = Machines[i].Model;
+				worksheet.Cell(i + 2, 6).Value = Machines[i].SpindleC1;
+				worksheet.Cell(i + 2, 7).Value = Machines[i].SpindleC2;
+				worksheet.Cell(i + 2, 8).Value = Machines[i].HoningHead;
+				worksheet.Cell(i + 2, 9).Value = Machines[i].NCVersion;
+				worksheet.Cell(i + 2, 10).Value = Machines[i].HMIVersion;
+				worksheet.Cell(i + 2, 11).Value = Machines[i].HRIVersion;
+				worksheet.Cell(i + 2, 12).Value = Machines[i].AHSVersion;
+				worksheet.Cell(i + 2, 13).Value = Machines[i].ACIControls;
+				worksheet.Cell(i + 2, 14).Value = Machines[i].EnergyMonitoringACIControls;
+				worksheet.Cell(i + 2, 15).Value = Machines[i].ACIControlsHeader;
+				worksheet.Cell(i + 2, 16).Value = Machines[i].IWProject;
+				worksheet.Cell(i + 2, 17).Value = Machines[i].File1Master;
+				worksheet.Cell(i + 2, 18).Value = Machines[i].IndraWorks;
+				worksheet.Cell(i + 2, 19).Value = Machines[i].IndraLogic2G;
+				worksheet.Cell(i + 2, 20).Value = Machines[i].IndraMotionMTX;
+				worksheet.Cell(i + 2, 21).Value = Machines[i].MTXBasisFirmware;
+				worksheet.Cell(i + 2, 22).Value = Machines[i].IWMTX;
+				worksheet.Cell(i + 2, 23).Value = Machines[i].IWHMI;
+				worksheet.Cell(i + 2, 24).Value = Machines[i].WinStudio;
+				worksheet.Cell(i + 2, 25).Value = Machines[i].MTXFirmware;
+				worksheet.Cell(i + 2, 26).Value = Machines[i].CardType;
+			}
+
+			//let the user select folder and save the file with the name MachineOverview to this folder
+			var folder = await FolderPicker.Default.PickAsync();
+			if (folder == null)
+			{
+				//user canceled the folder picking
+				return;
+			}
+			else
+			{
+				workbook.SaveAs(folder.Folder.Path + "\\Machine_Overview.xlsx");
 			}
 		}
 

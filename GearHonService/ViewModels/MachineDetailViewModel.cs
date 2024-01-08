@@ -64,6 +64,8 @@
 		private string serialNumber;
 		[ObservableProperty]
 		private string contractorName;
+		[ObservableProperty]
+		private string name;
 
 		//Lists
 		[ObservableProperty]
