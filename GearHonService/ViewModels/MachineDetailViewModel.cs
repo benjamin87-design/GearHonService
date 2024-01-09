@@ -128,7 +128,7 @@
 			MachineTypes = new ObservableCollection<MachineTypeModel>();
 
 			GetSelectedMachine();
-			GetAllCustomers();
+			_ = GetAllCustomers();
 			AddContractorToList();
 		}
 
@@ -137,75 +137,74 @@
 		{
 			if (Id == 0)
 			{
-				if(selectedCustomer == null)
+				//check if machinenumber exist in the machines list
+				var machine = Machines.FirstOrDefault(x => x.MachineNumber == MachineNumber);
+				if (machine != null)
 				{
-					await Shell.Current.DisplayAlert("Error", "No Customer selected", "Ok");
+					await Shell.Current.DisplayAlert("Error", "Machine Number already exist", "Ok");
 					return;
 				}
-				if(selectedContractor == null)
+				else
 				{
-					await Shell.Current.DisplayAlert("Error", "No Contractor selected", "Ok");
-					return;
-				}
-				if(selectedMachineModel == null)
-				{
-					await Shell.Current.DisplayAlert("Error", "No Model selected", "Ok");
-					return;
-				}
-				if(selectedMachineType == null)
-				{
-					await Shell.Current.DisplayAlert("Error", "No Type selected", "Ok");
-					return;
-				}
-				//insert
-				var insertMachine = new MachineModel
-				{
-					MachineNumber = MachineNumber,
-					CustomerName = selectedCustomer.CustomerName,
-					Type = selectedMachineType.Type,
-					BrandName = selectedContractor.Name,
-					Model = selectedMachineModel.Model,
-					SpindleC1 = SpindleC1,
-					SpindleC2 = SpindleC2,
-					HoningHead = HoningHead,
-					NCVersion = NCVersion,
-					HMIVersion = HMIVersion,
-					HRIVersion = HRIVersion,
-					AHSVersion = AHSVersion,
-					ACIControls = ACIControls,
-					EnergyMonitoringACIControls = EnergyMonitoringACIControls,
-					ACIControlsHeader = ACIControlsHeader,
-					IWProject = IWProject,
-					File1Master = File1Master,
-					IndraWorks = IndraWorks,
-					IndraLogic2G = IndraLogic2G,
-					IndraMotionMTX = IndraMotionMTX,
-					MTXBasisFirmware = MTXBasisFirmware,
-					IWMTX = IWMTX,
-					IWHMI = IWHMI,
-					WinStudio = WinStudio,
-					MTXFirmware = MTXFirmware,
-					CardType = CardType,
-					LPNo = LPNo,
-					MTXHardwareVersion = MTXHardwareVersion,
-					SerialNumber = SerialNumber,
-				};
+					//check if all pickers are selected
+					if (SelectedCustomer == null || SelectedContractor == null || SelectedMachineModel == null || SelectedMachineType == null)
+					{
+						await Shell.Current.DisplayAlert("Error", "Please make all selections first", "Ok");
+						return;
+					}
+					else
+					{
+						//insert
+						var insertMachine = new MachineModel
+						{
+							MachineNumber = MachineNumber,
+							CustomerName = selectedCustomer.CustomerName,
+							Type = selectedMachineType.Type,
+							BrandName = selectedContractor.Name,
+							Model = selectedMachineModel.Model,
+							SpindleC1 = SpindleC1,
+							SpindleC2 = SpindleC2,
+							HoningHead = HoningHead,
+							NCVersion = NCVersion,
+							HMIVersion = HMIVersion,
+							HRIVersion = HRIVersion,
+							AHSVersion = AHSVersion,
+							ACIControls = ACIControls,
+							EnergyMonitoringACIControls = EnergyMonitoringACIControls,
+							ACIControlsHeader = ACIControlsHeader,
+							IWProject = IWProject,
+							File1Master = File1Master,
+							IndraWorks = IndraWorks,
+							IndraLogic2G = IndraLogic2G,
+							IndraMotionMTX = IndraMotionMTX,
+							MTXBasisFirmware = MTXBasisFirmware,
+							IWMTX = IWMTX,
+							IWHMI = IWHMI,
+							WinStudio = WinStudio,
+							MTXFirmware = MTXFirmware,
+							CardType = CardType,
+							LPNo = LPNo,
+							MTXHardwareVersion = MTXHardwareVersion,
+							SerialNumber = SerialNumber,
+						};
 
-				try
-				{
-					var insertResult = await _supabaseClient
-					.From<MachineModel>()
-					.Insert(insertMachine);
-					await Shell.Current.DisplayAlert("Success", "Machine successfully added", "Ok");
+						try
+						{
+							var insertResult = await _supabaseClient
+							.From<MachineModel>()
+							.Insert(insertMachine);
+							await Shell.Current.DisplayAlert("Success", "Machine successfully added", "Ok");
 
-					ClearStrings();
+							ClearStrings();
 
-					await _machineViewModel.LoadMachineFromDb();
-					await Shell.Current.GoToAsync($"//{nameof(MachinePage)}");
-				}
-				catch (Exception ex)
-				{
-					await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
+							await _machineViewModel.LoadMachineFromDb();
+							await Shell.Current.GoToAsync($"//{nameof(MachinePage)}");
+						}
+						catch (Exception ex)
+						{
+							await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
+						}
+					}
 				}
 			}
 			else

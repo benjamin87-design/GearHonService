@@ -117,122 +117,122 @@ namespace GearHonService.ViewModels
 				var systeminformationversion = root.Attribute("Version")?.Value;
 
 				//TODO: Add new version when needed (each version has his differents)
-				if (systeminformationversion == "1.0.5.0")
+
+				switch (systeminformationversion)
 				{
-					var machinenumber = root.Attribute("MachineNo")?.Value;
-					var honinghmi = root.Descendants("HoningHMI").FirstOrDefault()?.Attribute("Version")?.Value;
-					var adaptivehonserver = root.Descendants("AdaptivHonServer").FirstOrDefault()?.Attribute("Version")?.Value;
-					var praewemahri = root.Descendants("PräwemaHRI").FirstOrDefault()?.Attribute("Version")?.Value;
-					var acicontrols = root.Descendants("Praewema.AciControls.dll").FirstOrDefault()?.Attribute("Version")?.Value;
-					var energymonitoringcontrol = root.Descendants("Praewema.EnergyMonitoring.AciControls.dll").FirstOrDefault()?.Attribute("Version")?.Value;
-					var acicontrolsheader = root.Descendants("Praewema.AciControls.Header.dll").FirstOrDefault()?.Attribute("Version")?.Value;
-					var iwproject = root.Descendants("IW_Project").FirstOrDefault()?.Attribute("Version")?.Value;
-					var ncversion = root.Descendants("NC").FirstOrDefault()?.Attribute("Version")?.Value;
-					var file1master = root.Descendants("File1Master.npg").FirstOrDefault()?.Attribute("Version")?.Value;
-					var indraworks = root.Descendants("IndraWorks").FirstOrDefault()?.Attribute("Version")?.Value;
-					var indralogic2g = root.Descendants("IndraLogic_2G").FirstOrDefault()?.Attribute("Version")?.Value;
-					var indramotionmtx = root.Descendants("IndraMotion_MTX").FirstOrDefault()?.Attribute("Version")?.Value;
-					var mtxbasisfirmware = root.Descendants("MTX-Basis-Firmware").FirstOrDefault()?.Attribute("Version")?.Value;
-					var iwmtx = root.Descendants("IW-MTX").FirstOrDefault()?.Attribute("Version")?.Value;
-					var iwhmi = root.Descendants("IW-HMI").FirstOrDefault()?.Attribute("Version")?.Value;
-					var winstudio = root.Descendants("WinStudio").FirstOrDefault()?.Attribute("Version")?.Value;
-					var mtxfirmware = root.Descendants("MTX-Firmware").FirstOrDefault()?.Attribute("Version")?.Value;
-					var cardtype = root.Descendants("CardType").FirstOrDefault()?.Attribute("Version")?.Value;
-					var lpno = root.Descendants("LP-No").FirstOrDefault()?.Attribute("Version")?.Value;
-					var version = root.Descendants("Version").FirstOrDefault()?.Attribute("Version")?.Value;
-					var serialno = root.Descendants("Serial-No").FirstOrDefault()?.Attribute("Version")?.Value;
+					case "1.0.5.0":
+						MachineNumber = root.Attribute("MachineNo")?.Value;
+						HMIVersion = root.Descendants("HoningHMI").FirstOrDefault()?.Attribute("Version")?.Value;
+						AHSVersion = root.Descendants("AdaptivHonServer").FirstOrDefault()?.Attribute("Version")?.Value;
+						HRIVersion = root.Descendants("PräwemaHRI").FirstOrDefault()?.Attribute("Version")?.Value;
+						ACIControls = root.Descendants("Praewema.AciControls.dll").FirstOrDefault()?.Attribute("Version")?.Value;
+						EnergyMonitoringACIControls = root.Descendants("Praewema.EnergyMonitoring.AciControls.dll").FirstOrDefault()?.Attribute("Version")?.Value;
+						ACIControlsHeader = root.Descendants("Praewema.AciControls.Header.dll").FirstOrDefault()?.Attribute("Version")?.Value;
+						IWProject = root.Descendants("IW_Project").FirstOrDefault()?.Attribute("Version")?.Value;
+						NCVersion = root.Descendants("NC").FirstOrDefault()?.Attribute("Version")?.Value;
+						File1Master = root.Descendants("File1Master.npg").FirstOrDefault()?.Attribute("Version")?.Value;
+						IndraWorks = root.Descendants("IndraWorks").FirstOrDefault()?.Attribute("Version")?.Value;
+						IndraLogic2G = root.Descendants("IndraLogic_2G").FirstOrDefault()?.Attribute("Version")?.Value;
+						IndraMotionMTX = root.Descendants("IndraMotion_MTX").FirstOrDefault()?.Attribute("Version")?.Value;
+						MTXBasisFirmware = root.Descendants("MTX-Basis-Firmware").FirstOrDefault()?.Attribute("Version")?.Value;
+						IWMTX = root.Descendants("IW-MTX").FirstOrDefault()?.Attribute("Version")?.Value;
+						IWHMI = root.Descendants("IW-HMI").FirstOrDefault()?.Attribute("Version")?.Value;
+						WinStudio = root.Descendants("WinStudio").FirstOrDefault()?.Attribute("Version")?.Value;
+						MTXFirmware = root.Descendants("MTX-Firmware").FirstOrDefault()?.Attribute("Version")?.Value;
+						CardType = root.Descendants("CardType").FirstOrDefault()?.Attribute("Version")?.Value;
+						LPNo = root.Descendants("LP-No").FirstOrDefault()?.Attribute("Version")?.Value;
+						MTXHardwareVersion = root.Descendants("Version").FirstOrDefault()?.Attribute("Version")?.Value;
+						SerialNumber = root.Descendants("Serial-No").FirstOrDefault()?.Attribute("Version")?.Value;
 
-					//load data to selectedmachine
-					SelectedMachine = new MachineModel();
-					{
-						selectedMachine.Id = 0;
-						selectedMachine.MachineNumber = machinenumber;
-						selectedMachine.HMIVersion = honinghmi;
-						selectedMachine.AHSVersion = adaptivehonserver;
-						selectedMachine.HRIVersion = praewemahri;
-						selectedMachine.ACIControls = acicontrols;
-						selectedMachine.EnergyMonitoringACIControls = energymonitoringcontrol;
-						selectedMachine.ACIControlsHeader = acicontrolsheader;
-						selectedMachine.IWProject = iwproject;
-						selectedMachine.NCVersion = ncversion;
-						selectedMachine.File1Master = file1master;
-						selectedMachine.IndraWorks = indraworks;
-						selectedMachine.IndraLogic2G = indralogic2g;
-						selectedMachine.IndraMotionMTX = indramotionmtx;
-						selectedMachine.MTXBasisFirmware = mtxbasisfirmware;
-						selectedMachine.IWMTX = iwmtx;
-						selectedMachine.IWHMI = iwhmi;
-						selectedMachine.WinStudio = winstudio;
-						selectedMachine.MTXFirmware = mtxfirmware;
-						selectedMachine.CardType = cardtype;
-						selectedMachine.LPNo = lpno;
-						selectedMachine.MTXHardwareVersion = version;
-						selectedMachine.SerialNumber = serialno;
-					}
+						//load data to selectedmachine
+						SelectedMachine = new MachineModel();
+						{
+							selectedMachine.Id = 0;
+							selectedMachine.MachineNumber = MachineNumber;
+							selectedMachine.HMIVersion = HMIVersion;
+							selectedMachine.AHSVersion = AHSVersion;
+							selectedMachine.HRIVersion = HRIVersion;
+							selectedMachine.ACIControls = ACIControls;
+							selectedMachine.EnergyMonitoringACIControls = EnergyMonitoringACIControls;
+							selectedMachine.ACIControlsHeader = ACIControlsHeader;
+							selectedMachine.IWProject = IWProject;
+							selectedMachine.NCVersion = NCVersion;
+							selectedMachine.File1Master = File1Master;
+							selectedMachine.IndraWorks = IndraWorks;
+							selectedMachine.IndraLogic2G = IndraLogic2G;
+							selectedMachine.IndraMotionMTX = IndraMotionMTX;
+							selectedMachine.MTXBasisFirmware = MTXBasisFirmware;
+							selectedMachine.IWMTX = IWMTX;
+							selectedMachine.IWHMI = IWHMI;
+							selectedMachine.WinStudio = WinStudio;
+							selectedMachine.MTXFirmware = MTXFirmware;
+							selectedMachine.CardType = CardType;
+							selectedMachine.LPNo = LPNo;
+							selectedMachine.MTXHardwareVersion = MTXHardwareVersion;
+							selectedMachine.SerialNumber = SerialNumber;
+						}
 
-					//Send with weak reference to MachineDetailPage
-					WeakReferenceManager.AddReference("SelectedMachine", SelectedMachine);
+						//Send with weak reference to MachineDetailPage
+						WeakReferenceManager.AddReference("SelectedMachine", SelectedMachine);
+						//go to detailpage
+						await Shell.Current.GoToAsync($"//{nameof(MachineDetailPage)}");
+						break;
 
-					//go to detailpage
-					await Shell.Current.GoToAsync($"//{nameof(MachineDetailPage)}");
-				}
-				if(systeminformationversion == "1.0.2")
-				{
-					var honinghmi = root.Descendants("HoningHMI").FirstOrDefault()?.Attribute("Version")?.Value;
-					var adaptivehonserver = root.Descendants("AdaptivHonServer").FirstOrDefault()?.Attribute("Version")?.Value;
-					var praewemahri = root.Descendants("PräwemaHRI").FirstOrDefault()?.Attribute("Version")?.Value;
-					var acicontrols = root.Descendants("Praewema.AciControls.dll").FirstOrDefault()?.Attribute("Version")?.Value;
-					var energymonitoringcontrol = root.Descendants("Praewema.EnergyMonitoring.AciControls.dll").FirstOrDefault()?.Attribute("Version")?.Value;
-					var acicontrolsheader = root.Descendants("Praewema.AciControls.Header.dll").FirstOrDefault()?.Attribute("Version")?.Value;
-					var ncversion = root.Descendants("NC").FirstOrDefault()?.Attribute("Version")?.Value;
-					var indraworks = root.Descendants("IndraWorks").FirstOrDefault()?.Attribute("Version")?.Value;
-					var indralogic2g = root.Descendants("IndraLogic_2G").FirstOrDefault()?.Attribute("Version")?.Value;
-					var indramotionmtx = root.Descendants("IndraMotion_MTX").FirstOrDefault()?.Attribute("Version")?.Value;
-					var mtxbasisfirmware = root.Descendants("MTX-Basis-Firmware").FirstOrDefault()?.Attribute("Version")?.Value;
-					var iwmtx = root.Descendants("IW-MTX").FirstOrDefault()?.Attribute("Version")?.Value;
-					var iwhmi = root.Descendants("IW-HMI").FirstOrDefault()?.Attribute("Version")?.Value;
-					var winstudio = root.Descendants("WinStudio").FirstOrDefault()?.Attribute("Version")?.Value;
-					var mtxfirmware = root.Descendants("MTX-Firmware").FirstOrDefault()?.Attribute("Version")?.Value;
-					var cardtype = root.Descendants("CardType").FirstOrDefault()?.Attribute("Version")?.Value;
-					var lpno = root.Descendants("LP-No").FirstOrDefault()?.Attribute("Version")?.Value;
-					var version = root.Descendants("Version").FirstOrDefault()?.Attribute("Version")?.Value;
-					var serialno = root.Descendants("Serial-No").FirstOrDefault()?.Attribute("Version")?.Value;
+					case "1.0.2":
+						HMIVersion = root.Descendants("HoningHMI").FirstOrDefault()?.Attribute("Version")?.Value;
+						AHSVersion = root.Descendants("AdaptivHonServer").FirstOrDefault()?.Attribute("Version")?.Value;
+						HRIVersion = root.Descendants("PräwemaHRI").FirstOrDefault()?.Attribute("Version")?.Value;
+						ACIControls = root.Descendants("Praewema.AciControls.dll").FirstOrDefault()?.Attribute("Version")?.Value;
+						EnergyMonitoringACIControls = root.Descendants("Praewema.EnergyMonitoring.AciControls.dll").FirstOrDefault()?.Attribute("Version")?.Value;
+						ACIControlsHeader = root.Descendants("Praewema.AciControls.Header.dll").FirstOrDefault()?.Attribute("Version")?.Value;
+						NCVersion = root.Descendants("NC").FirstOrDefault()?.Attribute("Version")?.Value;
+						IndraWorks = root.Descendants("IndraWorks").FirstOrDefault()?.Attribute("Version")?.Value;
+						IndraLogic2G = root.Descendants("IndraLogic_2G").FirstOrDefault()?.Attribute("Version")?.Value;
+						IndraMotionMTX = root.Descendants("IndraMotion_MTX").FirstOrDefault()?.Attribute("Version")?.Value;
+						MTXBasisFirmware = root.Descendants("MTX-Basis-Firmware").FirstOrDefault()?.Attribute("Version")?.Value;
+						IWMTX = root.Descendants("IW-MTX").FirstOrDefault()?.Attribute("Version")?.Value;
+						IWHMI = root.Descendants("IW-HMI").FirstOrDefault()?.Attribute("Version")?.Value;
+						WinStudio = root.Descendants("WinStudio").FirstOrDefault()?.Attribute("Version")?.Value;
+						MTXFirmware = root.Descendants("MTX-Firmware").FirstOrDefault()?.Attribute("Version")?.Value;
+						CardType = root.Descendants("CardType").FirstOrDefault()?.Attribute("Version")?.Value;
+						LPNo = root.Descendants("LP-No").FirstOrDefault()?.Attribute("Version")?.Value;
+						MTXHardwareVersion = root.Descendants("Version").FirstOrDefault()?.Attribute("Version")?.Value;
+						SerialNumber = root.Descendants("Serial-No").FirstOrDefault()?.Attribute("Version")?.Value;
 
-					//load data to selectedmachine
-					SelectedMachine = new MachineModel();
-					{
-						selectedMachine.Id = 0;
-						selectedMachine.HMIVersion = honinghmi;
-						selectedMachine.AHSVersion = adaptivehonserver;
-						selectedMachine.HRIVersion = praewemahri;
-						selectedMachine.ACIControls = acicontrols;
-						selectedMachine.EnergyMonitoringACIControls = energymonitoringcontrol;
-						selectedMachine.ACIControlsHeader = acicontrolsheader;
-						selectedMachine.NCVersion = ncversion;
-						selectedMachine.IndraWorks = indraworks;
-						selectedMachine.IndraLogic2G = indralogic2g;
-						selectedMachine.IndraMotionMTX = indramotionmtx;
-						selectedMachine.MTXBasisFirmware = mtxbasisfirmware;
-						selectedMachine.IWMTX = iwmtx;
-						selectedMachine.IWHMI = iwhmi;
-						selectedMachine.WinStudio = winstudio;
-						selectedMachine.MTXFirmware = mtxfirmware;
-						selectedMachine.CardType = cardtype;
-						selectedMachine.LPNo = lpno;
-						selectedMachine.MTXHardwareVersion = version;
-						selectedMachine.SerialNumber = serialno;
-					}
+						//load data to selectedmachine
+						SelectedMachine = new MachineModel();
+						{
+							selectedMachine.Id = 0;
+							selectedMachine.HMIVersion = HMIVersion;
+							selectedMachine.AHSVersion = AHSVersion;
+							selectedMachine.HRIVersion = HRIVersion;
+							selectedMachine.ACIControls = ACIControls;
+							selectedMachine.EnergyMonitoringACIControls = EnergyMonitoringACIControls;
+							selectedMachine.ACIControlsHeader = ACIControlsHeader;
+							selectedMachine.NCVersion = NCVersion;
+							selectedMachine.IndraWorks = IndraWorks;
+							selectedMachine.IndraLogic2G = IndraLogic2G;
+							selectedMachine.IndraMotionMTX = IndraMotionMTX;
+							selectedMachine.MTXBasisFirmware = MTXBasisFirmware;
+							selectedMachine.IWMTX = IWMTX;
+							selectedMachine.IWHMI = IWHMI;
+							selectedMachine.WinStudio = WinStudio;
+							selectedMachine.MTXFirmware = MTXFirmware;
+							selectedMachine.CardType = CardType;
+							selectedMachine.LPNo = LPNo;
+							selectedMachine.MTXHardwareVersion = MTXHardwareVersion;
+							selectedMachine.SerialNumber = SerialNumber;
+						}
 
-					//Send with weak reference to MachineDetailPage
-					WeakReferenceManager.AddReference("SelectedMachine", SelectedMachine);
+						//Send with weak reference to MachineDetailPage
+						WeakReferenceManager.AddReference("SelectedMachine", SelectedMachine);
+						//go to detailpage
+						await Shell.Current.GoToAsync($"//{nameof(MachineDetailPage)}");
+						break;
 
-					//go to detailpage
-					await Shell.Current.GoToAsync($"//{nameof(MachineDetailPage)}");
-				}
-				else
-				{
-					//displayalert no such version supported
-					await Shell.Current.DisplayAlert("Error", "No such xml file version supported. Please enter the data manually", "Ok");
+					default:
+						await Shell.Current.DisplayAlert("Error", "No such xml file version supported. Please enter the data manually", "Ok");
+						break;
 				}
 			}
 		}
