@@ -18,10 +18,6 @@ cd GearHonService
 
 For more information about GearHonService, you can refer to the documentation in the `docs` folder. There you will find the detailed documentation for the service, such as the API reference, the user guide, the developer guide, and the FAQ.
 
-## Contributing
-
-If you want to contribute to GearHonService, you are welcome to do so. Please read the `CONTRIBUTING.md` file in the repository for the contribution guidelines and instructions.
-
 ## License
 
 GearHonService is licensed under the MIT License. See the `LICENSE` file in the repository for the full license text.
