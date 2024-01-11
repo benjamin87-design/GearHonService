@@ -198,7 +198,6 @@
 			{
 				CustomerName = SelectedTimeSheet.CustomerName;
 				MachineNumber = SelectedTimeSheet.MachineNumber;
-				WorkType = SelectedTimeSheet.WorkType;
 
 				Id = SelectedTimeSheet.Id;
 				MachineId = Convert.ToInt32(SelectedTimeSheet.MachineId);
@@ -220,11 +219,8 @@
 
 		public async Task GetSelection()
 		{
-			//pass the selectedtimesheet.machinenumber to selectedmachine
 			SelectedMachine = Machines.FirstOrDefault(x => x.MachineNumber == SelectedTimeSheet.MachineNumber);
-			//pass the selectedtimesheet.customername to selectedcustomer
 			SelectedCustomer = Customers.FirstOrDefault(x => x.CustomerName == SelectedTimeSheet.CustomerName);
-			//pass the selectedtimesheet.worktype to selectedworktype
 			SelectedWorkType = WorkTypes.FirstOrDefault(x => x.Value == SelectedTimeSheet.WorkType);
 		}
 

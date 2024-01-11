@@ -92,7 +92,7 @@
                                     HorizontalOptions="FillAndExpand"
                                     ItemDisplayBinding="{Binding CustomerName}"
                                     ItemsSource="{Binding Customers}"
-                                    SelectedItem="{Binding SelectedCustomer}"
+                                    SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
                                     VerticalOptions="Center"
                                     WidthRequest="200" />
 
@@ -102,7 +102,7 @@
                                     Margin="20,0,20,20"
                                     HorizontalOptions="FillAndExpand"
                                     ItemDisplayBinding="{Binding Name}"
-                                    ItemsSource="{Binding Contractors}"
+                                    ItemsSource="{Binding Contractors, Mode=TwoWay}"
                                     SelectedItem="{Binding SelectedContractor, Mode=TwoWay}"
                                     VerticalOptions="Center"
                                     WidthRequest="200">
@@ -118,7 +118,7 @@
                                     HorizontalOptions="FillAndExpand"
                                     ItemDisplayBinding="{Binding Model}"
                                     ItemsSource="{Binding MachineModels}"
-                                    SelectedItem="{Binding SelectedMachineModel}"
+                                    SelectedItem="{Binding SelectedMachineModel, Mode=TwoWay}"
                                     VerticalOptions="Center"
                                     WidthRequest="200" />
 
@@ -129,7 +129,7 @@
                                     HorizontalOptions="FillAndExpand"
                                     ItemDisplayBinding="{Binding Type}"
                                     ItemsSource="{Binding MachineTypes}"
-                                    SelectedItem="{Binding SelectedMachineType}"
+                                    SelectedItem="{Binding SelectedMachineType,Mode=TwoWay}"
                                     VerticalOptions="Center"
                                     WidthRequest="200" />
                             </StackLayout>

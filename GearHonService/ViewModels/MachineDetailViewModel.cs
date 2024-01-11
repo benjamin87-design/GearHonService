@@ -2,6 +2,7 @@
 {
 	public partial class MachineDetailViewModel : BaseViewModel
 	{
+		#region Strings
 		[ObservableProperty]
 		private int id;
 		[ObservableProperty]
@@ -66,6 +67,7 @@
 		private string contractorName;
 		[ObservableProperty]
 		private string name;
+		#endregion
 
 		//Lists
 		[ObservableProperty]
@@ -241,12 +243,12 @@
 					model.IWHMI = IWHMI;
 					model.WinStudio = WinStudio;
 					model.MTXFirmware = MTXFirmware;
-					CardType = CardType;
+					model.CardType = CardType;
 					model.LPNo = LPNo;
 					model.MTXHardwareVersion = MTXHardwareVersion;
 					model.SerialNumber = SerialNumber;
-					await model.Update<MachineModel>();
 
+					await model.Update<MachineModel>();
 					await Shell.Current.DisplayAlert("Success", "Machine successfully updated", "Ok");
 
 					ClearStrings();
@@ -328,7 +330,7 @@
 			GetSelectedMachine();
 		}
 
-		public void GetSelectedMachine()
+		public async void GetSelectedMachine()
 		{
 			SelectedMachine = WeakReferenceManager.GetReference("SelectedMachine") as MachineModel;
 
@@ -345,6 +347,7 @@
 				HoningHead = SelectedMachine.HoningHead;
 				NCVersion = SelectedMachine.NCVersion;
 				HMIVersion = SelectedMachine.HMIVersion;
+				HRIVersion = SelectedMachine.HRIVersion;
 				AHSVersion = SelectedMachine.AHSVersion;
 				ACIControls = SelectedMachine.ACIControls;
 				EnergyMonitoringACIControls = SelectedMachine.EnergyMonitoringACIControls;
@@ -364,15 +367,21 @@
 				MTXHardwareVersion = SelectedMachine.MTXHardwareVersion;
 				SerialNumber = SelectedMachine.SerialNumber;
 
-				//Get Customer
-				SelectedCustomer = Customers.FirstOrDefault(x => x.CustomerName == SelectedMachine.CustomerName);
-				//Get Contractor
-				SelectedContractor = Contractors.FirstOrDefault(x => x.Name == SelectedMachine.BrandName);
-				//Get MachineModel
-				SelectedMachineModel = MachineModels.FirstOrDefault(x => x.Model == SelectedMachine.Model);
-				//Get MachineType
-				SelectedMachineType = MachineTypes.FirstOrDefault(x => x.Type == SelectedMachine.Type);
+				CustomerName = SelectedMachine.CustomerName;
+				ContractorName = SelectedMachine.BrandName;
+				Model = SelectedMachine.Model;
+				Type = SelectedMachine.Type;
+
+				await GetSelection();
 			}
+		}
+
+		public async Task GetSelection()
+		{
+			SelectedCustomer = Customers.FirstOrDefault(x => x.CustomerName == SelectedMachine.CustomerName);
+			SelectedContractor = Contractors.FirstOrDefault(x => x.Name == SelectedMachine.BrandName);
+			SelectedMachineModel = MachineModels.FirstOrDefault(x => x.Model == SelectedMachine.Model);
+			SelectedMachineType = MachineTypes.FirstOrDefault(x => x.Type == SelectedMachine.Type);
 		}
 
 		public async Task GetAllCustomers()
